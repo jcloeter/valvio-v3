@@ -13,10 +13,12 @@ use Psr\Log\LoggerInterface;
 class Controller extends AbstractController
 {
 
+    //Last time you created a Quiz entity and that's it
+
     #[Route('/')]
     #[Route('/health')]
     public function health(): Response {
-        return new Response();
+        return new Response("test");
     }
 
     #[Route('/log/{name}')]
