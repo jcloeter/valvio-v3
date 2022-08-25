@@ -19,6 +19,7 @@ services:
   ###> doctrine/doctrine-bundle ###
   database:
     image: postgres
+    #mispelled here:
     container_name: vavio-postgres
     ports:
       - "5433:5432"

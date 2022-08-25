@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\PitchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PitchRepository::class)]
-class Pitch
+class
+Pitch
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,7 +17,7 @@ class Pitch
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $note_letter = null;
+    private ?string $noteLetter = null;
 
     #[ORM\Column(length: 255)]
     private ?string $accidental = null;
@@ -23,10 +26,22 @@ class Pitch
     private ?int $octave = null;
 
     #[ORM\Column]
-    private ?int $midi_number = null;
+    private ?int $midiNumber = null;
 
     #[ORM\Column]
     private ?int $position = null;
+
+    #[ORM\OneToMany(mappedBy: 'pitchId', targetEntity: QuizPitch::class, orphanRemoval: true)]
+    private Collection $quizPitches;
+
+    #[ORM\OneToMany(mappedBy: 'transposedAnswerPitchId', targetEntity: QuizPitch::class)]
+    private Collection $transposedAnswerQuizPitches;
+
+    public function __construct()
+    {
+        $this->quizPitches = new ArrayCollection();
+        $this->transposedAnswerQuizPitches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -35,12 +50,12 @@ class Pitch
 
     public function getNoteLetter(): ?string
     {
-        return $this->note_letter;
+        return $this->noteLetter;
     }
 
-    public function setNoteLetter(string $note_letter): self
+    public function setNoteLetter(string $noteLetter): self
     {
-        $this->note_letter = $note_letter;
+        $this->noteLetter = $noteLetter;
 
         return $this;
     }
@@ -71,12 +86,12 @@ class Pitch
 
     public function getMidiNumber(): ?int
     {
-        return $this->midi_number;
+        return $this->midiNumber;
     }
 
-    public function setMidiNumber(int $midi_number): self
+    public function setMidiNumber(int $midiNumber): self
     {
-        $this->midi_number = $midi_number;
+        $this->midiNumber = $midiNumber;
 
         return $this;
     }
@@ -89,6 +104,66 @@ class Pitch
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuizPitch>
+     */
+    public function getQuizPitches(): Collection
+    {
+        return $this->quizPitches;
+    }
+
+    public function addQuizPitch(QuizPitch $quizPitch): self
+    {
+        if (!$this->quizPitches->contains($quizPitch)) {
+            $this->quizPitches->add($quizPitch);
+            $quizPitch->setPitchId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizPitch(QuizPitch $quizPitch): self
+    {
+        if ($this->quizPitches->removeElement($quizPitch)) {
+            // set the owning side to null (unless already changed)
+            if ($quizPitch->getPitchId() === $this) {
+                $quizPitch->setPitchId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuizPitch>
+     */
+    public function getTransposedAnswerQuizPitches(): Collection
+    {
+        return $this->transposedAnswerQuizPitches;
+    }
+
+    public function addTransposedAnswerQuizPitch(QuizPitch $transposedAnswerQuizPitch): self
+    {
+        if (!$this->transposedAnswerQuizPitches->contains($transposedAnswerQuizPitch)) {
+            $this->transposedAnswerQuizPitches->add($transposedAnswerQuizPitch);
+            $transposedAnswerQuizPitch->setTransposedAnswerPitchId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransposedAnswerQuizPitch(QuizPitch $transposedAnswerQuizPitch): self
+    {
+        if ($this->transposedAnswerQuizPitches->removeElement($transposedAnswerQuizPitch)) {
+            // set the owning side to null (unless already changed)
+            if ($transposedAnswerQuizPitch->getTransposedAnswerPitchId() === $this) {
+                $transposedAnswerQuizPitch->setTransposedAnswerPitchId(null);
+            }
+        }
 
         return $this;
     }
