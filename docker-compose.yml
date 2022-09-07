@@ -10,10 +10,14 @@ services:
       - database
     ports:
       - "8000:8000"
+    volumes:
+      - ".:/application"
     environment:
       XDEBUG_CONFIG: "remote_host=host.docker.internal"
+      PHP_IDE_CONFIG: "serverName=server"
       LOG_LEVEL: 'debug'
       APP_ENV: 'dev'
+      DATABASE_URL: "postgresql://postgres:testingpass@database:5432/app?serverVersion=13&charset=utf8"
 
 
   ###> doctrine/doctrine-bundle ###

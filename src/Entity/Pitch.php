@@ -12,9 +12,9 @@ class
 Pitch
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+//    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $noteLetter = null;
@@ -31,19 +31,19 @@ Pitch
     #[ORM\Column]
     private ?int $position = null;
 
-    #[ORM\OneToMany(mappedBy: 'pitchId', targetEntity: QuizPitch::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'pitch', targetEntity: QuizPitch::class, orphanRemoval: true)]
     private Collection $quizPitches;
-
-    #[ORM\OneToMany(mappedBy: 'transposedAnswerPitchId', targetEntity: QuizPitch::class)]
+//
+    #[ORM\OneToMany(mappedBy: 'transposedAnswerPitch', targetEntity: QuizPitch::class)]
     private Collection $transposedAnswerQuizPitches;
 
     public function __construct()
     {
-        $this->quizPitches = new ArrayCollection();
-        $this->transposedAnswerQuizPitches = new ArrayCollection();
+//        $this->quizPitches = new ArrayCollection();
+//        $this->transposedAnswerQuizPitches = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -108,63 +108,63 @@ Pitch
         return $this;
     }
 
-    /**
-     * @return Collection<int, QuizPitch>
-     */
-    public function getQuizPitches(): Collection
-    {
-        return $this->quizPitches;
-    }
-
-    public function addQuizPitch(QuizPitch $quizPitch): self
-    {
-        if (!$this->quizPitches->contains($quizPitch)) {
-            $this->quizPitches->add($quizPitch);
-            $quizPitch->setPitchId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuizPitch(QuizPitch $quizPitch): self
-    {
-        if ($this->quizPitches->removeElement($quizPitch)) {
-            // set the owning side to null (unless already changed)
-            if ($quizPitch->getPitchId() === $this) {
-                $quizPitch->setPitchId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, QuizPitch>
-     */
-    public function getTransposedAnswerQuizPitches(): Collection
-    {
-        return $this->transposedAnswerQuizPitches;
-    }
-
-    public function addTransposedAnswerQuizPitch(QuizPitch $transposedAnswerQuizPitch): self
-    {
-        if (!$this->transposedAnswerQuizPitches->contains($transposedAnswerQuizPitch)) {
-            $this->transposedAnswerQuizPitches->add($transposedAnswerQuizPitch);
-            $transposedAnswerQuizPitch->setTransposedAnswerPitchId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransposedAnswerQuizPitch(QuizPitch $transposedAnswerQuizPitch): self
-    {
-        if ($this->transposedAnswerQuizPitches->removeElement($transposedAnswerQuizPitch)) {
-            // set the owning side to null (unless already changed)
-            if ($transposedAnswerQuizPitch->getTransposedAnswerPitchId() === $this) {
-                $transposedAnswerQuizPitch->setTransposedAnswerPitchId(null);
-            }
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection<int, QuizPitch>
+//     */
+//    public function getQuizPitches(): Collection
+//    {
+//        return $this->quizPitches;
+//    }
+//
+//    public function addQuizPitch(QuizPitch $quizPitch): self
+//    {
+//        if (!$this->quizPitches->contains($quizPitch)) {
+//            $this->quizPitches->add($quizPitch);
+//            $quizPitch->setPitchId($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeQuizPitch(QuizPitch $quizPitch): self
+//    {
+//        if ($this->quizPitches->removeElement($quizPitch)) {
+//            // set the owning side to null (unless already changed)
+//            if ($quizPitch->getPitchId() === $this) {
+//                $quizPitch->setPitchId(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * @return Collection<int, QuizPitch>
+//     */
+//    public function getTransposedAnswerQuizPitches(): Collection
+//    {
+//        return $this->transposedAnswerQuizPitches;
+//    }
+//
+//    public function addTransposedAnswerQuizPitch(QuizPitch $transposedAnswerQuizPitch): self
+//    {
+//        if (!$this->transposedAnswerQuizPitches->contains($transposedAnswerQuizPitch)) {
+//            $this->transposedAnswerQuizPitches->add($transposedAnswerQuizPitch);
+//            $transposedAnswerQuizPitch->setTransposedAnswerPitchId($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeTransposedAnswerQuizPitch(QuizPitch $transposedAnswerQuizPitch): self
+//    {
+//        if ($this->transposedAnswerQuizPitches->removeElement($transposedAnswerQuizPitch)) {
+//            // set the owning side to null (unless already changed)
+//            if ($transposedAnswerQuizPitch->getTransposedAnswerPitchId() === $this) {
+//                $transposedAnswerQuizPitch->setTransposedAnswerPitchId(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 }

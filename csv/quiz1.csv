@@ -1,0 +1,8 @@
+id,name,difficulty (varchar),level (float),description (varchar)
+1,Your first 3 pitches,Early Beginner,1,"Basic practice with notes C, D, E"
+2,Adding F,Early Beginner,2,"Basic practice with notes C, D, E, F"
+3,Adding G,Early Beginner,3,"Basic practice with notes C, D, E, F, G"
+4,Adding B,Early Beginner,4,"Basic practice with notes C, D, E, F, G, B"
+5,Introducing Flats,Early Beginner,5,"Basic practice with notes C, G, B, Bb"
+6,Your first double flats ,Advanced,100,"Introduction to double flats G, Gb, Gx, C, Cb, Cx, D, Db, Dx"
+7,Basic transposition down Major 2nd,Transposition Beginner,500,"Introduction to transposition down major 2nd C, D, E, F, G, A, B"

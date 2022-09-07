@@ -16,6 +16,7 @@ class QuizPitchAttempt
     #[ORM\Column]
     private ?\DateTimeImmutable $startedAt = null;
 
+    //Remove one of these Datetimes?
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $endedAt = null;
 
@@ -28,6 +29,10 @@ class QuizPitchAttempt
     #[ORM\ManyToOne(inversedBy: 'questionAttempts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?QuizAttempt $quizAttemptId = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?QuizPitch $quizPitch = null;
 
     public function getId(): ?int
     {
@@ -90,6 +95,18 @@ class QuizPitchAttempt
     public function setQuizAttemptId(?QuizAttempt $quizAttemptId): self
     {
         $this->quizAttemptId = $quizAttemptId;
+
+        return $this;
+    }
+
+    public function getQuizPitch(): ?QuizPitch
+    {
+        return $this->quizPitch;
+    }
+
+    public function setQuizPitch(?QuizPitch $quizPitch): self
+    {
+        $this->quizPitch = $quizPitch;
 
         return $this;
     }

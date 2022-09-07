@@ -27,7 +27,7 @@ class Quiz
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'quizId', targetEntity: QuizPitch::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'quiz', targetEntity: QuizPitch::class, orphanRemoval: true)]
     private Collection $quizPitches;
 
     public function __construct()
@@ -88,33 +88,33 @@ class Quiz
         return $this;
     }
 
-    /**
-     * @return Collection<int, QuizPitch>
-     */
-    public function getQuizPitches(): Collection
-    {
-        return $this->quizPitches;
-    }
-
-    public function addQuizPitch(QuizPitch $quizPitch): self
-    {
-        if (!$this->quizPitches->contains($quizPitch)) {
-            $this->quizPitches->add($quizPitch);
-            $quizPitch->setQuizId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuizPitch(QuizPitch $quizPitch): self
-    {
-        if ($this->quizPitches->removeElement($quizPitch)) {
-            // set the owning side to null (unless already changed)
-            if ($quizPitch->getQuizId() === $this) {
-                $quizPitch->setQuizId(null);
-            }
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection<int, QuizPitch>
+//     */
+//    public function getQuizPitches(): Collection
+//    {
+//        return $this->quizPitches;
+//    }
+//
+//    public function addQuizPitch(QuizPitch $quizPitch): self
+//    {
+//        if (!$this->quizPitches->contains($quizPitch)) {
+//            $this->quizPitches->add($quizPitch);
+//            $quizPitch->setQuizId($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeQuizPitch(QuizPitch $quizPitch): self
+//    {
+//        if ($this->quizPitches->removeElement($quizPitch)) {
+//            // set the owning side to null (unless already changed)
+//            if ($quizPitch->getQuizId() === $this) {
+//                $quizPitch->setQuizId(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 }

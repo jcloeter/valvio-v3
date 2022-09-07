@@ -15,52 +15,53 @@ class QuizPitch
 
     #[ORM\ManyToOne(inversedBy: 'quizPitches')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Quiz $quizId = null;
+    private ?Quiz $quiz = null;
 
-    #[ORM\ManyToOne(inversedBy: 'quizPitches')]
+    #[ORM\ManyToOne(inversedBy: 'quizPitches', fetch:'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Pitch $pitchId = null;
+    private ?Pitch $pitch = null;
 
-    #[ORM\ManyToOne(inversedBy: 'transposedAnswerQuizPitches')]
-    private ?Pitch $transposedAnswerPitchId = null;
+    #[ORM\ManyToOne(inversedBy: 'transposedAnswerQuizPitches', fetch:'EAGER')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Pitch $transposedAnswerPitch = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getQuizId(): ?Quiz
+    public function getQuiz(): ?Quiz
     {
-        return $this->quizId;
+        return $this->quiz;
     }
 
-    public function setQuizId(?Quiz $quizId): self
+    public function setQuiz(?Quiz $quiz): self
     {
-        $this->quizId = $quizId;
+        $this->quiz = $quiz;
 
         return $this;
     }
 
-    public function getPitchId(): ?Pitch
+    public function getPitch(): ?Pitch
     {
-        return $this->pitchId;
+        return $this->pitch;
     }
 
-    public function setPitchId(?Pitch $pitchId): self
+    public function setPitch(?Pitch $pitch): self
     {
-        $this->pitchId = $pitchId;
+        $this->pitch = $pitch;
 
         return $this;
     }
 
-    public function getTransposedAnswerPitchId(): ?Pitch
+    public function getTransposedAnswerPitch(): ?Pitch
     {
-        return $this->transposedAnswerPitchId;
+        return $this->transposedAnswerPitch;
     }
 
-    public function setTransposedAnswerPitchId(?Pitch $transposedAnswerPitchId): self
+    public function setTransposedAnswerPitch(?Pitch $transposedAnswerPitch): self
     {
-        $this->transposedAnswerPitchId = $transposedAnswerPitchId;
+        $this->transposedAnswerPitch = $transposedAnswerPitch;
 
         return $this;
     }

@@ -28,6 +28,9 @@ class QuizAttempt
     #[ORM\OneToMany(mappedBy: 'quizAttemptId', targetEntity: QuizPitchAttempt::class, orphanRemoval: true)]
     private Collection $quizPitchAttempts;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $secondsToComplete = null;
+
     public function __construct()
     {
         $this->quizPitchAttempts = new ArrayCollection();
@@ -100,6 +103,18 @@ class QuizAttempt
                 $quizPitchAttempt->setQuizAttemptId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSecondsToComplete(): ?int
+    {
+        return $this->secondsToComplete;
+    }
+
+    public function setSecondsToComplete(?int $secondsToComplete): self
+    {
+        $this->secondsToComplete = $secondsToComplete;
 
         return $this;
     }

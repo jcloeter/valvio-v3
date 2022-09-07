@@ -39,6 +39,19 @@ class QuizPitchRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * @return QuizPitch[] Returns an array of QuizPitch objects
+     */
+    public function findByQuizId(int $quizId): array
+    {
+        return $this->createQueryBuilder('qp')
+            ->andWhere('qp.quiz = :val')
+            ->setParameter('val', $quizId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return QuizPitch[] Returns an array of QuizPitch objects
 //     */

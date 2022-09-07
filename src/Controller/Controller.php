@@ -4,16 +4,36 @@
 namespace App\Controller;
 
 
+use App\Entity\Quiz;
+use App\Entity\QuizPitch;
+use App\Formatter\PitchesFormatter;
+use App\Repository\QuizPitchRepository;
+use App\Repository\QuizRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
+
+use App\Repository\PitchRepository;
+//use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use const Grpc\STATUS_OK;
 
 class Controller extends AbstractController
 {
-
-    //Last time you created a Quiz entity and that's it
+    //To be removed:
+//    public PitchRepository $pitchRepository;
+//
+//    public function construct(PitchRepository $pitchRepository)
+//    {
+//        $this->pitchRepository = $pitchRepository;
+//    }
 
     #[Route('/')]
     #[Route('/health')]
@@ -27,8 +47,51 @@ class Controller extends AbstractController
         $logger->info("Hello, $name");
         return $this->json([
             'success' => true,
-            'name' => $name
+            'name' => "new"
         ]);
     }
+
+    #[Route('/test/quizzes/')]
+    public function readQuizzes(PitchRepository $pitchRepository, UserRepository $userRepository, QuizPitchRepository $quizPitchRepository, QuizRepository $quizRepository, SerializerInterface $serializer, LoggerInterface $logger): JsonResponse {
+
+        $quiz = $quizRepository->findAll();
+
+//        $quizPitches = $quizPitchRepository->findBy(['quiz' => $quizId]);
+
+//        $pitches = array_map(function($quizPitch){
+//            return $quizPitch->getPitch();
+//        }, $quizPitches);
+
+        return $this->json([
+            'success' => true,
+            'data' => $quiz
+//            'pitches' => [
+//                0 => $pitch
+//        ]
+        ]);
+    }
+
+
+    #[Route('/test/quizzes/{quizId}')]
+    public function pitch(int $quizId, PitchRepository $pitchRepository, UserRepository $userRepository, QuizPitchRepository $quizPitchRepository, QuizRepository $quizRepository, SerializerInterface $serializer, LoggerInterface $logger): JsonResponse {
+
+          $quiz = $quizRepository->find($quizId);
+
+          $quizPitches = $quizPitchRepository->findBy(['quiz' => $quizId]);
+
+          $pitches = array_map(function($quizPitch){
+              return array($quizPitch->getPitch(), $quizPitch->getTransposedAnswerPitch());
+          }, $quizPitches);
+
+        return $this->json([
+            'success' => true,
+            'quizDescription' => $quiz->getDescription(),
+            'data' => $pitches
+//            'pitches' => [
+//                0 => $pitch
+//        ]
+        ]);
+    }
+
 
 }
