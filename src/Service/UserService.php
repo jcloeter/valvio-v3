@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\QuizAttempt;
 use App\Entity\User;
 use App\Repository\QuizAttemptRepository;
+use App\Repository\QuizRepository;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -14,12 +15,14 @@ class UserService
     private UserRepository $userRepository;
     private QuizAttemptRepository $quizAttemptRepository;
     private ManagerRegistry $doctrine;
+    private QuizRepository $quizRepository;
 
-    public function __construct(UserRepository $userRepository, QuizAttemptRepository $quizAttemptRepository, ManagerRegistry $doctrine)
+    public function __construct(UserRepository $userRepository, QuizAttemptRepository $quizAttemptRepository, ManagerRegistry $doctrine, QuizRepository $quizRepository)
     {
         $this->userRepository = $userRepository;
         $this->quizAttemptRepository = $quizAttemptRepository;
         $this->doctrine = $doctrine;
+        $this->quizRepository = $quizRepository;
     }
 
     public function createAnonymousUser(): User
@@ -30,6 +33,7 @@ class UserService
         $user->setEmail("anon@email.com");
         $user->setPassword("test123");
         $user->setCreatedAt(new \DateTimeImmutable("now"));
+        $user->setIsTemporary(true);
 
         $this->userRepository->add($user, true);
 
@@ -46,15 +50,20 @@ class UserService
         $quizAttempt->setCompletedAt(null);
         $quizAttempt->setSecondsToComplete(null);
 
-        //TODO: Modify db to add quiz_id to quizAttempt, then add quizId here
-        //TODO: Also modify table and entity name from user_id_id
+        $quiz = $this->quizRepository->find($quizId);
+
+        if (!$quiz) {
+            throw new ResourceNotFoundException("Quiz id is not valid");
+        }
+
+        $quizAttempt->setQuiz($quiz);
 
         $this->quizAttemptRepository->add($quizAttempt, true);
 
         return $quizAttempt;
     }
 
-    public function updateQuizAttemptToComplete(int $quizAttemptId, int $secondsToComplete)
+    public function updateQuizAttemptToComplete(int $quizAttemptId, int $secondsToComplete): void
     {
         $quizAttempt = $this->quizAttemptRepository->find($quizAttemptId);
         $entityManager = $this->doctrine->getManager();
@@ -69,4 +78,5 @@ class UserService
         $entityManager->persist($quizAttempt);
         $entityManager->flush();
     }
+
 }

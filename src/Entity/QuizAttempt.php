@@ -31,6 +31,10 @@ class QuizAttempt
     #[ORM\Column(nullable: true)]
     private ?int $secondsToComplete = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Quiz $quiz = null;
+
     public function __construct()
     {
         $this->quizPitchAttempts = new ArrayCollection();
@@ -115,6 +119,18 @@ class QuizAttempt
     public function setSecondsToComplete(?int $secondsToComplete): self
     {
         $this->secondsToComplete = $secondsToComplete;
+
+        return $this;
+    }
+
+    public function getQuiz(): ?Quiz
+    {
+        return $this->quiz;
+    }
+
+    public function setQuiz(?Quiz $quiz): self
+    {
+        $this->quiz = $quiz;
 
         return $this;
     }

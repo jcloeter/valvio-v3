@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\QuestionAttemptRepository;
+use App\Repository\QuizPitchAttemptRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: QuestionAttemptRepository::class)]
+#[ORM\Entity(repositoryClass: QuizPitchAttemptRepository::class)]
 class QuizPitchAttempt
 {
     #[ORM\Id]

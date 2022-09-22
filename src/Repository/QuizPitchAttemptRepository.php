@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\QuestionAttempt;
+use App\Entity\QuizPitchAttempt;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<QuestionAttempt>
+ * @extends ServiceEntityRepository<QuizPitchAttempt>
  *
- * @method QuestionAttempt|null find($id, $lockMode = null, $lockVersion = null)
- * @method QuestionAttempt|null findOneBy(array $criteria, array $orderBy = null)
- * @method QuestionAttempt[]    findAll()
- * @method QuestionAttempt[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method QuizPitchAttempt|null find($id, $lockMode = null, $lockVersion = null)
+ * @method QuizPitchAttempt|null findOneBy(array $criteria, array $orderBy = null)
+ * @method QuizPitchAttempt[]    findAll()
+ * @method QuizPitchAttempt[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuestionAttemptRepository extends ServiceEntityRepository
+class QuizPitchAttemptRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, QuestionAttempt::class);
+        parent::__construct($registry, QuizPitchAttempt::class);
     }
 
-    public function add(QuestionAttempt $entity, bool $flush = false): void
+    public function add(QuizPitchAttempt $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class QuestionAttemptRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(QuestionAttempt $entity, bool $flush = false): void
+    public function remove(QuizPitchAttempt $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

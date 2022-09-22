@@ -34,6 +34,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: QuizAttempt::class, orphanRemoval: true)]
     private Collection $quizAttempts;
 
+    #[ORM\Column]
+    private ?bool $isTemporary = null;
+
     public function __construct()
     {
         $this->quizAttempts = new ArrayCollection();
@@ -130,6 +133,18 @@ class User
                 $quizAttempt->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsTemporary(): ?bool
+    {
+        return $this->isTemporary;
+    }
+
+    public function setIsTemporary(bool $isTemporary): self
+    {
+        $this->isTemporary = $isTemporary;
 
         return $this;
     }
