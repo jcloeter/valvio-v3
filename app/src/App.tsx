@@ -13,6 +13,7 @@ function App() {
             <Route path={"/play"} element={<h1>PLAY</h1>}/>
             <Route path={"/login"} element={<h1>LOGIN</h1>}/>
             <Route path={"/logout"} element={<h1>LOGOUT</h1>}/>
+            github test
         </Routes>
     </div>
   );
