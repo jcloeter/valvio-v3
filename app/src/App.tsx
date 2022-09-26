@@ -4,6 +4,13 @@ import ResponsiveAppBar from "./components/layout/ResponsiveAppBar";
 import {Routes, Route} from 'react-router-dom';
 import PrimaryCard from './components/layout/PrimaryCard';
 import Quizzes from "./pages/Quizzes";
+import QuizMode from "./pages/QuizMode";
+
+
+// export interface Auth {
+//     is
+// }
+
 
 
 function App() {
@@ -11,11 +18,10 @@ function App() {
   return (
     <div className="App">
       <ResponsiveAppBar/>
-
-        <PrimaryCard>
+        <PrimaryCard >
             <Routes>
                 <Route path={"/"} element={<Quizzes/>}/>
-                <Route path={"/play"} element={<h1>PLAY</h1>}/>
+                <Route path={"/play"} element={<QuizMode/>}/>
                 <Route path={"/login"} element={<h1>LOGIN</h1>}/>
                 <Route path={"/logout"} element={<h1>LOGOUT</h1>}/>
             </Routes>
