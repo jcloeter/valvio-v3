@@ -1,0 +1,7 @@
+.valve-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 140px;
+    /*background-color: red;*/
+}

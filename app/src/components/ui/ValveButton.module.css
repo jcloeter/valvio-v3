@@ -1,0 +1,53 @@
+input[type="checkbox"] {
+    visibility: hidden;
+}
+
+
+.btn:hover {
+    transform: translateY(-0.2rem);
+}
+
+.btn-valve {
+    width: var(--valve-button-radius);
+    height: var(--valve-button-radius);
+    border-radius: 2rem;
+    position: relative;
+    margin: 1rem;
+}
+
+.btn-valve::before {
+    content: "";
+    position: absolute;
+    width: var(--valve-button-radius);
+    height: var(--valve-button-radius);
+    border-radius: 50%;
+    background: linear-gradient(
+            180deg,
+            rgba(0, 0, 255, 0.6),
+            rgba(0, 0, 255, 0.8)
+    );
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    display: block;
+    visibility: visible;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.btn-valve:checked::before {
+    content: "";
+    width: var(--valve-button-radius);
+    height: var(--valve-button-radius);
+    border-radius: 50%;
+    background: linear-gradient(
+            180deg,
+            rgba(0, 0, 255, 0.7),
+            rgba(0, 0, 255, 0.9)
+    );
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    display: block;
+    opacity: 1;
+    transform: translateY(15px);
+    /* top: 20px; */
+}

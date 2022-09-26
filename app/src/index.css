@@ -8,7 +8,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #61dafb;
+
+  --valve-button-radius: 80px;
+
 }
+
+/*html {*/
+/*  font-size: 62.5%;*/
+/*}*/
 
 /*code {*/
 /*  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',*/

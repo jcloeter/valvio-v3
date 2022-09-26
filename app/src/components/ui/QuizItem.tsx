@@ -17,8 +17,8 @@ const QuizItem = () => {
                       // backgroundColor: "red",
 
                   }}>
-                <div>Top LEVEL</div>
-                <div>Bottom Level</div>
+                <div>Completed   Level 1: The basics </div>
+                <div> <b>100%</b>     2.3s/pitch     Play  </div>
             </Card>
         </Container>
     );
