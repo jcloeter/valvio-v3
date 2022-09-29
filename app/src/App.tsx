@@ -21,7 +21,7 @@ function App() {
         <PrimaryCard >
             <Routes>
                 <Route path={"/"} element={<Quizzes/>}/>
-                <Route path={"/play"} element={<QuizMode/>}/>
+                <Route path={"/quiz"} element={<QuizMode/>}/>
                 <Route path={"/login"} element={<h1>LOGIN</h1>}/>
                 <Route path={"/logout"} element={<h1>LOGOUT</h1>}/>
             </Routes>
