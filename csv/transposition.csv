@@ -1,0 +1,26 @@
+interval,name
+0,None
+1,Up Minor Second
+2,Up Major Second
+3,Up Minor Third
+4,Up Major Third
+5,Up Perfect Fourth
+6,Up Tritone
+7,Up Perfect Fifth
+8,Up Minor Sixth
+9,Up Major Sixth
+10,Up Minor Seventh
+11,Up Major Seventh
+12,Up Octave
+-1,Down Minor Second
+-2,Down Major Second
+-3,Down Minor Third
+-4,Down Major Third
+-5,Down Perfect Fourth
+-6,Down Tritone
+-7,Down Perfect Fifth
+-8,Down Minor Sixth
+-9,Down Major Sixth
+-10,Down Minor Seventh
+-11,Down Major Seventh
+-12,Down Octave
