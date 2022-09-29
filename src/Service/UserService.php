@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\QuizAttemptRepository;
 use App\Repository\QuizRepository;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
@@ -45,7 +46,7 @@ class UserService
         $user = $this->userRepository->find($userId);
 
         $quizAttempt = new QuizAttempt();
-        $quizAttempt->setUserId($user);
+        $quizAttempt->setUser($user);
         $quizAttempt->setStartedAt(new \DateTimeImmutable("now"));
         $quizAttempt->setCompletedAt(null);
         $quizAttempt->setSecondsToComplete(null);
@@ -77,6 +78,64 @@ class UserService
 
         $entityManager->persist($quizAttempt);
         $entityManager->flush();
+    }
+
+
+
+    public function findAllQuizAttemptsForUser($userId)
+    {
+        $user = $this->userRepository->find($userId);
+        if (!$user)
+        {
+            throw new ResourceNotFoundException("Must be a valid user id");
+        }
+
+        $quizAttemptsArray = $user->getQuizAttempts()->getValues();
+
+
+        $formattedQuizAttempts = array_map(function ($quizAttempt) {
+            $quizPitchAttempts = $quizAttempt->getQuizPitchAttempts()->getValues();
+
+            $formattedQuizPitchAttempts = array_map( function ($quizPitchAttempt) {
+                return Array (
+                    "isCorrect" => $quizPitchAttempt->isCorrect(),
+                    "quizPitchAttemptId" => $quizPitchAttempt->getId(),
+                    "noteLetter" => $quizPitchAttempt->getQuizPitch()->getPitch()->getNoteLetter(),
+                    "accidental" => $quizPitchAttempt->getQuizPitch()->getPitch()->getAccidental(),
+                    "userInput" => $quizPitchAttempt->getUserInput()
+                );
+            },$quizPitchAttempts);
+
+            $score = "incomplete";
+
+            if ($quizAttempt->getCompletedAt()) {
+                $quizLength = $quizAttempt->getQuiz()->getLength();
+                $numberIncorrect = array_reduce($quizPitchAttempts, function ($accumulator, $quizPitchAttempt) {
+                    if (!$quizPitchAttempt->isCorrect()) {
+                        ++$accumulator;
+                        return $accumulator ;
+                    }
+                });
+                $score = 100 - ((100/$quizLength) * $numberIncorrect * .75);
+            }
+
+            return Array(
+                "id" => $quizAttempt->getId(),
+                "startedAt" => $quizAttempt->getStartedAt(),
+                "completedAt" => $quizAttempt->getCompletedAt(),
+                "secondsToComplete" => $quizAttempt->getSecondsToComplete(),
+                "quiz" => Array(
+                    "quizId" => $quizAttempt->getQuiz()->getId(),
+                    "quizTransposition" => $quizAttempt->getQuiz()->getTransposition()->getInterval(),
+                    "quizLength" => $quizAttempt->getQuiz()->getLength(),
+                ),
+                "score" => $score,
+                "quizPitchAttempts" => $formattedQuizPitchAttempts,
+                );
+        }, $quizAttemptsArray);
+
+        return $formattedQuizAttempts;
+
     }
 
 }
