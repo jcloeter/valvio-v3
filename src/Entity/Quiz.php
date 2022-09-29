@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\QuizRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
@@ -29,6 +30,14 @@ class Quiz
 
     #[ORM\OneToMany(mappedBy: 'quiz', targetEntity: QuizPitch::class, orphanRemoval: true)]
     private Collection $quizPitches;
+
+    #[ORM\ManyToOne(inversedBy: 'quizzes')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(referencedColumnName: 'id')]
+    private ?Transposition $transposition = null;
+
+    #[ORM\Column]
+    private ?int $length = null;
 
     public function __construct()
     {
@@ -117,4 +126,28 @@ class Quiz
 //
 //        return $this;
 //    }
+
+public function getTransposition(): ?Transposition
+{
+    return $this->transposition;
+}
+
+public function setTransposition(?Transposition $transposition): self
+{
+    $this->transposition = $transposition;
+
+    return $this;
+}
+
+public function getLength(): ?int
+{
+    return $this->length;
+}
+
+public function setLength(int $length): self
+{
+    $this->length = $length;
+
+    return $this;
+}
 }
