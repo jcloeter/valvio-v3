@@ -41,6 +41,14 @@ class Transposition
     }
 
     /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
      * @return Collection<int, Quiz>
      */
     public function getQuizzes(): Collection
