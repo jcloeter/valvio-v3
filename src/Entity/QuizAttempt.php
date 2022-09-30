@@ -69,12 +69,12 @@ class QuizAttempt
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
         return $this->userId;
     }
 
-    public function setUserId(?User $userId): self
+    public function setUser(?User $userId): self
     {
         $this->userId = $userId;
 
