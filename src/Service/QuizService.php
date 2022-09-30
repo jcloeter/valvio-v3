@@ -15,6 +15,21 @@ class QuizService
 
     public function getAllQuizzes()
     {
-        return $this->quizRepository->findAll();
+        $quizzes = $this->quizRepository->findAll();
+
+        return array_map(function ($quiz) {
+            return Array(
+                "id" => $quiz->getId(),
+                "name"=> $quiz->getName(),
+                "level" => $quiz->getLevel(),
+                "description" => $quiz->getDescription(),
+                "length" => $quiz->getLength(),
+                "transposition" => Array(
+                    "transpositionName" => $quiz->getTransposition()?->getName(),
+                    "transpositionInterval" => $quiz->getTransposition()?->getInterval(),
+                    "transpositionId" => $quiz->getTransposition()?->getId(),
+                )
+            );
+        }, $quizzes);
     }
 }
