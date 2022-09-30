@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {QuizInterface} from "../../components/ui/QuizList";
+import {Quiz} from "../../models/Quiz";
 
 export const quizApi = createApi({
     reducerPath: 'quizApi',
@@ -11,6 +11,9 @@ export const quizApi = createApi({
         }),
         getPitchesByQuizId: builder.query({
             query: (quizId: number) => `/quizzes/${quizId}/pitches`
+        }),
+        getQuizAttemptCollectionByUser: builder.query({
+            query: (userId: number) => `/user/${userId}/quizAttempt`,
         }),
         createQuizAttempt: builder.mutation({
             query: ({userId, quizId}) => ({
@@ -33,4 +36,4 @@ export const quizApi = createApi({
     })
 });
 
-export const {useGetQuizzesQuery, useGetPitchesByQuizIdQuery, useCreateQuizAttemptMutation, useCreateQuizPitchAttemptMutation} = quizApi;
+export const {useGetQuizzesQuery, useGetPitchesByQuizIdQuery, useCreateQuizAttemptMutation, useCreateQuizPitchAttemptMutation, useGetQuizAttemptCollectionByUserQuery} = quizApi;
