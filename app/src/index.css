@@ -7,9 +7,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #61dafb;
+  /*background-color: #61dafb;*/
 
   --valve-button-radius: 80px;
+
+  background-color: #ffffff;
 
 }
 
