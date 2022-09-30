@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
 {
@@ -28,20 +27,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{userId}/quizAttempt/{quizAttemptId}', methods: ['GET'])]
-    public function readQuizAttempt(int $userId,int $quizAttemptId,  Request $request, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
+    #[Route('/user/{userId}/quizAttempt', methods: ['GET'])]
+    public function readQuizAttemptCollectionByUser(int $userId, Request $request, UserService $userService, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
     {
-
-        $parameters = json_decode($request->getContent(), true);
-
-        //Steps:
-        //Find quizAttempt by id
-        //Find all quizPitchAttempts associated with that quizAttempt
-        //Loop through the quizPitchAttempts and generate a score value.
-        //Format quizAttempt
+        $quizAttempts = $userService->findAllQuizAttemptsForUser($userId);
 
         return $this->json([
-            'success' => true,
+             "quizAttempts" => $quizAttempts,
         ]);
     }
 
@@ -52,7 +44,6 @@ class UserController extends AbstractController
     {
         $quizId = $request->query->get('quizId');
         $quizAttempt = $userService->createQuizAttempt($userId, $quizId);
-//        $pitches = $pitchService->getPitchesByQuizId($quizId);
 
         return $this->json([
             'success' => true,
@@ -60,7 +51,8 @@ class UserController extends AbstractController
             'completedAt' => $quizAttempt->getCompletedAt(),
             'secondsToComplete' => $quizAttempt->getSecondsToComplete(),
             'quizId' => $quizAttempt->getQuiz()->getId(),
-            'userId' => $quizAttempt->getUserId()->getId()
+            //Will this need to be refactored???
+            'userId' => $quizAttempt->getUser()->getId()
           ]);
     }
 
@@ -102,14 +94,4 @@ class UserController extends AbstractController
             'success' => true,
         ]);
     }
-
-
-
-
-
-
-
-    // TODO: Get scores from quizAttempts
-    // GET /user/id/quizAttempts- will return array of quizAttempt objects with added fields for score
-    // GET /user/id/quizAttempts/id- will return ONE quizAttempt object with the added field score
 }
