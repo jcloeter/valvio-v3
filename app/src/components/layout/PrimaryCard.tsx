@@ -16,11 +16,10 @@ const PrimaryCard: React.FC<{children: React.ReactNode}> = (props) => {
     return (
         <Container maxWidth="sm" sx={{minHeight : '100vh'}}>
             <Card elevation={3} sx={{
-                // minWidth: 275,
-                // maxWidth: 500,
+                paddingTop: "15px",
+                paddingBottom: "25px",
                 mt: '5%'
             }}>
-                {/*{props.isLoggedIn && "Logged In"}*/}
                 {props.children}
             </Card>
         </Container>
