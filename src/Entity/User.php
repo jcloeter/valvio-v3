@@ -129,8 +129,8 @@ class User
     {
         if ($this->quizAttempts->removeElement($quizAttempt)) {
             // set the owning side to null (unless already changed)
-            if ($quizAttempt->getUserId() === $this) {
-                $quizAttempt->setUserId(null);
+            if ($quizAttempt->getUser() === $this) {
+                $quizAttempt->setUser(null);
             }
         }
 
