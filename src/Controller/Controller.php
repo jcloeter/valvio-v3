@@ -27,13 +27,6 @@ use const Grpc\STATUS_OK;
 
 class Controller extends AbstractController
 {
-    //To be removed:
-//    public PitchRepository $pitchRepository;
-//
-//    public function construct(PitchRepository $pitchRepository)
-//    {
-//        $this->pitchRepository = $pitchRepository;
-//    }
 
     #[Route('/')]
     #[Route('/health')]
