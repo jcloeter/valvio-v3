@@ -100,13 +100,27 @@ class UserService
                 return Array (
                     "isCorrect" => $quizPitchAttempt->isCorrect(),
                     "quizPitchAttemptId" => $quizPitchAttempt->getId(),
-                    "noteLetter" => $quizPitchAttempt->getQuizPitch()->getPitch()->getNoteLetter(),
-                    "accidental" => $quizPitchAttempt->getQuizPitch()->getPitch()->getAccidental(),
-                    "userInput" => $quizPitchAttempt->getUserInput()
+                    "userInput" => $quizPitchAttempt->getUserInput(),
+                    "pitch" => Array(
+                        "pitchId" => $quizPitchAttempt->getQuizPitch()->getPitch()->getId(),
+                        "noteLetter" => $quizPitchAttempt->getQuizPitch()->getPitch()->getNoteLetter(),
+                        "accidental" => $quizPitchAttempt->getQuizPitch()->getPitch()->getAccidental(),
+                        "octave" => $quizPitchAttempt->getQuizPitch()->getPitch()->getOctave(),
+                        "position" => $quizPitchAttempt->getQuizPitch()->getPitch()->getPosition(),
+                        "midiNumber" => $quizPitchAttempt->getQuizPitch()->getPitch()->getMidiNumber(),
+                    ),
+                    "transposedAnswerPitch" => Array(
+                        "pitchId" => $quizPitchAttempt->getQuizPitch()->getTransposedAnswerPitch()?->getId(),
+                        "noteLetter" => $quizPitchAttempt->getQuizPitch()->getTransposedAnswerPitch()?->getNoteLetter(),
+                        "accidental" => $quizPitchAttempt->getQuizPitch()->getTransposedAnswerPitch()?->getAccidental(),
+                        "octave" => $quizPitchAttempt->getQuizPitch()->getTransposedAnswerPitch()?->getOctave(),
+                        "position" => $quizPitchAttempt->getQuizPitch()->getTransposedAnswerPitch()?->getPosition(),
+                        "midiNumber" => $quizPitchAttempt->getQuizPitch()->getTransposedAnswerPitch()?->getMidiNumber(),
+                    )
                 );
             },$quizPitchAttempts);
 
-            $score = "incomplete";
+            $score = null;
 
             if ($quizAttempt->getCompletedAt()) {
                 $quizLength = $quizAttempt->getQuiz()->getLength();
@@ -125,9 +139,9 @@ class UserService
                 "completedAt" => $quizAttempt->getCompletedAt(),
                 "secondsToComplete" => $quizAttempt->getSecondsToComplete(),
                 "quiz" => Array(
-                    "quizId" => $quizAttempt->getQuiz()->getId(),
-                    "quizTransposition" => $quizAttempt->getQuiz()->getTransposition()->getInterval(),
-                    "quizLength" => $quizAttempt->getQuiz()->getLength(),
+                    "id" => $quizAttempt->getQuiz()->getId(),
+                    "transposition" => $quizAttempt->getQuiz()->getTransposition()->getInterval(),
+                    "length" => $quizAttempt->getQuiz()->getLength(),
                 ),
                 "score" => $score,
                 "quizPitchAttempts" => $formattedQuizPitchAttempts,
