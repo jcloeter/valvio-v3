@@ -1,41 +1,91 @@
-import React from 'react';
-import {Card, Container} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Card, Container, LinearProgress} from "@mui/material";
 import {useNavigate} from 'react-router-dom';
+import {Quiz} from '../../models/Quiz';
+import QuizItemPersonalMetrics from "./QuizItemPersonalMetrics";
+import {QuizAttempt} from "../../models/QuizAttempt";
 
-//Each QuizItem needs:
-// CompletionIcon Level Number: Description
-// Highscore Highspeed PlayButton
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import CheckBoxOutlineBlankTwoToneIcon from '@mui/icons-material/CheckBoxOutlineBlankTwoTone';
+import RadioButtonUncheckedTwoToneIcon from '@mui/icons-material/RadioButtonUncheckedTwoTone';
+import Button from "@mui/material/Button";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 
 
-const QuizItem = () => {
+const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[]}>= (props) => {
+    const [showDetails, setShowDetails] = useState(false);
+
     const navigate = useNavigate();
 
-    const handleQuizClick = () =>{
-        navigate('/quiz');
+    const handleCardClick = () =>{
+        setShowDetails((showDetails: boolean)=>{
+            return !showDetails;
+        })
     }
 
+    const handlePlayQuizClick=()=>{
+        navigate('/quiz');
+
+    }
+
+
+    let highScore: QuizAttempt | undefined = props.highScores.find((quizAttempt: QuizAttempt)=>{
+        if (quizAttempt.quiz.id === props.quiz.id){
+            return quizAttempt;
+        }
+    })
+
+
+    let scoreIcon;
+
+    if (highScore?.score === 100) {
+        scoreIcon = <CheckCircleTwoToneIcon sx={{color: "green"}}/>
+    } else if (highScore?.score && highScore?.score > 0) {
+        scoreIcon = <CheckCircleOutlineOutlinedIcon sx={{color: "purple"}}/>
+    } else {
+        scoreIcon = <RadioButtonUncheckedTwoToneIcon sx={{color: "purple"}}/>
+    }
+
+
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" key = {props.quiz.id}>
             <Card elevation = {0}
                   sx={{
                       margin : "10px",
                       backgroundColor: "#F8F8F8",
-                      paddingTop: "25px",
-                      paddingBottom: "25px",
-                      // boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
                       boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
                       "&:hover": {
-                          // boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
-                          // boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
                           boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                          // boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px"
                       }
                   }}
-                  onClick = {handleQuizClick}
+                  onClick = {handleCardClick}
             >
-                <div>Completed   Level 1: The basics </div>
-                <div> <b>100%</b>     2.3s/pitch     Play  </div>
+                <div>{scoreIcon}</div>
+                <h4>{props.quiz.name}</h4>
+
+                <div>{props.quiz.transposition.interval}</div>
+                <div>{props.quiz.transposition.name}</div>
+
+                <AccessTimeIcon sx={{color : "gray"}}/>
+                <RepeatIcon sx={{color : "gray"}}/>
+                <AssignmentIcon sx={{color : "gray"}}/>
+                <b>{highScore?.score}%</b>
+                <br/>
+                {
+                    highScore?.secondsToComplete && <b>{(highScore?.secondsToComplete / props.quiz.length).toFixed(2)} seconds per pitch</b>
+                }
+                {showDetails &&
+                    <>
+                        <div>{props.quiz.description}</div>
+                        <Button variant="outlined" onClick={handlePlayQuizClick}>Play</Button>
+                    </> }
+
             </Card>
         </Container>
     );
