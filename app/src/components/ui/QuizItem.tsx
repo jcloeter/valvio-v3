@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Container, LinearProgress} from "@mui/material";
+import {Card, CircularProgress, Container, LinearProgress} from "@mui/material";
 import {useNavigate} from 'react-router-dom';
 import {Quiz} from '../../models/Quiz';
 import QuizItemPersonalMetrics from "./QuizItemPersonalMetrics";
@@ -14,9 +14,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
-
-
-const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[]}>= (props) => {
+const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttemptsLoading: boolean}>= (props) => {
     const [showDetails, setShowDetails] = useState(false);
 
     const navigate = useNavigate();
@@ -28,10 +26,8 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[]}>= (props) => {
     }
 
     const handlePlayQuizClick=()=>{
-        navigate('/quiz');
-
+        navigate(`/loading-quiz/${props.quiz.id}`);
     }
-
 
     let highScore: QuizAttempt | undefined = props.highScores.find((quizAttempt: QuizAttempt)=>{
         if (quizAttempt.quiz.id === props.quiz.id){
@@ -48,6 +44,10 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[]}>= (props) => {
         scoreIcon = <CheckCircleOutlineOutlinedIcon sx={{color: "purple"}}/>
     } else {
         scoreIcon = <RadioButtonUncheckedTwoToneIcon sx={{color: "purple"}}/>
+    }
+
+    if (props.areQuizAttemptsLoading){
+        scoreIcon = <CircularProgress size = {18}/>
     }
 
 
