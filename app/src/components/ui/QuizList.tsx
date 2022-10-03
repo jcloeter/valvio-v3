@@ -15,7 +15,7 @@ const QuizList = () => {
         return <h2>error</h2>
     }
 
-    if (isLoading && isQuizAttemptsLoading){
+    if (isLoading){
         return (
             <>
                 <h3>Loading Quizzes</h3>
@@ -32,9 +32,8 @@ const QuizList = () => {
             {quizzesObj?.quizzes.map((quiz: Quiz, index: number)=>{
                 if (quizAttempts?.quizAttempts){
                     highScores = converQuizAttemptsToHighScores(quizAttempts.quizAttempts);
-                    console.log(highScores);
                 }
-                return <QuizItem key={index} quiz = {quiz} highScores = {highScores}
+                return <QuizItem key={index} quiz = {quiz} highScores = {highScores} areQuizAttemptsLoading={isQuizAttemptsLoading}
                 />}
             )}
         </div>
