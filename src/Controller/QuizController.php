@@ -23,12 +23,25 @@ class QuizController extends AbstractController
 
     #[Route('/quizzes/{quizId}/pitches', methods: ['GET'])]
     //Requires query parameter: /user/5/quizAttempt?quizId=7
-    public function readQuizPitches (int $quizId, PitchService $pitchService): JsonResponse
+    public function readQuizPitches (int $quizId, PitchService $pitchService, QuizService $quizService): JsonResponse
     {
         $pitches = $pitchService->getPitchesByQuizId($quizId);
+        $quiz = $quizService->getQuizByQuizId($quizId);
+
+        $transpositionInterval = $quiz->getTransposition()?->getInterval();
+
+        if ($transpositionInterval !== 0) {
+            $isTransposition = true;
+        } else {
+            $isTransposition = false;
+        }
 
         return $this->json([
-            'pitches' => $pitches
+            'transpositionInterval' => $transpositionInterval,
+            'isTransposition' => $isTransposition,
+            'quizId' => $quiz->getId(),
+            'quizLength' => $quiz->getLength(),
+            'pitches' => $pitches,
         ]);
     }
 

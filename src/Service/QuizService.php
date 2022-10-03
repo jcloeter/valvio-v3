@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Repository\QuizRepository;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class QuizService
 {
@@ -12,6 +13,18 @@ class QuizService
     {
         $this->quizRepository = $quizRepository;
     }
+
+    public function getQuizByQuizId(int $quizId)
+    {
+        $quiz = $this->quizRepository->find($quizId);
+
+        if (!$quiz) {
+            return new ResourceNotFoundException("Cannot find quiz");
+        }
+
+        return $quiz;
+    }
+
 
     public function getAllQuizzes()
     {
