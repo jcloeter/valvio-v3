@@ -5,11 +5,7 @@ import {Routes, Route} from 'react-router-dom';
 import PrimaryCard from './components/layout/PrimaryCard';
 import Quizzes from "./pages/Quizzes";
 import QuizMode from "./pages/QuizMode";
-
-
-// export interface Auth {
-//     is
-// }
+import QuizLoadingPage from "./pages/QuizLoadingPage";
 
 
 
@@ -21,9 +17,11 @@ function App() {
         <PrimaryCard >
             <Routes>
                 <Route path={"/"} element={<Quizzes/>}/>
-                <Route path={"/quiz"} element={<QuizMode/>}/>
+                <Route path={`/loading-quiz/:quizId`} element={<QuizLoadingPage/>}/>
+                <Route path={`/quiz/:quizId`} element={<QuizMode/>}/>
                 <Route path={"/login"} element={<h1>LOGIN</h1>}/>
                 <Route path={"/logout"} element={<h1>LOGOUT</h1>}/>
+                <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
         </PrimaryCard>
     </div>
