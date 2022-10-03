@@ -5,4 +5,6 @@ export interface Pitch {
     octave: number,
     position: number,
     midiNumber : number,
+    instanceId : string | undefined;
+    imageId: string | null;
 }
