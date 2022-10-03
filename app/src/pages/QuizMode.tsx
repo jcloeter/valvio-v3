@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {useEffect, useMemo} from 'react';
 import MetricsCard from "../components/ui/MetricsCard";
 import QuizModeCard from "../components/ui/QuizModeCard";
-import {useCreateQuizAttemptMutation} from "../features/quizData/quiz-api";
+import {useSelector} from "react-redux";
+import {RootState} from "../features/store";
+
 
 const QuizMode = () => {
-    //Start Quiz
-    //Get Quizzes AND put into state
-    //When both are done, show first pitch to user
-    //After user submits then send a request off AND update state
-    //Check if the pitchesCompleted >= quizLength. If so, reveal a different component AND send a request AND update state
+    console.log("At least quiz mode is working")
+    const quizAttemptSlice = useSelector<RootState>((state) => state.quizAttemptSlice);
 
     return (
         <div>
