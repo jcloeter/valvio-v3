@@ -21,6 +21,12 @@ export const quizApi = createApi({
                 method: 'POST',
             }),
         }),
+        patchQuizAttempt: builder.mutation({
+            query: ({userId, quizAttemptId, completedIn}) => ({
+                url: `/user/${userId}/quizAttempt/${quizAttemptId}?secondsToComplete=${completedIn}`,
+                method: 'PATCH',
+            }),
+        }),
         createQuizPitchAttempt: builder.mutation({
             query: ({userId, body}) => ({
                 url: `/user/${userId}/quizPitchAttempt`,
@@ -33,7 +39,15 @@ export const quizApi = createApi({
                 })
             })
         }),
+
     })
 });
 
-export const {useGetQuizzesQuery, useGetPitchesByQuizIdQuery, useCreateQuizAttemptMutation, useCreateQuizPitchAttemptMutation, useGetQuizAttemptCollectionByUserQuery} = quizApi;
+export const {
+    useGetQuizzesQuery,
+    useGetPitchesByQuizIdQuery,
+    useCreateQuizAttemptMutation,
+    useCreateQuizPitchAttemptMutation,
+    useGetQuizAttemptCollectionByUserQuery,
+    usePatchQuizAttemptMutation,
+} = quizApi;

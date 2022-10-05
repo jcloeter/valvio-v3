@@ -3,9 +3,8 @@ import {quizApi} from "./quiz-api";
 import {Pitch} from "../../models/Pitch";
 import {randomizeAndExtendPitchArray} from "../../helper/randomizeAndExtendPitchArray";
 import {convertPitchInstrumentIdToImageId} from "../../components/ui/convertPitchInstrumentIdToImageId";
+import {PitchesObject} from "../../models/PitchesObject";
 
-//Todo: Add createQuizPitchAttempt, PATCH quizAttempt
-//Todo: update slices before sending the request!!!
 
 interface QuizSlice {
     quizId: number | null,
@@ -13,8 +12,8 @@ interface QuizSlice {
     currentScore: number,
     correctPitchAttempts: number,
     incorrectPitchAttempts: number,
-    uniquePitches: Pitch[],
-    extendedPitches: Pitch[],
+    uniquePitches: PitchesObject[],
+    extendedPitches: PitchesObject[],
     isTransposition: boolean,
     transpositionInterval: number,
     startTime: number | null,
@@ -22,8 +21,8 @@ interface QuizSlice {
     quizStatus:  "exited" | "in progress" | "complete" | "error" | "failed" | "uninitialized" ;
     quizLength: number | null,
     currentPitchIndex: number,
+    quizAttemptId: number | null,
 }
-
 
 const initialState: QuizSlice= {
     quizId: null,
@@ -40,6 +39,7 @@ const initialState: QuizSlice= {
     quizStatus: "uninitialized",
     quizLength: null,
     currentPitchIndex: 0,
+    quizAttemptId: null,
 };
 
 export const quizSlice = createSlice({
@@ -51,11 +51,20 @@ export const quizSlice = createSlice({
         },
         submitCorrectAnswer: (state)=>{
             state.correctPitchAttempts += 1;
+            state.currentPitchIndex += 1;
+            if (state.quizLength){
+                state.currentScore += 100/(state.quizLength);
+            }
         },
         setStartTime: (state) =>{
             state.startTime = Date.now();
+            state.quizStatus = "in progress";
         },
-        viewTotalScore: ()=>{}
+        endCompletedQuiz: (state) => {
+            state.quizStatus = "complete";
+            state.endTime = Date.now();
+        },
+        endIncompleteQuiz: () =>{},
     },
     extraReducers: (builder) => {
         builder
@@ -64,9 +73,13 @@ export const quizSlice = createSlice({
                 state.extendedPitches = randomizeAndExtendPitchArray(action.payload.pitches, action.payload.quizLength);
                 state.isTransposition = action.payload.isTransposition;
                 state.quizId = action.payload.quizId;
+                state.quizLength = action.payload.quizLength;
+            })
+            .addMatcher(quizApi.endpoints.createQuizAttempt.matchFulfilled, (state, action)=>{
+                state.quizAttemptId = action.payload.id;
             })
     }
 });
 
 export default quizSlice.reducer;
-export const { submitWrongAnswer, submitCorrectAnswer } = quizSlice.actions;
+export const { submitWrongAnswer, submitCorrectAnswer, endCompletedQuiz, setStartTime } = quizSlice.actions;
