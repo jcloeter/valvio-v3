@@ -4,6 +4,8 @@ import {useNavigate} from "react-router-dom";
 import {useCreateQuizAttemptMutation, useGetPitchesByQuizIdQuery} from "../features/quizData/quiz-api";
 import {Box, CircularProgress, Fab} from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import {useAppDispatch} from "../features/hooks";
+import {setStartTime} from "../features/quizData/quizSlice";
 
 
 type QuizModeParams = {
@@ -12,6 +14,7 @@ type QuizModeParams = {
 
 const QuizLoadingPage = () => {
     let {quizId} = useParams();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [timer, setTimer] = useState(1);
     const [showTimer, setShowTimer] = useState(false);
@@ -41,6 +44,7 @@ const QuizLoadingPage = () => {
 
     useEffect(()=>{
         if (timer === 0) {
+            dispatch(setStartTime());
             clearInterval(interval);
             navigate(`/quiz/${quizId}`);
         }
