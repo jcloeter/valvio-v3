@@ -22,7 +22,10 @@ class PitchService
         $quizPitches = $this->quizPitchRepository->findBy(['quiz' => $quizId]);
 
         $pitches = array_map(function($quizPitch){
-            return array($quizPitch->getPitch(), $quizPitch->getTransposedAnswerPitch());
+            return array(
+                "quizPitchId" => $quizPitch->getId(),
+                "originalPitch" => $quizPitch->getPitch(),
+                "transposedAnswer" => $quizPitch->getTransposedAnswerPitch());
         }, $quizPitches);
 
         return $pitches;
