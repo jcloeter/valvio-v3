@@ -1,9 +1,9 @@
 export interface Pitch {
-    pitchId : string,
+    id : string,
     noteLetter: string,
     accidental: string,
     octave: number,
-    position: number,
+    position: string,
     midiNumber : number,
     instanceId : string | undefined;
     imageId: string | null;
