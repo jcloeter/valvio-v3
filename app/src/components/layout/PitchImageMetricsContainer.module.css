@@ -1,0 +1,16 @@
+.pitch-container {
+    /*background-color: red;*/
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    justify-content: space-around;
+}
+
+.pitch-image {
+    border-radius: 15px;
+    max-width: 130px;
+    opacity: 60%;
+    max-height: 100px;
+    /*filter: grayscale(.5);*/
+    /*margin-right: 25px;*/
+}

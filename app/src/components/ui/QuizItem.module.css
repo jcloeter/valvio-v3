@@ -1,0 +1,10 @@
+.icon-level-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    background: red;
+    max-width: 80%;
+}
+
+//Start here by figuring out flexbox
