@@ -127,9 +127,10 @@ class UserService
                 $numberIncorrect = array_reduce($quizPitchAttempts, function ($accumulator, $quizPitchAttempt) {
                     if (!$quizPitchAttempt->isCorrect()) {
                         ++$accumulator;
-                        return $accumulator ;
                     }
+                    return $accumulator ;
                 });
+                
                 $score = 100 - ((100/$quizLength) * $numberIncorrect * .75);
             }
 
