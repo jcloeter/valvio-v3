@@ -12,6 +12,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {Link, NavLink} from 'react-router-dom';
+import {useAppDispatch} from "../../features/hooks";
+import authActions from '../../features/authData/authSlice'
 
 const pages = ['Blog'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -19,6 +22,7 @@ const settings = ['Profile', 'Dashboard', 'Logout'];
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const dispatch = useAppDispatch();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -44,8 +48,8 @@ const ResponsiveAppBar = () => {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="/"
+                        // component="a"
+                        // href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -56,8 +60,11 @@ const ResponsiveAppBar = () => {
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
+
                     >
-                        Valvio
+                        {/*<NavLink id="RouterNavLink" to="/">Valvio</NavLink>*/}
+                        <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>Valvio</Link>
+                        {/*Valvio*/}
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -102,8 +109,8 @@ const ResponsiveAppBar = () => {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href=""
+                        // component="a"
+                        // href=""
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -115,7 +122,7 @@ const ResponsiveAppBar = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        Valvio
+                        <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>Valvio</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
@@ -156,6 +163,9 @@ const ResponsiveAppBar = () => {
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
+                            <MenuItem key={1} onClick={()=>{dispatch(authActions.login())}}>
+                                <Typography textAlign="center" >Login</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
