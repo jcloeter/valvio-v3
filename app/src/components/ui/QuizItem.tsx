@@ -75,7 +75,8 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttempts
                 <AccessTimeIcon sx={{color : "gray"}}/>
                 <RepeatIcon sx={{color : "gray"}}/>
                 <AssignmentIcon sx={{color : "gray"}}/>
-                <b>{highScore?.score}%</b>
+                {(highScore?.score) && <b>{(highScore?.score).toFixed(0)} %</b>}
+
                 <br/>
                 {
                     highScore?.secondsToComplete && <b>{(highScore?.secondsToComplete / props.quiz.length).toFixed(2)} seconds per pitch</b>
