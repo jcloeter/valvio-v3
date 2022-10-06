@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import LightGreyCard from "./LightGreyCard";
 import Button from "@mui/material/Button";
 import TrumpetValveGroup from "./TrumpetValveGroup";
@@ -19,6 +19,7 @@ const QuizModeCard = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [userInput, setUserInput] = useState("0");
+    const [resetValves, setResetValves] = useState(false);
 
     const [createQuizPitchAttemptMutation, {data, isLoading, isError}] = useCreateQuizPitchAttemptMutation();
 
@@ -29,14 +30,36 @@ const QuizModeCard = () => {
     const currentPitchAnswer = currentTranspositionPitchObject ? currentTranspositionPitchObject.position : pitchesObject[currentPitchIndex].originalPitch.position;
     const quizAttemptId = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.quizAttemptId);
 
+    // const handler = useCallback((event: KeyboardEvent)=>{
+    //     if (event.key === "a"){
+    //         console.log("User input after submitting with A Key" , userInput);
+    //         console.log(currentPitchIndex);
+    //         handleSubmitButton()
+    //     }
+    // }, [userInput]);
+    //
+    //
+    // useEffect(() => {
+    //     console.log("eventListener for a submit key");
+    //     window.addEventListener('keydown', (event) => {
+    //         handler(event);
+    //     });
+    //
+    //     return () => {
+    //         window.removeEventListener('keydown', handler);
+    //     }
+    // }, [handler]);
+
     const handleUserInputChange = (newInput: string) =>{
         setUserInput(newInput);
     }
 
     const handleSubmitButton = () => {
         let isUserCorrect = (currentPitchAnswer == userInput);
-        console.log(currentPitchObject);
-        console.log(pitchesObject);
+
+        console.log("Your answer: " , userInput);
+        console.log("Are you correct? ", isUserCorrect);
+        console.log("The correct answer is ", currentPitchAnswer);
 
         const body = {
             isCorrect: isUserCorrect,
@@ -46,8 +69,7 @@ const QuizModeCard = () => {
         };
         createQuizPitchAttemptMutation({userId: 7, body});
 
-        console.log(body);
-
+        setResetValves(true);
 
         if (isUserCorrect){
             dispatch(submitCorrectAnswer());
@@ -62,13 +84,17 @@ const QuizModeCard = () => {
 
     }
 
-    //Todo: Reset valves after each attempt
+    const handleValvesWereReset=()=>{
+        console.log("handle Valves Were Reset!")
+        setUserInput("0");
+        setResetValves(false);
+    }
 
     return (
-        <LightGreyCard>
-            <>
+        <LightGreyCard >
+            <div >
                 <img className = {styles["pitch-img"]} src={createImageUrlFromPitchId(currentPitchObject.id)} alt="pitch"/>
-                <TrumpetValveGroup onUserInputChange={(newInput:string)=>handleUserInputChange(newInput)} />
+                <TrumpetValveGroup onValvesWereReset = {handleValvesWereReset} resetValves = {resetValves} onUserInputChange={(newInput:string)=>handleUserInputChange(newInput)} />
                 <Button
                     onClick ={handleSubmitButton}
                     variant="contained" size ="large" sx={{
@@ -76,7 +102,7 @@ const QuizModeCard = () => {
                 }} >
                     Submit
                 </Button>
-            </>
+            </div>
         </LightGreyCard>
     );
 };
