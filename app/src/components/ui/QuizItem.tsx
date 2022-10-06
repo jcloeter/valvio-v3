@@ -13,6 +13,9 @@ import Button from "@mui/material/Button";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import MetricIcons from "./MetricIcons";
+import styles from "./Metricicons.module.css";
+import quizItemStyles from "./QuizItem.module.css";
 
 const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttemptsLoading: boolean}>= (props) => {
     const [showDetails, setShowDetails] = useState(false);
@@ -62,25 +65,50 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttempts
                       boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
                       "&:hover": {
                           boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                      }
+                      },
+                      display: "flex",
+                      flexDirection: "column",
+                      // justifyContent: "center",
+                      alignItems: "center",
                   }}
                   onClick = {handleCardClick}
             >
-                <div>{scoreIcon}</div>
-                <h4>{props.quiz.name}</h4>
 
-                <div>{props.quiz.transposition.interval}</div>
-                <div>{props.quiz.transposition.name}</div>
+                <div className = {quizItemStyles["icon-level-container"]}>
+                    <div>{scoreIcon}</div>
+                    <div>Level {props.quiz.level}. {props.quiz.name}</div>
 
-                <AccessTimeIcon sx={{color : "gray"}}/>
-                <RepeatIcon sx={{color : "gray"}}/>
-                <AssignmentIcon sx={{color : "gray"}}/>
-                {(highScore?.score) && <b>{(highScore?.score).toFixed(0)} %</b>}
+                    {/*<div>{props.quiz.transposition.interval}</div>*/}
+                    {/*<div>{props.quiz.transposition.name}</div>*/}
+                </div>
+
+
+
+
+                <MetricIcons>
+                    <ul className={styles["metric-icons-ul"]}>
+                        <li className={styles["metric-icons-li"]}>
+                            <AssignmentIcon sx={{color : "gray"}}/>
+                            {(highScore?.score) ? <b>{(highScore?.score).toFixed(0)}%</b> : <b>0%</b>}
+                        </li>
+                        <li className={styles["metric-icons-li"]}>
+                            <AccessTimeIcon sx={{color : "gray"}}/>
+                            {
+                                highScore?.secondsToComplete ? <b>{(highScore?.secondsToComplete / props.quiz.length).toFixed(2)}s/pitch</b> : <b>n/a</b>
+                            }
+                        </li>
+                        <li className={styles["metric-icons-li"]}>
+                            <RepeatIcon sx={{color : "gray"}}/>
+                            <b>3</b>
+                        </li>
+
+                    </ul>
+                </MetricIcons>
+
+
 
                 <br/>
-                {
-                    highScore?.secondsToComplete && <b>{(highScore?.secondsToComplete / props.quiz.length).toFixed(2)} seconds per pitch</b>
-                }
+
                 {showDetails &&
                     <>
                         <div>{props.quiz.description}</div>

@@ -93,7 +93,7 @@ const QuizModeCard = () => {
     return (
         <LightGreyCard >
             <div >
-                <img className = {styles["pitch-img"]} src={createImageUrlFromPitchId(currentPitchObject.id)} alt="pitch"/>
+                <img className = {styles["pitch-img"]} style={{maxHeight : '200px'}} src={createImageUrlFromPitchId(currentPitchObject.id)} alt="pitch"/>
                 <TrumpetValveGroup onValvesWereReset = {handleValvesWereReset} resetValves = {resetValves} onUserInputChange={(newInput:string)=>handleUserInputChange(newInput)} />
                 <Button
                     onClick ={handleSubmitButton}
