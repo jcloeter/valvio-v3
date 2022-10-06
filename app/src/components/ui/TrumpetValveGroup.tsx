@@ -4,7 +4,7 @@ import styles from './ValveGroup.module.css';
 import {TrumpetValves} from "../../models/TrumpetValves";
 
 
-const TrumpetValveGroup: React.FC<{onUserInputChange: (newInput: string)=>void}> = (props) => {
+const TrumpetValveGroup: React.FC<{onUserInputChange: (newInput: string)=>void, onValvesWereReset: ()=> void, resetValves: boolean}> = (props) => {
     const [valveState, setValveState] = useState<TrumpetValves>({
         valve1 : false,
         valve2 : false,
@@ -38,15 +38,27 @@ const TrumpetValveGroup: React.FC<{onUserInputChange: (newInput: string)=>void}>
         });
     };
 
-    const handleKeyBoardPress=(event: React.KeyboardEvent<HTMLDivElement>)=>{
+    useEffect(()=>{
+        console.log("useEffect running- first render or props.resetValves")
+        console.log(props.resetValves);
 
-    };
+        if (props.resetValves){
+            setValveState({
+                valve1 : false,
+                valve2 : false,
+                valve3 : false,
+                answer: "0",
+            });
+        }
+
+        props.onValvesWereReset();
+    }, [props.resetValves])
 
     return (
-        <div className = {styles["valve-container"]} onKeyDown={handleKeyBoardPress} tabIndex={-1}>
-            <ValveButton valveNumber = {'1'} keyBoardKey = {'7'} onValveChange = {(isPressed)=>handleValveChange(isPressed, 1)} />
-            <ValveButton valveNumber = {'2'} keyBoardKey = {'8'} onValveChange = {(isPressed)=>handleValveChange(isPressed, 2)} />
-            <ValveButton valveNumber = {'3'} keyBoardKey = {'9'} onValveChange = {(isPressed)=>handleValveChange(isPressed, 3)} />
+        <div className = {styles["valve-container"]} >
+            <ValveButton resetValve = {props.resetValves} valveNumber = {'1'} keyBoardKey = {'7'} onValveChange = {(isPressed)=>handleValveChange(isPressed, 1)} />
+            <ValveButton resetValve = {props.resetValves} valveNumber = {'2'} keyBoardKey = {'8'} onValveChange = {(isPressed)=>handleValveChange(isPressed, 2)} />
+            <ValveButton resetValve = {props.resetValves} valveNumber = {'3'} keyBoardKey = {'9'} onValveChange = {(isPressed)=>handleValveChange(isPressed, 3)} />
         </div>
     );
 };
