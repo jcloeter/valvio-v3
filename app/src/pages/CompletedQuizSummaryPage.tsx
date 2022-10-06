@@ -9,6 +9,8 @@ import {useNavigate} from 'react-router-dom';
 import GradingIcon from "@mui/icons-material/Grading";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
+import {LinearProgress} from "@mui/material";
+
 
 const CompletedQuizSummaryPage = () => {
     const dispatch = useAppDispatch();
@@ -56,8 +58,7 @@ const CompletedQuizSummaryPage = () => {
     return (
         <div>
             <h1>Congrats on Finishing</h1>
-            {loadingContent}
-            {errorContent}
+
             <div>
                 <GradingIcon sx={{color : "gray"}}/> {quizSlice.currentScore.toFixed(0)}%
             </div>
@@ -67,9 +68,13 @@ const CompletedQuizSummaryPage = () => {
             <div>
                 <AvTimerIcon sx={{color : "gray"}}/> {speed}
             </div>
-            <Button onClick = {navigateHome}>Back to Home</Button>
+            {loadingContent}
+            {errorContent}
+            {isLoading && <LinearProgress sx={{maxWidth: '80%'}}/>}
+            {!isLoading && <Button variant="contained" onClick = {navigateHome}>Back to Home</Button>}
         </div>
     );
 };
 
+//useLocalStorage???
 export default CompletedQuizSummaryPage;
