@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import quizSliceReducer from "../features/quizData/quizSlice";
 import {quizApi} from "./quizData/quiz-api";
+import {authMiddleware} from "./authData/authMiddleware";
 
 export const store = configureStore({
     reducer: {
@@ -8,7 +9,7 @@ export const store = configureStore({
         [quizApi.reducerPath] : quizApi.reducer
     },
     middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(quizApi.middleware)
+        getDefaultMiddleware().concat(quizApi.middleware).concat(authMiddleware)
 });
 
 export type AppDispatch = typeof store.dispatch;
