@@ -25,10 +25,13 @@ class QuizController extends AbstractController
     //Requires query parameter: /user/5/quizAttempt?quizId=7
     public function readQuizPitches (int $quizId, PitchService $pitchService, QuizService $quizService): JsonResponse
     {
+        //Todo: Find out how to send along the quizPitchId
+
         $pitches = $pitchService->getPitchesByQuizId($quizId);
         $quiz = $quizService->getQuizByQuizId($quizId);
 
         $transpositionInterval = $quiz->getTransposition()?->getInterval();
+        $transpositionDescription = $quiz->getTransposition()?->getName();
 
         if ($transpositionInterval !== 0) {
             $isTransposition = true;
@@ -39,9 +42,12 @@ class QuizController extends AbstractController
         return $this->json([
             'transpositionInterval' => $transpositionInterval,
             'isTransposition' => $isTransposition,
+            'transpositionDescription' => $transpositionDescription,
             'quizId' => $quiz->getId(),
             'quizLength' => $quiz->getLength(),
             'pitches' => $pitches,
+            'quizLevel' => $quiz->getLevel(),
+            'quizName' => $quiz->getName(),
         ]);
     }
 
