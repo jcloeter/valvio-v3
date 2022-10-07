@@ -33,7 +33,6 @@ const CorrectAnswerFeedback = () => {
 
     return (
         <div>
-            <CheckCircleOutlineIcon sx={{color: "green"}}/>
 
             <PitchImageMetricsContainer>
                 <>
@@ -41,7 +40,8 @@ const CorrectAnswerFeedback = () => {
                     {transposedPitchImage}
                 </>
             </PitchImageMetricsContainer>
-            <br/>
+            {/*<br/>*/}
+            <CheckCircleOutlineIcon sx={{color: "green"}}/>
             {message}
         </div>
     );
