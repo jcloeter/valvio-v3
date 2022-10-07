@@ -3,11 +3,23 @@ import MetricsCard from "../components/ui/MetricsCard";
 import QuizModeCard from "../components/ui/QuizModeCard";
 import {useSelector} from "react-redux";
 import {RootState} from "../features/store";
+import {QuizAttempt} from "../models/QuizAttempt";
+import QuizSlice from "../features/quizData/quizSlice";
+import {useNavigate} from "react-router-dom";
 
 
 const QuizMode = () => {
-    console.log("At least quiz mode is working")
-    const quizAttemptSlice = useSelector<RootState>((state) => state.quizAttemptSlice);
+    const navigate = useNavigate();
+    const quizStatus = useSelector<RootState>((state) => state.quizAttemptSlice.quizStatus);
+
+    //Todo: Fix all this so it can redirect if there is an error:
+
+    // useEffect(()=>{
+    //     if (quizStatus === "uninitialized") {
+    //         navigate('/');
+    //     }
+    // }, [quizStatus])
+
 
     return (
         <div>

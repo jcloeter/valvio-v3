@@ -130,7 +130,7 @@ class UserService
                     }
                     return $accumulator ;
                 });
-                
+
                 $score = 100 - ((100/$quizLength) * $numberIncorrect * .75);
             }
 
