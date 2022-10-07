@@ -1,4 +1,6 @@
 .metric-icons-container {
+    /*background-color: purple;*/
+    min-width: 100%;
 }
 
 .metric-icons-ul {
@@ -7,8 +9,10 @@
     margin: 0; /* Remove margins */
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+    /*background-color: green;*/
+    width: 100%;
 }
 
 .metric-icons-li {

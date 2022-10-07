@@ -38,7 +38,6 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttempts
         }
     })
 
-
     let scoreIcon;
 
     if (highScore?.score === 100) {
@@ -60,59 +59,53 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttempts
                   sx={{
                       margin : "10px",
                       backgroundColor: "#F8F8F8",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
+                      // paddingTop: "10px",
+                      // paddingBottom: "10px",
+                      padding: "20px",
                       boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
                       "&:hover": {
                           boxShadow: "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
                       },
                       display: "flex",
                       flexDirection: "column",
-                      // justifyContent: "center",
-                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      alignItems: "flex-start",
                   }}
                   onClick = {handleCardClick}
             >
 
                 <div className = {quizItemStyles["icon-level-container"]}>
-                    <div>{scoreIcon}</div>
-                    <div>Level {props.quiz.level}. {props.quiz.name}</div>
+                    <b style={{marginRight: "5px"}}>{scoreIcon}</b>
+                    <b>Level {props.quiz.level}: {props.quiz.name}</b>
 
                     {/*<div>{props.quiz.transposition.interval}</div>*/}
                     {/*<div>{props.quiz.transposition.name}</div>*/}
                 </div>
 
-
-
-
                 <MetricIcons>
                     <ul className={styles["metric-icons-ul"]}>
-                        <li className={styles["metric-icons-li"]}>
-                            <AssignmentIcon sx={{color : "gray"}}/>
-                            {(highScore?.score) ? <b>{(highScore?.score).toFixed(0)}%</b> : <b>0%</b>}
+                        <li className={styles["metric-icons-li"]} >
+                            <AssignmentIcon sx={{color : "gray", marginRight: "3px"}}/>
+                            {(highScore?.score) ? <p style={{color: 'rgb(0, 0, 141)'}}>{(highScore?.score).toFixed(0)}%</p> : <p style={{color: 'rgb(0, 0, 141)'}}>0%</p>}
                         </li>
                         <li className={styles["metric-icons-li"]}>
-                            <AccessTimeIcon sx={{color : "gray"}}/>
+                            <AccessTimeIcon sx={{color : "gray", marginRight: "3px"}}/>
                             {
-                                highScore?.secondsToComplete ? <b>{(highScore?.secondsToComplete / props.quiz.length).toFixed(2)}s/pitch</b> : <b>n/a</b>
+                                highScore?.secondsToComplete ? <p style={{color: 'rgb(0, 0, 141)'}}>{(highScore?.secondsToComplete / props.quiz.length).toFixed(2)}s/<b style={{fontSize: "17px"}}>♩</b></p> : <p style={{color: 'rgb(0, 0, 141)'}}>n/a</p>
                             }
                         </li>
                         <li className={styles["metric-icons-li"]}>
-                            <RepeatIcon sx={{color : "gray"}}/>
-                            <b>3</b>
+                            <RepeatIcon sx={{color : "gray", marginRight: "3px"}}/>
+                            <p style={{color: 'rgb(0, 0, 141)'}}>3</p>
                         </li>
 
                     </ul>
                 </MetricIcons>
 
-
-
-                <br/>
-
                 {showDetails &&
                     <>
-                        <div>{props.quiz.description}</div>
-                        <Button variant="outlined" onClick={handlePlayQuizClick}>Play</Button>
+                        <div style={{marginTop: '10px'}}>{props.quiz.description}</div>
+                        <Button variant="contained" style={{backgroundColor: 'rgb(135, 57, 255)' }} sx={{width: "100%", marginTop: "20px"}} onClick={handlePlayQuizClick}>Play</Button>
                     </> }
 
             </Card>
