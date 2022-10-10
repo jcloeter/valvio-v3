@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {quizSlice} from "../quizData/quizSlice";
+import {User} from "../../models/User";
 
 
 type initialAuthStateType = {
@@ -10,13 +11,23 @@ type initialAuthStateType = {
     expirationTime: string | null,
 }
 
-const initialAuthState: initialAuthStateType = {
-    userId : null,
-    firebaseId: null,
+const initialAuthState: User = {
     isAuthenticated: false,
-    loginTime: null,
-    expirationTime: null,
-
+    displayName: null,
+    email: null,
+    emailVerified: false,
+    isAnonymous: false,
+    phoneNumber: null,
+    photoUrl: null,
+    providerId: null,
+    refreshToken:null,
+    tenantId: null,
+    uid: null,
+    createdAt: null,
+    creationTime:null,
+    lastLoginAt: null,
+    lastSignInTime: null,
+    isNewUser: false,
 }
 
 export const authSlice = createSlice({
@@ -25,13 +36,16 @@ export const authSlice = createSlice({
     reducers: {
         login: (state)=>{
           state.isAuthenticated = true;
-          // state.userId = userId;
         },
         logout: (state)=>{
+            state = initialAuthState;
             state.isAuthenticated = false;
-        }}
+
+        },
+     },
 });
 
 
 const { login, logout } = authSlice.actions;
+export const authSliceReducer = authSlice.reducer;
 export default authSlice.actions;
