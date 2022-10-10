@@ -16,7 +16,7 @@ import {Link, NavLink} from 'react-router-dom';
 import {useAppDispatch} from "../../features/hooks";
 import authActions from '../../features/authData/authSlice'
 
-const pages = ['Blog'];
+const pages = [''];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -62,9 +62,7 @@ const ResponsiveAppBar = () => {
                         }}
 
                     >
-                        {/*<NavLink id="RouterNavLink" to="/">Valvio</NavLink>*/}
                         <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>Valvio</Link>
-                        {/*Valvio*/}
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -158,14 +156,30 @@ const ResponsiveAppBar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                            <MenuItem key={1} onClick={()=>{dispatch(authActions.login())}}>
-                                <Typography textAlign="center" >Login</Typography>
+                            {/*{settings.map((setting) => (*/}
+                            {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
+                            {/*        <Typography textAlign="center">{setting}</Typography>*/}
+                            {/*    </MenuItem>*/}
+                            {/*))}*/}
+
+                            <MenuItem key={0} >
+                                <Link to="/profile" style={{textDecoration: 'none', color: 'inherit'}}>
+                                    <Typography textAlign="center" >Profile</Typography>
+                                </Link>
                             </MenuItem>
+
+                            <MenuItem key={1} >
+                                <Link to="/dashboard" style={{textDecoration: 'none', color: 'inherit'}}>
+                                    <Typography textAlign="center" >Dashboard</Typography>
+                                </Link>
+                            </MenuItem>
+
+                            <MenuItem key={2} onClick={()=>{dispatch(authActions.logout())}}>
+                                <Link to="/login" style={{textDecoration: 'none', color: 'inherit'}}>
+                                    <Typography textAlign="center" >Logout</Typography>
+                                </Link>
+                            </MenuItem>
+
                         </Menu>
                     </Box>
                 </Toolbar>
