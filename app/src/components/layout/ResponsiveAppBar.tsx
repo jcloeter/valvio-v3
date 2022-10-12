@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link, NavLink} from 'react-router-dom';
 import {useAppDispatch} from "../../features/hooks";
-import authActions from '../../features/authData/authSlice'
+import authActions, {initialAuthState} from '../../features/authData/authSlice'
 
 const pages = [''];
 const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -174,7 +174,7 @@ const ResponsiveAppBar = () => {
                                 </Link>
                             </MenuItem>
 
-                            <MenuItem key={2} onClick={()=>{dispatch(authActions.logout())}}>
+                            <MenuItem key={2} onClick={()=>{dispatch(authActions.logout(initialAuthState))}}>
                                 <Link to="/login" style={{textDecoration: 'none', color: 'inherit'}}>
                                     <Typography textAlign="center" >Logout</Typography>
                                 </Link>
