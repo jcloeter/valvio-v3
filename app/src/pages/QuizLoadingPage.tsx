@@ -16,7 +16,7 @@ const QuizLoadingPage = () => {
     let {quizId} = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [timer, setTimer] = useState(1);
+    const [timer, setTimer] = useState(5);
     const [showTimer, setShowTimer] = useState(false);
     let interval: any;
 
@@ -92,7 +92,7 @@ const QuizLoadingPage = () => {
                 ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
                 <h3>Initializing QuizData</h3>
             </Box>
-            {showTimer && `Quiz Starting in ${timer}`}
+            {showTimer && (<div>Quiz Starting in <b>{timer}</b></div>)}
         </div>
     );
 };
@@ -100,25 +100,3 @@ const QuizLoadingPage = () => {
 export default QuizLoadingPage;
 
 
-// <Box sx={{ m: 1, position: 'relative' }}>
-//     <Fab
-//         aria-label="save"
-//         color="primary"
-//         // sx={buttonSx}
-//         // onClick={handleButtonClick}
-//     >
-//         {/*{success ? <CheckIcon /> : <SaveIcon />}*/}
-//     </Fab>
-//     {true && (
-//         <CircularProgress
-//             size={68}
-//             sx={{
-//                 color: "green",
-//                 position: 'absolute',
-//                 top: -6,
-//                 left: -6,
-//                 zIndex: 1,
-//             }}
-//         />
-//     )}
-// </Box>
