@@ -51,7 +51,6 @@ class UserController extends AbstractController
             'completedAt' => $quizAttempt->getCompletedAt(),
             'secondsToComplete' => $quizAttempt->getSecondsToComplete(),
             'quizId' => $quizAttempt->getQuiz()->getId(),
-            //Will this need to be refactored???
             'userId' => $quizAttempt->getUser()->getId()
           ]);
     }
