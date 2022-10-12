@@ -10,9 +10,7 @@ export interface User {
     refreshToken: string | null,
     tenantId: string | null,
     uid: string | null,
-    createdAt: string | null,
-    creationTime: string | null,
-    lastLoginAt: string | null,
-    lastSignInTime: string | null
-    isNewUser: boolean,
+    creationTime: string | null | undefined,
+    lastSignInTime: string | null | undefined,
+    idToken: string | null | undefined,
 }
