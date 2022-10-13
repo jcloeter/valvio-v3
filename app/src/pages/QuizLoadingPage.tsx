@@ -6,6 +6,8 @@ import {Box, CircularProgress, Fab} from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import {useAppDispatch} from "../features/hooks";
 import {setStartTime} from "../features/quizData/quizSlice";
+import {useSelector} from "react-redux";
+import {RootState} from "../features/store";
 
 
 type QuizModeParams = {
@@ -20,13 +22,16 @@ const QuizLoadingPage = () => {
     const [showTimer, setShowTimer] = useState(false);
     let interval: any;
 
+    const authSlice = useSelector((state: RootState) => state.authSlice);
+
     // @ts-ignore
-    const {data: pitches, isLoading: arePitchesLoading, isError: arePitchesError} = useGetPitchesByQuizIdQuery(quizId);
+    const {data: pitches, refetch: refetchQuizPitches, isLoading: arePitchesLoading, isError: arePitchesError} = useGetPitchesByQuizIdQuery(quizId);
     const [ createQuizAttemptMutation,{data, isLoading: isCreateQALoading, isError: isCreateQAError}] = useCreateQuizAttemptMutation();
 
     useEffect(()=>{
-        const result = createQuizAttemptMutation({userId: 7, quizId: quizId}).unwrap().then(fulfilled => console.log(fulfilled)).catch(rejected => console.error(rejected));
-    }, [createQuizAttemptMutation, quizId])
+        refetchQuizPitches();
+        const result = createQuizAttemptMutation({userId: authSlice.uid, quizId: quizId}).unwrap().then(fulfilled => console.log(fulfilled)).catch(rejected => console.error(rejected));
+    }, [createQuizAttemptMutation, quizId, refetchQuizPitches])
 
     useEffect(()=>{
         if (arePitchesLoading || arePitchesError) {
@@ -40,10 +45,11 @@ const QuizLoadingPage = () => {
         interval = setInterval(decreaseTimerAndRedirect, 1000);
         setShowTimer(true);
 
+        return () => clearInterval(interval);
     }, [arePitchesLoading, arePitchesError, isCreateQAError, isCreateQALoading]);
 
     useEffect(()=>{
-        if (timer === 0) {
+        if (timer === 0 && pitches) {
             dispatch(setStartTime());
             clearInterval(interval);
             navigate(`/quiz/${quizId}`);

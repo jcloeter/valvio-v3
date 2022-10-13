@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import ResponsiveAppBar from "./components/layout/ResponsiveAppBar";
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import PrimaryCard from './components/layout/PrimaryCard';
 import Quizzes from "./pages/Quizzes";
 import QuizMode from "./pages/QuizMode";
@@ -10,9 +10,55 @@ import CompletedQuizSummaryPage from "./pages/CompletedQuizSummaryPage";
 import QuizAttemptHistoryPage from "./pages/QuizAttemptHistoryPage";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {User} from "./models/User";
+import authActions, {initialAuthState} from "./features/authData/authSlice";
+import {useAppDispatch} from "./features/hooks";
 
 
 function App() {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user)=>{
+        const idToken = await user?.getIdToken();
+
+        if (user){
+            console.log("Firebase says you are logged in from App.tsx")
+            const authUser : User = {
+                isAuthenticated: true,
+                displayName: user.displayName,
+                email: user.email,
+                emailVerified: user.emailVerified,
+                isAnonymous: user.isAnonymous,
+                phoneNumber: user.phoneNumber,
+                photoUrl: user.photoURL,
+                providerId: user.providerId,
+                refreshToken: user.refreshToken,
+                tenantId: user.tenantId,
+                uid: user.uid,
+                creationTime: null,
+                lastSignInTime: null,
+                idToken: idToken,
+            };
+            dispatch(authActions.login(authUser));
+
+            //Handle this logic with router next
+            if (window.location.pathname == "/login"){
+                navigate('/');
+            }
+        }
+
+        if (!user) {
+            //Todo: invalidate all caches on logout
+            dispatch(authActions.logout(initialAuthState));
+            if (window.location.pathname !== "/login"){
+                // dispatch(authActions.logout(initialAuthState));
+                navigate('/login');
+            }
+        }
+    })
 
     return (
     <div className="App">
