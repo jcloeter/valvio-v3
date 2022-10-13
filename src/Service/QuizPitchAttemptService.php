@@ -43,4 +43,16 @@ class QuizPitchAttemptService
         $this->quizPitchAttemptRepository->add($quizPitchAttempt, true);
         return $quizPitchAttempt;
     }
+
+    public function createQuizPitchAttemptsFromArray($parameters)
+    {
+        return array_map(function($bodyObj){
+            $userInput = $bodyObj["userInput"];
+            $isCorrect = $bodyObj["isCorrect"];
+            $quizPitchId = $bodyObj["quizPitchId"];
+            $quizAttemptId = $bodyObj["quizAttemptId"];
+
+            return $this->createQuizPitchAttempt($userInput, $isCorrect, $quizPitchId, $quizAttemptId);
+        }, $parameters);
+    }
 }
