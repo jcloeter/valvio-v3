@@ -13,22 +13,35 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user', methods: ['POST'])]
-    public function create(UserService $userService): JSONResponse
+    //Body = {
+        // firebaseUid
+        // displayName
+        // email
+        // isAnonymous
+        //}
+    public function create(UserService $userService, Request $request): JSONResponse
     {
-        //TODO: logic for anon/temporary vs real user. Add indicator in database too
-        $user = $userService->createAnonymousUser();
+        $parameters = json_decode($request->getContent(), true);
+        $content = $request->getContent();
+        $displayName = $parameters["displayName"];
+        $isAnonymous = $parameters["isAnonymous"];
+        $firebaseUid = $parameters["firebaseUid"];
+        $email = $parameters["email"];
+
+        $user = $userService->createUser($displayName, $isAnonymous, $firebaseUid, $email);
 
         return new JsonResponse([
-            "firstName" => $user->getFirstName(),
-            "lastName" => $user->getLastName(),
-            "userId" => $user->getId(),
-            "isTemporary" => $user->isIsTemporary(),
+            "success" => true,
+            "id" => $user->getId(),
+            "displayName" => $user->getDisplayName(),
+            "email" => $user->getEmail(),
+            "isAnonymous" => $user->isIsAnonymous(),
             "createdAt" => $user->getCreatedAt(),
         ]);
     }
 
     #[Route('/user/{userId}/quizAttempt', methods: ['GET'])]
-    public function readQuizAttemptCollectionByUser(int $userId, Request $request, UserService $userService, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
+    public function readQuizAttemptCollectionByUser(string $userId, Request $request, UserService $userService, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
     {
         $quizAttempts = $userService->findAllQuizAttemptsForUser($userId);
 
@@ -40,7 +53,7 @@ class UserController extends AbstractController
     #[Route('/user/{userId}/quizAttempt', methods: ['POST'])]
     //Requires query parameter: /user/5/quizAttempt?quizId=7
     //Pitches will be returned using /quizzes/id/pitches
-    public function createQuizAttempt(int $userId, Request $request, UserService $userService, PitchService $pitchService): JsonResponse
+    public function createQuizAttempt(string $userId, Request $request, UserService $userService, PitchService $pitchService): JsonResponse
     {
         $quizId = $request->query->get('quizId');
         $quizAttempt = $userService->createQuizAttempt($userId, $quizId);
@@ -78,16 +91,10 @@ class UserController extends AbstractController
         //      quizId: int
         //     quizAttemptId: int
         //}
-    public function createQuizPitchAttempt(int $userId, Request $request, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
+    public function createQuizPitchAttempts(string $userId, Request $request, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
     {
-        //TODO: hold up, how is this attempt being linked the the quizAttempt?
         $parameters = json_decode($request->getContent(), true);
-        $userInput = $parameters["userInput"];
-        $isCorrect = $parameters["isCorrect"];
-        $quizPitchId = $parameters["quizPitchId"];
-        $quizAttemptId = $parameters["quizAttemptId"];
-
-        $quizPitchAttempt = $quizPitchAttemptService->createQuizPitchAttempt($userInput, $isCorrect, $quizPitchId, $quizAttemptId);
+        $quizPitchAttempt = $quizPitchAttemptService->createQuizPitchAttemptsFromArray($parameters);
 
         return $this->json([
             'success' => true,

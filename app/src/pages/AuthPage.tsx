@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyledFirebaseAuth} from "react-firebaseui";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -12,6 +12,7 @@ import {onAuthStateChanged, getAuth} from 'firebase/auth';
 import {User} from "../models/User";
 import {User as firebaseUser} from 'firebase/auth';
 import {useLocation} from "react-router";
+import {useCreateUserMutation} from "../features/quizData/quiz-api";
 // import auth = firebase.auth;
 // import Auth = firebase.auth.Auth;
 
@@ -34,72 +35,30 @@ const AuthPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [createUser, {data, error, isError: isCreateUserError, isLoading: isCreateUserLoading}] = useCreateUserMutation();
+
     const uiConfig = {
         signInFlow: 'popup',
         signInSuccessUrl: '/',
         callbacks: {
             signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential, redirectUrl: string) => {
-                //After successful sign in:
-                // if user is new
-                    // save the uid and user info in the database
-                // if the user is not new
-                    //
-                // Save the token in localstorage
-                // Update the authSlice using dispatch(login(authResult));
-
-
-                //When client makes a request:
-                // retrieve firebase tokenId from localstorage and attach to api-slice
-                // retrieve accessToken from localstorage and attach to api-slice
-                    // this ensures that ONLY user with the proper id may modify their own data
-                // pass all routes through a preliminary controller
-                // send a request to firebase for valid auth token
-                // send a request to firebase to validate that the uid matches the access token
-                // if the token is valid, proceed with request
-
-
-                //When a user refreshes:
-                // Check for a token in localstorage
-                // Make a request to firebase to validate the token?
-                // if the token is good, fill the auth slice with the returned data from firebase
-
-
-                //When a user signs out:
-                // delete token from localStorage
-                // dispatch(logout) to clear data from redux
-                // Then do I need to 'tell' firebase that the user is logged out?
-                // Do I need to 'tell' the backend that a user has been logged out?
-                // Then what about the access token- will that still be valid?
-                // Call signout(auth) from firebase
-
-
-                //Notes from Kyle:
-                //localStorage probably not necessary, there is auth happening behind the scenes
-                // accessToken vs idToken- find out how to validate on backend
-
-
-                // firebase.auth().currentUser?.getIdToken(true).then((idToken: string)=>{
-                //     console.log("Your id token is:");
-                //     console.log(idToken);
-                // })
-
-                console.log(authResult)
-                // if (authResult.user){
-                //     if (authResult.additionalUserInfo?.isNewUser){
-                //         console.log("WE HAVE A NEW USER!!!");
-                //     } else {
-                //         console.log("Welcome back, existing user");
-                //
-                //     }
-                //     console.log(authResult.credential)
-                //     console.log(authResult.user?.uid)
-                //     localStorage.setItem("uid", authResult.user?.uid);
-                // }
-                // navigate(redirectUrl);
-
 
                 if (authResult.additionalUserInfo?.isNewUser){
                     console.log("CREATING USER IN BACKEND HERE!!!");
+                    const user = authResult.user;
+                    const body = {
+                        email: user?.email,
+                        isAnonymous: user?.isAnonymous,
+                        displayName: user?.displayName,
+                        firebaseUid: user?.uid,
+                    }
+
+                    console.log(body);
+                   createUser(body);
+                   // if (!isCreateUserLoading || !isCreateUserError) {
+                   //     console.log("successfully created your use ")
+                   //     navigate('/profile');
+                   // }
                 }
 
                 return false;
@@ -112,58 +71,76 @@ const AuthPage = () => {
         ],
     };
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (async (user ) => {
-        console.log("onAuthStateChanged");
-        console.log(user);
+    // onAuthStateChanged(auth, (async (user ) => {
+    //     // console.log("onAuthStateChanged");
+    //     // console.log(user);
+    //
+    //     // const idToken = await user?.getIdToken();
+    //     //
+    //     // if (user){
+    //     //     const authUser : User = {
+    //     //         isAuthenticated: true,
+    //     //         displayName: user.displayName,
+    //     //         email: user.email,
+    //     //         emailVerified: user.emailVerified,
+    //     //         isAnonymous: user.isAnonymous,
+    //     //         phoneNumber: user.phoneNumber,
+    //     //         photoUrl: user.photoURL,
+    //     //         providerId: user.providerId,
+    //     //         refreshToken: user.refreshToken,
+    //     //         tenantId: user.tenantId,
+    //     //         uid: user.uid,
+    //     //         creationTime: null,
+    //     //         lastSignInTime: null,
+    //     //         idToken: idToken,
+    //     //     };
+    //     //
+    //     //     dispatch(authActions.login(authUser));
+    //     //     navigate('/profile');
+    //     // }
+    //     //
+    //     // if (!user) {
+    //     //     console.log(location.pathname);
+    //     //     console.log(window.location.pathname);
+    //     //     if (window.location.pathname !== "/login"){
+    //     //         navigate('/login');
+    //     //     }
+    //     // }
+    //
+    //     // firebase.auth().currentUser?.getIdToken(true).then((idToken: string)=>{
+    //     //     console.log("Your id token is:");
+    //     //     console.log(idToken);
+    //     // })
+    //
+    //
+    //     if (!user) {
+    //         console.log("there us no current user signed in- resetting redux store now to reflect that");
+    //         // dispatch(authActions.logout(initialAuthState))
+    //     }
+    // }))
 
-        const idToken = await user?.getIdToken();
+    //If there !isError or !isLoading AND there is data then you should navigate away
+    //But what if login went smoothly with an old account???
 
-        if (user){
-            const authUser : User = {
-                isAuthenticated: true,
-                displayName: user.displayName,
-                email: user.email,
-                emailVerified: user.emailVerified,
-                isAnonymous: user.isAnonymous,
-                phoneNumber: user.phoneNumber,
-                photoUrl: user.photoURL,
-                providerId: user.providerId,
-                refreshToken: user.refreshToken,
-                tenantId: user.tenantId,
-                uid: user.uid,
-                creationTime: null,
-                lastSignInTime: null,
-                idToken: idToken,
-            };
 
-            dispatch(authActions.login(authUser));
-            navigate('/profile');
+    //This is always returning null despite what App.tsx is saying- weird...
+    // const auth = getAuth();
+    // console.log(auth);
+    // const user = auth.currentUser;
+    //
+    // if (user?.uid) {
+    //     console.log(user)
+    //     navigate('/')
+    // } else {
+    //     console.log(user?.uid)
+    // }
+
+    useEffect(()=>{
+        if (data && !isCreateUserLoading && !isCreateUserError){
+            navigate('/')
         }
+    },[data, isCreateUserError, isCreateUserLoading])
 
-        if (!user) {
-            console.log(location.pathname);
-            console.log(window.location.pathname);
-            if (window.location.pathname !== "/login"){
-                navigate('/login');
-            }
-        }
-
-        //Start here next: When a user refreshes the page on any page other than the /login page, their credentials are lost from redux
-        //What needs to happen is that we trigger the lookup somehow no matter what page we are on, retrieve them, and reinit the redux state
-
-        // firebase.auth().currentUser?.getIdToken(true).then((idToken: string)=>{
-        //     console.log("Your id token is:");
-        //     console.log(idToken);
-        // })
-
-        user?.getIdToken();
-
-        if (!user) {
-            console.log("there us no current user signed in- resetting redux store now to reflect that");
-            // dispatch(authActions.logout(initialAuthState))
-        }
-    }))
 
     return (
         <PrimaryCard>
@@ -171,8 +148,36 @@ const AuthPage = () => {
             <p>Please sign-in to save scores:</p>
             <br/>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            {isCreateUserLoading && "Creating User ..."}
+            {isCreateUserError && "There was an error syncing your acount with our servers. Please try again."}
         </PrimaryCard>
     );
 };
 
 export default AuthPage;
+
+
+//When a user refreshes:
+// Check for a token in localstorage
+// Make a request to firebase to validate the token?
+// if the token is good, fill the auth slice with the returned data from firebase
+
+
+//When a user signs out:
+// delete token from localStorage
+// dispatch(logout) to clear data from redux
+// Then do I need to 'tell' firebase that the user is logged out?
+// Do I need to 'tell' the backend that a user has been logged out?
+// Then what about the access token- will that still be valid?
+// Call signout(auth) from firebase
+
+
+//Notes from Kyle:
+//localStorage probably not necessary, there is auth happening behind the scenes
+// accessToken vs idToken- find out how to validate on backend
+
+
+// firebase.auth().currentUser?.getIdToken(true).then((idToken: string)=>{
+//     console.log("Your id token is:");
+//     console.log(idToken);
+// })

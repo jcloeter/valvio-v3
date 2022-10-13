@@ -6,11 +6,18 @@ import {RootState} from "../features/store";
 import {QuizAttempt} from "../models/QuizAttempt";
 import QuizSlice from "../features/quizData/quizSlice";
 import {useNavigate} from "react-router-dom";
+import {QuizPitchAttemptDto} from "../models/QuizPitchAttemptDto";
 
 
 const QuizMode = () => {
     const navigate = useNavigate();
     const quizStatus = useSelector<RootState>((state) => state.quizAttemptSlice.quizStatus);
+
+    // const quizPitchAttemptArray : QuizPitchAttemptDto[] = [];
+    //
+    // const registerQuizAttempt = (quizAttempt: QuizPitchAttemptDto) => {
+    //     quizPitchAttemptArray.push(quizAttempt);
+    // }
 
     //Todo: Fix all this so it can redirect if there is an error:
 

@@ -12,21 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+//    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?string $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -34,39 +25,28 @@ class User
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: QuizAttempt::class, orphanRemoval: true)]
     private Collection $quizAttempts;
 
-    #[ORM\Column]
-    private ?bool $isTemporary = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $displayName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isAnonymous = null;
+
+//    #[ORM\Column(length: 255, nullable: true)]
+//    private ?string $firebaseUid = null;
 
     public function __construct()
     {
         $this->quizAttempts = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function setId(?string $id): self
     {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
+        $this->id = $id;
 
         return $this;
     }
@@ -76,21 +56,9 @@ class User
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
 
         return $this;
     }
@@ -137,15 +105,39 @@ class User
         return $this;
     }
 
-    public function isIsTemporary(): ?bool
+    public function getDisplayName(): ?string
     {
-        return $this->isTemporary;
+        return $this->displayName;
     }
 
-    public function setIsTemporary(bool $isTemporary): self
+    public function setDisplayName(?string $displayName): self
     {
-        $this->isTemporary = $isTemporary;
+        $this->displayName = $displayName;
 
         return $this;
     }
+
+    public function isIsAnonymous(): ?bool
+    {
+        return $this->isAnonymous;
+    }
+
+    public function setIsAnonymous(?bool $isAnonymous): self
+    {
+        $this->isAnonymous = $isAnonymous;
+
+        return $this;
+    }
+
+//    public function getFirebaseUid(): ?string
+//    {
+//        return $this->firebaseUid;
+//    }
+//
+//    public function setFirebaseUid(?string $firebaseUid): self
+//    {
+//        $this->firebaseUid = $firebaseUid;
+//
+//        return $this;
+//    }
 }

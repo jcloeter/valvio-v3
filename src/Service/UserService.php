@@ -9,6 +9,7 @@ use App\Repository\QuizRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class UserService
@@ -26,22 +27,21 @@ class UserService
         $this->quizRepository = $quizRepository;
     }
 
-    public function createAnonymousUser(): User
+    public function createUser(?string $displayName, $isAnonymous, ?string $firebaseUid, ?string $email): User
     {
         $user = new User();
-        $user->setFirstName("anon_first");
-        $user->setLastName("anon_last");
-        $user->setEmail("anon@email.com");
-        $user->setPassword("test123");
+        $user->setId($firebaseUid);
+        $user->setEmail($email);
         $user->setCreatedAt(new \DateTimeImmutable("now"));
-        $user->setIsTemporary(true);
+        $user->setDisplayName($displayName);
+        $user->setIsAnonymous($isAnonymous);
 
         $this->userRepository->add($user, true);
 
         return $user;
     }
 
-    public function createQuizAttempt(int $userId, int $quizId): QuizAttempt
+    public function createQuizAttempt(string $userId, int $quizId): QuizAttempt
     {
         $user = $this->userRepository->find($userId);
 
@@ -82,7 +82,7 @@ class UserService
 
 
 
-    public function findAllQuizAttemptsForUser($userId)
+    public function findAllQuizAttemptsForUser(string $userId)
     {
         $user = $this->userRepository->find($userId);
         if (!$user)
