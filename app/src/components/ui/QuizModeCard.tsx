@@ -13,6 +13,7 @@ import {useCreateQuizPitchAttemptMutation} from "../../features/quizData/quiz-ap
 import {useNavigate} from "react-router-dom";
 import {createImageUrlFromPitchId} from "../../helper/createImageUrlFromPitchId";
 import {TrumpetValves} from "../../models/TrumpetValves";
+import {QuizPitchAttemptDto} from "../../models/QuizPitchAttemptDto";
 
 
 const QuizModeCard = () => {
@@ -20,15 +21,23 @@ const QuizModeCard = () => {
     const dispatch = useAppDispatch();
     const [userInput, setUserInput] = useState("0");
     const [resetValves, setResetValves] = useState(false);
+    const authSlice = useSelector((state: RootState) => state.authSlice);
 
-    const [createQuizPitchAttemptMutation, {data, isLoading, isError}] = useCreateQuizPitchAttemptMutation();
+
 
     const currentPitchIndex = useSelector<RootState, number>((state) => state.quizAttemptSlice.currentPitchIndex);
     const pitchesObject = useSelector<RootState, PitchesObject[]>((state) => state.quizAttemptSlice.extendedPitches);
+    const quizAttemptId = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.quizAttemptId);
+
+    if (!pitchesObject[currentPitchIndex]){
+        console.log(pitchesObject)
+        console.log(currentPitchIndex)
+        return <h1>There was an error starting your quiz. Go back to the homepage and try again.</h1>
+    }
+
     const currentPitchObject: Pitch = pitchesObject[currentPitchIndex]['originalPitch'];
     const currentTranspositionPitchObject: Pitch | null = pitchesObject[currentPitchIndex]['transposedAnswer'];
     const currentPitchAnswer = currentTranspositionPitchObject ? currentTranspositionPitchObject.position : pitchesObject[currentPitchIndex].originalPitch.position;
-    const quizAttemptId = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.quizAttemptId);
 
     // const handler = useCallback((event: KeyboardEvent)=>{
     //     if (event.key === "a"){
@@ -57,29 +66,38 @@ const QuizModeCard = () => {
     const handleSubmitButton = () => {
         let isUserCorrect = (currentPitchAnswer == userInput);
 
-        console.log("Your answer: " , userInput);
-        console.log("Are you correct? ", isUserCorrect);
-        console.log("The correct answer is ", currentPitchAnswer);
 
-        const body = {
+        //For each question, start appending the data onto a body object
+        // const body = {
+        //     isCorrect: isUserCorrect,
+        //     userInput: userInput,
+        //     quizPitchId: pitchesObject[currentPitchIndex].quizPitchId,
+        //     quizAttemptId: quizAttemptId,
+        // };
+        // createQuizPitchAttemptMutation({userId: authSlice.uid, body});
+
+
+        const quizPitchAttempt: QuizPitchAttemptDto = {
             isCorrect: isUserCorrect,
             userInput: userInput,
             quizPitchId: pitchesObject[currentPitchIndex].quizPitchId,
             quizAttemptId: quizAttemptId,
-        };
-        createQuizPitchAttemptMutation({userId: 7, body});
+        }
+
+        // props.registerQuizAttempt(quizPitchAttempt)
+
 
         setResetValves(true);
 
         if (isUserCorrect){
-            dispatch(submitCorrectAnswer());
+            dispatch(submitCorrectAnswer(quizPitchAttempt));
 
             if (currentPitchIndex+1 >= pitchesObject.length) {
                 dispatch(endCompletedQuiz());
                 navigate('/completed-quiz-summary');
             }
         } else {
-            dispatch(submitWrongAnswer());
+            dispatch(submitWrongAnswer(quizPitchAttempt));
         }
 
     }

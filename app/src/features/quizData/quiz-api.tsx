@@ -13,7 +13,7 @@ export const quizApi = createApi({
             query: (quizId: number) => `/quizzes/${quizId}/pitches`
         }),
         getQuizAttemptCollectionByUser: builder.query({
-            query: (userId: number) => `/user/${userId}/quizAttempt`,
+            query: (userId: string) => `/user/${userId}/quizAttempt`,
         }),
         createQuizAttempt: builder.mutation({
             query: ({userId, quizId}) => ({
@@ -31,15 +31,27 @@ export const quizApi = createApi({
             query: ({userId, body}) => ({
                 url: `/user/${userId}/quizPitchAttempt`,
                 method: 'POST',
-                body: JSON.stringify({
-                    isCorrect: body.isCorrect,
-                    userInput: body.userInput,
-                    quizPitchId: body.quizPitchId,
-                    quizAttemptId: body.quizAttemptId
-                })
+                body: body,
+                // body: JSON.stringify({
+                //     isCorrect: body.isCorrect,
+                //     userInput: body.userInput,
+                //     quizPitchId: body.quizPitchId,
+                //     quizAttemptId: body.quizAttemptId
+                // })
             })
         }),
-
+        createUser: builder.mutation({
+            query: (body) => ({
+                url: `/user`,
+                method: 'POST',
+                body: JSON.stringify({
+                    firebaseUid: body.firebaseUid,
+                    isAnonymous: body.isAnonymous,
+                    email: body.email,
+                    displayName: body.displayName,
+                })
+            })
+        })
     })
 });
 
@@ -50,4 +62,5 @@ export const {
     useCreateQuizPitchAttemptMutation,
     useGetQuizAttemptCollectionByUserQuery,
     usePatchQuizAttemptMutation,
+    useCreateUserMutation,
 } = quizApi;

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../features/hooks";
 import {endCompletedQuiz, resetQuizData} from "../features/quizData/quizSlice";
-import {usePatchQuizAttemptMutation} from "../features/quizData/quiz-api";
+import {useCreateQuizPitchAttemptMutation, usePatchQuizAttemptMutation} from "../features/quizData/quiz-api";
 import {useSelector} from "react-redux";
 import {RootState} from "../features/store";
 import Button from "@mui/material/Button";
@@ -10,18 +10,23 @@ import GradingIcon from "@mui/icons-material/Grading";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
 import {LinearProgress} from "@mui/material";
+import {QuizPitchAttemptDto} from "../models/QuizPitchAttemptDto";
 
 
 const CompletedQuizSummaryPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    const [createQuizPitchAttemptMutation, {data: createQuizPitchAttemptData, isLoading: quizPitchAttemptIsLoading, isError: quizPitchAttemptIsError}] = useCreateQuizPitchAttemptMutation();
     const [patchQuizAttemptMutation, {data, isError, isLoading}] = usePatchQuizAttemptMutation();
 
     const quizAttemptId = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.quizAttemptId);
     const startTime = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.startTime);
     const endTime = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.endTime);
+    const quizPitchAttemptArr = useSelector<RootState, QuizPitchAttemptDto[]>((state) => state.quizAttemptSlice.quizPitchAttempts);
     const quizSlice = useAppSelector(state => state.quizAttemptSlice);
     const currentPitchIndex = useSelector<RootState, number>((state) => state.quizAttemptSlice.currentPitchIndex);
+    const authSlice = useSelector((state: RootState) => state.authSlice);
 
 
     let completedIn: number | null;
@@ -30,8 +35,14 @@ const CompletedQuizSummaryPage = () => {
     }
 
     useEffect(()=>{
+        //Submit all answers:
+
+        //Start here next time: Make sure that you are sending the correct data so that the API can accept it
+        createQuizPitchAttemptMutation(quizPitchAttemptArr);
+
+        //Mark quiz as complete:
         patchQuizAttemptMutation({
-            userId: 7,
+            userId: authSlice.uid,
             quizAttemptId,
             completedIn
         });

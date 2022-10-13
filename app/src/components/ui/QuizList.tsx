@@ -5,11 +5,19 @@ import {converQuizAttemptsToHighScores} from "../../helper/convertQuizAttemptsTo
 import {Quiz} from "../../models/Quiz";
 import {QuizAttempt} from "../../models/QuizAttempt";
 import VCircularProgress from "../accessories/VCircularProgress";
+import {RootState} from "../../features/store";
+import {useSelector} from "react-redux";
 
 
 const QuizList = () => {
+    const authSlice = useSelector((state: RootState) => state.authSlice);
     const {data: quizzesObj, isLoading, isError, error} = useGetQuizzesQuery({});
-    const {data: quizAttempts, isLoading: isQuizAttemptsLoading, isError: isQuizAttemptsError} = useGetQuizAttemptCollectionByUserQuery(7);
+    // @ts-ignore
+    const {data: quizAttempts, refetch: refetchQuizAttempts, isLoading: isQuizAttemptsLoading, isError: isQuizAttemptsError} = useGetQuizAttemptCollectionByUserQuery(authSlice.uid);
+
+    useEffect(()=>{
+        refetchQuizAttempts();
+    }, [refetchQuizAttempts]);
 
     if (isError || isQuizAttemptsError) {
         return <h2>error</h2>

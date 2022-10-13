@@ -1,9 +1,10 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {quizApi} from "./quiz-api";
 import {Pitch} from "../../models/Pitch";
 import {randomizeAndExtendPitchArray} from "../../helper/randomizeAndExtendPitchArray";
 import {convertPitchInstrumentIdToImageId} from "../../components/ui/convertPitchInstrumentIdToImageId";
 import {PitchesObject} from "../../models/PitchesObject";
+import {QuizPitchAttemptDto} from "../../models/QuizPitchAttemptDto";
 
 
 interface QuizSlice {
@@ -14,6 +15,7 @@ interface QuizSlice {
     incorrectPitchAttempts: number,
     uniquePitches: PitchesObject[],
     extendedPitches: PitchesObject[],
+    quizPitchAttempts: QuizPitchAttemptDto[],
     isTransposition: boolean,
     transpositionInterval: number,
     transpositionDescription: string | null,
@@ -36,6 +38,7 @@ const initialState: QuizSlice= {
     incorrectPitchAttempts: 0,
     uniquePitches: [],
     extendedPitches: [],
+    quizPitchAttempts: [],
     isTransposition: false,
     transpositionInterval: 0,
     transpositionDescription: null,
@@ -54,14 +57,16 @@ export const quizSlice = createSlice({
     name: "current-quiz-slice",
     initialState : initialState,
     reducers: {
-        submitWrongAnswer: (state)=>{
+        submitWrongAnswer: (state, action: PayloadAction<QuizPitchAttemptDto>)=>{
+            state.quizPitchAttempts.push(action.payload);
             state.incorrectPitchAttempts += 1;
             state.isUserCorrect = false;
             if (state.quizLength){
                 state.currentScore = (100/state.quizLength)*state.correctPitchAttempts - (state.incorrectPitchAttempts *(100/state.quizLength) * .75)
             }
         },
-        submitCorrectAnswer: (state)=>{
+        submitCorrectAnswer: (state, action: PayloadAction<QuizPitchAttemptDto>)=>{
+            state.quizPitchAttempts.push(action.payload);
             state.correctPitchAttempts += 1;
             state.currentPitchIndex += 1;
             state.isUserCorrect = true;
@@ -78,7 +83,6 @@ export const quizSlice = createSlice({
             state.endTime = Date.now();
         },
         resetQuizData: (state) => {
-            // state = initialState;
             state.quizId= null;
             state.userid= null;
             state.currentScore= 0;
