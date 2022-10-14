@@ -15,11 +15,23 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {Link, NavLink} from 'react-router-dom';
 import {useAppDispatch} from "../../features/hooks";
 import authActions, {initialAuthState} from '../../features/authData/authSlice'
+import {useSelector} from "react-redux";
+import {RootState} from "../../features/store";
+import {useEffect} from "react";
 
 const pages = [''];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+    const authSlice = useSelector((state: RootState)=>state.authSlice);
+
+    let photoUrl;
+    if (authSlice.photoUrl){
+        console.log("Photo exists")
+        console.log(authSlice.photoUrl)
+        photoUrl = authSlice.photoUrl;
+    }
+    
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const dispatch = useAppDispatch();
@@ -135,52 +147,56 @@ const ResponsiveAppBar = () => {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {/*{settings.map((setting) => (*/}
-                            {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
-                            {/*        <Typography textAlign="center">{setting}</Typography>*/}
-                            {/*    </MenuItem>*/}
-                            {/*))}*/}
+                        {authSlice.isAuthenticated &&
+                            <>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt="user_avatar" src={authSlice.photoUrl || ''}/>
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {/*{settings.map((setting) => (*/}
+                                    {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
+                                    {/*        <Typography textAlign="center">{setting}</Typography>*/}
+                                    {/*    </MenuItem>*/}
+                                    {/*))}*/}
 
-                            <MenuItem key={0} >
-                                <Link to="/profile" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <Typography textAlign="center" >Profile</Typography>
-                                </Link>
-                            </MenuItem>
+                                    <MenuItem key={0} >
+                                        <Link to="/profile" style={{textDecoration: 'none', color: 'inherit'}}>
+                                            <Typography textAlign="center" >Profile</Typography>
+                                        </Link>
+                                    </MenuItem>
 
-                            <MenuItem key={1} >
-                                <Link to="/dashboard" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <Typography textAlign="center" >Dashboard</Typography>
-                                </Link>
-                            </MenuItem>
+                                    <MenuItem key={1} >
+                                        <Link to="/dashboard" style={{textDecoration: 'none', color: 'inherit'}}>
+                                            <Typography textAlign="center" >Dashboard</Typography>
+                                        </Link>
+                                    </MenuItem>
 
-                            <MenuItem key={2} onClick={()=>{dispatch(authActions.logout(initialAuthState))}}>
-                                <Link to="/login" style={{textDecoration: 'none', color: 'inherit'}}>
-                                    <Typography textAlign="center" >Logout</Typography>
-                                </Link>
-                            </MenuItem>
+                                    {/*<MenuItem key={2} onClick={()=>{dispatch(authActions.logout(initialAuthState))}}>*/}
+                                    {/*    <Link to="/login" style={{textDecoration: 'none', color: 'inherit'}}>*/}
+                                    {/*        <Typography textAlign="center" >Logout</Typography>*/}
+                                    {/*    </Link>*/}
+                                    {/*</MenuItem>*/}
 
-                        </Menu>
+                                </Menu>
+                            </>
+                        }
                     </Box>
                 </Toolbar>
             </Container>
