@@ -32,12 +32,6 @@ export const quizApi = createApi({
                 url: `/user/${userId}/quizPitchAttempt`,
                 method: 'POST',
                 body: body,
-                // body: JSON.stringify({
-                //     isCorrect: body.isCorrect,
-                //     userInput: body.userInput,
-                //     quizPitchId: body.quizPitchId,
-                //     quizAttemptId: body.quizAttemptId
-                // })
             })
         }),
         createUser: builder.mutation({
