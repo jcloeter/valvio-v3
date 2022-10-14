@@ -11,14 +11,29 @@ export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLengt
         return pitch;
     })
 
-    //Todo: Eliminate repeated notes!
     const reShuffledExpandedAndIdArray = shuffledExpandedAndIdArray.sort((a, b)=>0.5 - Math.random());
 
-    return reShuffledExpandedAndIdArray.slice(0, quizLength);
+    //Matt says: create empty array, then look ahead and if next one !== current, then add it to array
 
+    let nonRepeatedPitchesArray: PitchesObject[] = [];
+    reShuffledExpandedAndIdArray.map((pitch: PitchesObject, i, origArr)=>{
+        if (!origArr[i+1]) return false;
+        if (pitch.originalPitch.id !== origArr[i+1].originalPitch.id){
+            nonRepeatedPitchesArray.push(pitch);
+        }
+    });
+
+    console.log(nonRepeatedPitchesArray);
+
+    if (nonRepeatedPitchesArray.length < quizLength){
+        throw new Error("Malfunction in creating quiz from pitch objects! Quiz is too short");
+    }
+
+    return nonRepeatedPitchesArray.slice(0, quizLength);
 }
 
 const expandPitchArray = (array: PitchesObject[]): PitchesObject[] => {
+    array = array.concat(array);
     array = array.concat(array);
     array = array.concat(array);
     array = array.concat(array);
