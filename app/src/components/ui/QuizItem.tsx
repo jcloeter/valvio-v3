@@ -16,9 +16,38 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import MetricIcons from "./MetricIcons";
 import styles from "./Metricicons.module.css";
 import quizItemStyles from "./QuizItem.module.css";
+import {useGetQuizAttemptCollectionByUserQuery} from "../../features/quizData/quiz-api";
+import {useSelector} from "react-redux";
+import {RootState} from "../../features/store";
 
 const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttemptsLoading: boolean}>= (props) => {
     const [showDetails, setShowDetails] = useState(false);
+    const authSlice = useSelector((state: RootState) => state.authSlice);
+    // @ts-ignore
+    const {data: quizAttempts, refetch: refetchQuizAttempts} = useGetQuizAttemptCollectionByUserQuery(authSlice.uid);
+
+    const findCompletedQuizAttemptsForQuizId=()=>{
+        if (!quizAttempts) return [];
+        let quizAttemptsForCurrentQuiz = [];
+
+        quizAttemptsForCurrentQuiz = quizAttempts.quizAttempts.map((qa: any) =>{
+            if ((qa.quiz.id === props.quiz.id) && qa.completedAt){
+                return qa;
+            }
+        })
+
+        let filteredQuizAttempts = quizAttemptsForCurrentQuiz.filter((qa: any) => {
+            //Start here
+            if (qa?.id){
+                return true;
+            }
+            return false;
+        });
+
+        return filteredQuizAttempts.length;
+    }
+
+    const numberOfCompletedQuizAttemptsForQuiz = findCompletedQuizAttemptsForQuizId();
 
     const navigate = useNavigate();
 
@@ -96,7 +125,7 @@ const QuizItem: React.FC<{quiz: Quiz, highScores: QuizAttempt[], areQuizAttempts
                         </li>
                         <li className={styles["metric-icons-li"]}>
                             <RepeatIcon sx={{color : "gray", marginRight: "3px"}}/>
-                            <p style={{color: 'rgb(0, 0, 141)'}}>3</p>
+                            <p style={{color: 'rgb(0, 0, 141)'}}>{numberOfCompletedQuizAttemptsForQuiz}</p>
                         </li>
 
                     </ul>
