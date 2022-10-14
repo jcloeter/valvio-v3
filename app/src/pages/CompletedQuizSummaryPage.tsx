@@ -11,6 +11,8 @@ import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import AvTimerIcon from "@mui/icons-material/AvTimer";
 import {LinearProgress} from "@mui/material";
 import {QuizPitchAttemptDto} from "../models/QuizPitchAttemptDto";
+import IconAndTextWrapper from "./IconAndTextWrapper";
+import MetricIcons from "../components/ui/MetricIcons";
 
 
 const CompletedQuizSummaryPage = () => {
@@ -35,18 +37,19 @@ const CompletedQuizSummaryPage = () => {
     }
 
     useEffect(()=>{
-        //Submit all answers:
+        createQuizPitchAttemptMutation({userId: authSlice.uid, body: quizPitchAttemptArr});
+    }, []);
 
-        //Start here next time: Make sure that you are sending the correct data so that the API can accept it
-        createQuizPitchAttemptMutation(quizPitchAttemptArr);
+    useEffect(()=>{
+        if (createQuizPitchAttemptData && !quizPitchAttemptIsError && !quizPitchAttemptIsLoading){
+            patchQuizAttemptMutation({
+                userId: authSlice.uid,
+                quizAttemptId,
+                completedIn
+            });
+        }
 
-        //Mark quiz as complete:
-        patchQuizAttemptMutation({
-            userId: authSlice.uid,
-            quizAttemptId,
-            completedIn
-        });
-    }, [])
+    }, [createQuizPitchAttemptData, quizPitchAttemptIsError, quizPitchAttemptIsLoading])
 
     const navigateHome = () => {
         navigate('/');
@@ -54,7 +57,7 @@ const CompletedQuizSummaryPage = () => {
 
     let loadingContent;
     let errorContent;
-    if (isLoading) {
+    if (isLoading || quizPitchAttemptIsLoading) {
          loadingContent = "Sending Score to server- Don't leave this page just yet";
     }
     if (isError) {
@@ -69,20 +72,33 @@ const CompletedQuizSummaryPage = () => {
     return (
         <div>
             <h1>Congrats on Finishing</h1>
-
-            <div>
-                <GradingIcon sx={{color : "gray"}}/> {quizSlice.currentScore.toFixed(0)}%
+            <br/>
+            <div >
+                <IconAndTextWrapper>
+                    <>
+                        <GradingIcon sx={{color : "gray"}}/>
+                        <p>{quizSlice.currentScore.toFixed(0)}%</p>
+                    </>
+                </IconAndTextWrapper>
+                <IconAndTextWrapper>
+                    <>
+                        <MusicNoteIcon sx={{color : "gray"}}/>
+                        <p>Wrong Answers: {quizSlice.incorrectPitchAttempts}/{quizSlice.quizLength}</p>
+                    </>
+                </IconAndTextWrapper>
+                <IconAndTextWrapper>
+                    <>
+                        <AvTimerIcon sx={{color : "gray"}}/>
+                        <p>{speed}</p>
+                    </>
+                </IconAndTextWrapper>
             </div>
-            <div>
-                <MusicNoteIcon sx={{color : "gray"}}/> Wrong Answers: {quizSlice.incorrectPitchAttempts}/{quizSlice.quizLength}
-            </div>
-            <div>
-                <AvTimerIcon sx={{color : "gray"}}/> {speed}
-            </div>
+            <br/>
             {loadingContent}
             {errorContent}
-            {isLoading && <LinearProgress sx={{maxWidth: '80%'}}/>}
-            {!isLoading && <Button variant="contained" onClick = {navigateHome}>Back to Home</Button>}
+            {(isLoading || quizPitchAttemptIsLoading) && <LinearProgress sx={{maxWidth: '100%'}}/>}
+            <br/>
+            {(!isLoading && !quizPitchAttemptIsLoading) && <Button variant="contained" onClick = {navigateHome}>Back to Home</Button>}
         </div>
     );
 };
