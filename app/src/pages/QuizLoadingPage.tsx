@@ -5,9 +5,10 @@ import {useCreateQuizAttemptMutation, useGetPitchesByQuizIdQuery} from "../featu
 import {Box, CircularProgress, Fab} from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import {useAppDispatch} from "../features/hooks";
-import {setStartTime} from "../features/quizData/quizSlice";
+import {resetQuizData, setStartTime} from "../features/quizData/quizSlice";
 import {useSelector} from "react-redux";
 import {RootState} from "../features/store";
+import IconAndTextWrapper from "./IconAndTextWrapper";
 
 
 type QuizModeParams = {
@@ -27,6 +28,10 @@ const QuizLoadingPage = () => {
     // @ts-ignore
     const {data: pitches, refetch: refetchQuizPitches, isLoading: arePitchesLoading, isError: arePitchesError} = useGetPitchesByQuizIdQuery(quizId);
     const [ createQuizAttemptMutation,{data, isLoading: isCreateQALoading, isError: isCreateQAError}] = useCreateQuizAttemptMutation();
+
+    useEffect(()=>{
+        dispatch(resetQuizData());
+    }, [])
 
     useEffect(()=>{
         refetchQuizPitches();
@@ -67,36 +72,30 @@ const QuizLoadingPage = () => {
     return (
         <div>
             <Box sx={{ m: 1, position: 'relative' }}>
-                {arePitchesLoading ? (
-                    <CircularProgress
-                        size={18}
-                        sx={{
-                            color: "green",
-                            position: 'absolute',
-                            top: -6,
-                            left: -6,
-                            zIndex: 1,
-
-                        }}
-                    />
-                ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
-                <h3>Loading Pitches</h3>
+                <IconAndTextWrapper>
+                    <>
+                        {arePitchesLoading ? (
+                            <CircularProgress size={18} sx={{ color: "green",}}/>
+                        ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
+                        <h3>Loading Pitches</h3>
+                    </>
+                </IconAndTextWrapper>
             </Box>
 
             <Box sx={{ m: 1, position: 'relative' }}>
-                {isCreateQALoading ? (
-                    <CircularProgress
-                        size={18}
-                        sx={{
-                            color: "green",
-                            position: 'absolute',
-                            top: -6,
-                            left: -6,
-                            zIndex: 1,
-                        }}
-                    />
-                ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
-                <h3>Initializing QuizData</h3>
+                <IconAndTextWrapper>
+                    <>
+                        {isCreateQALoading ? (
+                            <CircularProgress
+                                size={18}
+                                sx={{
+                                    color: "green",
+                                }}
+                            />
+                        ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
+                        <h3>Initializing QuizData</h3>
+                    </>
+                </IconAndTextWrapper>
             </Box>
             {showTimer && (<div>Quiz Starting in <b>{timer}</b></div>)}
         </div>

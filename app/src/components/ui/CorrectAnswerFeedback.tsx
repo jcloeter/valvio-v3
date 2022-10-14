@@ -7,6 +7,7 @@ import {getAccidentalSignFromName} from "../../helper/getAccidentalSignFromName"
 import {createImageUrlFromPitchId} from "../../helper/createImageUrlFromPitchId";
 import PitchImageMetricsContainer from "../layout/PitchImageMetricsContainer";
 import styles from "../layout/PitchImageMetricsContainer.module.css";
+import IconAndTextWrapper from "../../pages/IconAndTextWrapper";
 
 const CorrectAnswerFeedback = () => {
     const quizSlice = useAppSelector(state => state.quizAttemptSlice);
@@ -17,7 +18,6 @@ const CorrectAnswerFeedback = () => {
 
 
     let message;
-    //Start HER wit css
 
     let pitchImage = <img className = {styles["pitch-image"]} style={{filter: 'grayscale(50%)'}} alt = "previous-pitch-image" src={createImageUrlFromPitchId(previousPitch.id)}/>;
     let transposedPitchImage;
@@ -41,8 +41,12 @@ const CorrectAnswerFeedback = () => {
                 </>
             </PitchImageMetricsContainer>
             {/*<br/>*/}
-            <CheckCircleOutlineIcon sx={{color: "green"}}/>
-            {message}
+            <IconAndTextWrapper>
+                <>
+                    <CheckCircleOutlineIcon sx={{color: "green"}}/>
+                    <p>{message}</p>
+                </>
+            </IconAndTextWrapper>
         </div>
     );
 };

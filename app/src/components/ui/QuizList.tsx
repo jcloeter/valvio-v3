@@ -20,13 +20,14 @@ const QuizList = () => {
     }, [refetchQuizAttempts]);
 
     if (isError || isQuizAttemptsError) {
-        return <h2>error</h2>
+        return <h2>There was an error. Refresh your page to try again.</h2>
     }
 
     if (isLoading){
         return (
             <>
                 <h3>Loading Quizzes</h3>
+                <br/>
                 <VCircularProgress/>
             </>
         );
@@ -37,6 +38,7 @@ const QuizList = () => {
     return (
         <div>
             <h3>Trumpet Quizzes</h3>
+            <br/>
             {quizzesObj?.quizzes.map((quiz: Quiz, index: number)=>{
                 if (quizAttempts?.quizAttempts){
                     highScores = converQuizAttemptsToHighScores(quizAttempts.quizAttempts);

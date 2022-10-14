@@ -55,7 +55,7 @@ const MetricsCard = () => {
                     </ul>
                 </MetricIcons>
                 <section>
-                    {feedback}
+                    <div style={{minHeight : "130px", backgroundColor: "white", borderRadius : "5px", display: "flex", justifyContent : "center", alignItems: "center"}}>{feedback}</div>
                 </section>
             </Container>
         </LightGreyCard>
