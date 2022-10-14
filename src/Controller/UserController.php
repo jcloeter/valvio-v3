@@ -91,7 +91,7 @@ class UserController extends AbstractController
         //      quizId: int
         //     quizAttemptId: int
         //}
-    public function createQuizPitchAttempts(string $userId, Request $request, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
+    public function createQuizPitchAttempts(Request $request, QuizPitchAttemptService $quizPitchAttemptService): JsonResponse
     {
         $parameters = json_decode($request->getContent(), true);
         $quizPitchAttempt = $quizPitchAttemptService->createQuizPitchAttemptsFromArray($parameters);
