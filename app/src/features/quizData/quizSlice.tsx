@@ -101,7 +101,8 @@ export const quizSlice = createSlice({
             state.quizAttemptId= null;
             state.quizName=  null;
             state.quizLevel= null;
-            state.isUserCorrect= true
+            state.isUserCorrect= true;
+            state.quizPitchAttempts = [];
         },
         endIncompleteQuiz: () =>{},
     },
