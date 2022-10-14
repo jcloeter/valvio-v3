@@ -31,7 +31,7 @@ const ResponsiveAppBar = () => {
         console.log(authSlice.photoUrl)
         photoUrl = authSlice.photoUrl;
     }
-    
+
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const dispatch = useAppDispatch();
