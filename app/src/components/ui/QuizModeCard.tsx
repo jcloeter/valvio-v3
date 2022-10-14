@@ -23,15 +23,11 @@ const QuizModeCard = () => {
     const [resetValves, setResetValves] = useState(false);
     const authSlice = useSelector((state: RootState) => state.authSlice);
 
-
-
     const currentPitchIndex = useSelector<RootState, number>((state) => state.quizAttemptSlice.currentPitchIndex);
     const pitchesObject = useSelector<RootState, PitchesObject[]>((state) => state.quizAttemptSlice.extendedPitches);
     const quizAttemptId = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.quizAttemptId);
 
     if (!pitchesObject[currentPitchIndex]){
-        console.log(pitchesObject)
-        console.log(currentPitchIndex)
         return <h1>There was an error starting your quiz. Go back to the homepage and try again.</h1>
     }
 
@@ -84,9 +80,6 @@ const QuizModeCard = () => {
             quizAttemptId: quizAttemptId,
         }
 
-        // props.registerQuizAttempt(quizPitchAttempt)
-
-
         setResetValves(true);
 
         if (isUserCorrect){
@@ -103,7 +96,6 @@ const QuizModeCard = () => {
     }
 
     const handleValvesWereReset=()=>{
-        console.log("handle Valves Were Reset!")
         setUserInput("0");
         setResetValves(false);
     }

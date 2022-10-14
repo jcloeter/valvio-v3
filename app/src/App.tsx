@@ -25,7 +25,6 @@ function App() {
         const idToken = await user?.getIdToken();
 
         if (user){
-            console.log("Firebase says you are logged in from App.tsx")
             const authUser : User = {
                 isAuthenticated: true,
                 displayName: user.displayName,

@@ -39,9 +39,6 @@ const TrumpetValveGroup: React.FC<{onUserInputChange: (newInput: string)=>void, 
     };
 
     useEffect(()=>{
-        console.log("useEffect running- first render or props.resetValves")
-        console.log(props.resetValves);
-
         if (props.resetValves){
             setValveState({
                 valve1 : false,
