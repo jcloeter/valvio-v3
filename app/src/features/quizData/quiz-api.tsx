@@ -7,7 +7,6 @@ export const quizApi = createApi({
     endpoints: (builder) => ({
         getQuizzes: builder.query({
             query: () => '/quizzes',
-            // transformResponse: (response: any) => {return [response.data]},
         }),
         getPitchesByQuizId: builder.query({
             query: (quizId: number) => `/quizzes/${quizId}/pitches`
