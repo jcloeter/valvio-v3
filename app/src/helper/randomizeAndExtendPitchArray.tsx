@@ -13,8 +13,6 @@ export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLengt
 
     const reShuffledExpandedAndIdArray = shuffledExpandedAndIdArray.sort((a, b)=>0.5 - Math.random());
 
-    //Matt says: create empty array, then look ahead and if next one !== current, then add it to array
-
     let nonRepeatedPitchesArray: PitchesObject[] = [];
     reShuffledExpandedAndIdArray.map((pitch: PitchesObject, i, origArr)=>{
         if (!origArr[i+1]) return false;
