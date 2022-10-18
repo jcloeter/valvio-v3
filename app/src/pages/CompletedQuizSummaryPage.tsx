@@ -31,10 +31,8 @@ const CompletedQuizSummaryPage = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
 
 
-    let completedIn: number | null;
-    if (startTime && endTime) {
-        completedIn = (endTime - startTime) / 1000;
-    }
+    // @ts-ignore
+    let completedIn: number | null = (endTime - startTime) / 1000;
 
     useEffect(()=>{
         createQuizPitchAttemptMutation({userId: authSlice.uid, body: quizPitchAttemptArr});
@@ -65,9 +63,7 @@ const CompletedQuizSummaryPage = () => {
     }
 
     let speed: string | number = "n/a";
-    if (currentPitchIndex >0 && quizSlice.startTime) {
-        speed = ((Date.now() - quizSlice.startTime)/(currentPitchIndex*1000)).toFixed(2)+'s/pitch';
-    }
+    speed = ((completedIn)/(currentPitchIndex+1)).toFixed(2)+'s/pitch';
 
     return (
         <div>
