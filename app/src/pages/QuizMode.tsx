@@ -1,13 +1,12 @@
-import React, {useEffect, useMemo} from 'react';
-import MetricsCard from "../components/ui/MetricsCard";
-import QuizModeCard from "../components/ui/QuizModeCard";
-import {useSelector} from "react-redux";
-import {RootState} from "../features/store";
-import {QuizAttempt} from "../models/QuizAttempt";
-import QuizSlice from "../features/quizData/quizSlice";
-import {useNavigate} from "react-router-dom";
-import {QuizPitchAttemptDto} from "../models/QuizPitchAttemptDto";
-
+import React, { useEffect, useMemo } from 'react';
+import MetricsCard from '../components/ui/MetricsCard';
+import QuizModeCard from '../components/ui/QuizModeCard';
+import { useSelector } from 'react-redux';
+import { RootState } from '../features/store';
+import { QuizAttempt } from '../models/QuizAttempt';
+import QuizSlice from '../features/quizData/quizSlice';
+import { useNavigate } from 'react-router-dom';
+import { QuizPitchAttemptDto } from '../models/QuizPitchAttemptDto';
 
 const QuizMode = () => {
     const navigate = useNavigate();
@@ -27,11 +26,10 @@ const QuizMode = () => {
     //     }
     // }, [quizStatus])
 
-
     return (
         <div>
-            <MetricsCard/>
-            <QuizModeCard/>
+            <MetricsCard />
+            <QuizModeCard />
         </div>
     );
 };

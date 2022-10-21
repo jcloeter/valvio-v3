@@ -1,4 +1,4 @@
-.icon-level-container{
+.icon-level-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -7,4 +7,3 @@
     max-width: 100%;
     margin-bottom: 10px;
 }
-

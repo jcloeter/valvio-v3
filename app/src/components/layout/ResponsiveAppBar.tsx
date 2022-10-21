@@ -12,23 +12,23 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link, NavLink} from 'react-router-dom';
-import {useAppDispatch} from "../../features/hooks";
-import authActions, {initialAuthState} from '../../features/authData/authSlice'
-import {useSelector} from "react-redux";
-import {RootState} from "../../features/store";
-import {useEffect} from "react";
+import { Link, NavLink } from 'react-router-dom';
+import { useAppDispatch } from '../../features/hooks';
+import authActions, { initialAuthState } from '../../features/authData/authSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../features/store';
+import { useEffect } from 'react';
 
 const pages = [''];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
-    const authSlice = useSelector((state: RootState)=>state.authSlice);
+    const authSlice = useSelector((state: RootState) => state.authSlice);
 
     let photoUrl;
-    if (authSlice.photoUrl){
-        console.log("Photo exists")
-        console.log(authSlice.photoUrl)
+    if (authSlice.photoUrl) {
+        console.log('Photo exists');
+        console.log(authSlice.photoUrl);
         photoUrl = authSlice.photoUrl;
     }
 
@@ -52,8 +52,8 @@ const ResponsiveAppBar = () => {
     };
 
     return (
-        <AppBar position="static" sx={{backgroundColor: 'rgb(100, 21, 255)'}}>
-            <Container maxWidth="md" >
+        <AppBar position="static" sx={{ backgroundColor: 'rgb(100, 21, 255)' }}>
+            <Container maxWidth="md">
                 <Toolbar disableGutters>
                     {/*DESKTOP MODE*/}
                     {/*<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />*/}
@@ -72,9 +72,10 @@ const ResponsiveAppBar = () => {
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
-
                     >
-                        <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>Valvio</Link>
+                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            Valvio
+                        </Link>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -112,7 +113,6 @@ const ResponsiveAppBar = () => {
                                 </MenuItem>
                             ))}
                         </Menu>
-
                     </Box>
                     {/*Mobile MODE*/}
                     {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
@@ -132,7 +132,9 @@ const ResponsiveAppBar = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>Valvio</Link>
+                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            Valvio
+                        </Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
@@ -147,11 +149,11 @@ const ResponsiveAppBar = () => {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        {authSlice.isAuthenticated &&
+                        {authSlice.isAuthenticated && (
                             <>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt="user_avatar" src={authSlice.photoUrl || ''}/>
+                                        <Avatar alt="user_avatar" src={authSlice.photoUrl || ''} />
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
@@ -176,15 +178,15 @@ const ResponsiveAppBar = () => {
                                     {/*    </MenuItem>*/}
                                     {/*))}*/}
 
-                                    <MenuItem key={0} >
-                                        <Link to="/profile" style={{textDecoration: 'none', color: 'inherit'}}>
-                                            <Typography textAlign="center" >Profile</Typography>
+                                    <MenuItem key={0}>
+                                        <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <Typography textAlign="center">Profile</Typography>
                                         </Link>
                                     </MenuItem>
 
-                                    <MenuItem key={1} >
-                                        <Link to="/dashboard" style={{textDecoration: 'none', color: 'inherit'}}>
-                                            <Typography textAlign="center" >Dashboard</Typography>
+                                    <MenuItem key={1}>
+                                        <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <Typography textAlign="center">Dashboard</Typography>
                                         </Link>
                                     </MenuItem>
 
@@ -193,10 +195,9 @@ const ResponsiveAppBar = () => {
                                     {/*        <Typography textAlign="center" >Logout</Typography>*/}
                                     {/*    </Link>*/}
                                     {/*</MenuItem>*/}
-
                                 </Menu>
                             </>
-                        }
+                        )}
                     </Box>
                 </Toolbar>
             </Container>
@@ -204,4 +205,3 @@ const ResponsiveAppBar = () => {
     );
 };
 export default ResponsiveAppBar;
-

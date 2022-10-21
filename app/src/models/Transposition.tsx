@@ -1,4 +1,4 @@
 export interface Transposition {
-    interval: number,
-    name: string,
+    interval: number;
+    name: string;
 }

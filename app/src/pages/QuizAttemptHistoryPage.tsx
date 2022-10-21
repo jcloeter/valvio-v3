@@ -1,10 +1,10 @@
 import React from 'react';
-import QuizHistoryTable from "../components/ui/QuizHistoryTable";
+import QuizHistoryTable from '../components/ui/QuizHistoryTable';
 
 const QuizAttemptHistoryPage = () => {
     return (
         <div>
-            <QuizHistoryTable/>
+            <QuizHistoryTable />
             {/*<QuizDataHistory/>*/}
         </div>
     );

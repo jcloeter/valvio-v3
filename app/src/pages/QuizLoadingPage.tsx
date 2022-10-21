@@ -1,22 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router";
-import {useNavigate} from "react-router-dom";
-import {useCreateQuizAttemptMutation, useGetPitchesByQuizIdQuery} from "../features/quizData/quiz-api";
-import {Box, CircularProgress, Fab} from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import {
+    useCreateQuizAttemptMutation,
+    useGetPitchesByQuizIdQuery,
+    useGetQuizzesQuery,
+} from '../features/quizData/quiz-api';
+import { Box, CircularProgress, Fab } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import {useAppDispatch} from "../features/hooks";
-import {resetQuizData, setStartTime} from "../features/quizData/quizSlice";
-import {useSelector} from "react-redux";
-import {RootState} from "../features/store";
-import IconAndTextWrapper from "./IconAndTextWrapper";
-
+import { useAppDispatch } from '../features/hooks';
+import { resetQuizData, setStartTime } from '../features/quizData/quizSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../features/store';
+import IconAndTextWrapper from './IconAndTextWrapper';
 
 type QuizModeParams = {
-    quizId: string
-}
+    quizId: string;
+};
 
 const QuizLoadingPage = () => {
-    let {quizId} = useParams();
+    let { quizId } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [timer, setTimer] = useState(5);
@@ -26,19 +29,29 @@ const QuizLoadingPage = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
 
     // @ts-ignore
-    const {data: pitches, refetch: refetchQuizPitches, isLoading: arePitchesLoading, isError: arePitchesError} = useGetPitchesByQuizIdQuery(quizId);
-    const [ createQuizAttemptMutation,{data, isLoading: isCreateQALoading, isError: isCreateQAError}] = useCreateQuizAttemptMutation();
+    const {
+        data: pitches,
+        refetch: refetchQuizPitches,
+        isLoading: arePitchesLoading,
+        isError: arePitchesError,
+    } = useGetPitchesByQuizIdQuery(quizId);
+    const [createQuizAttemptMutation, { data, isLoading: isCreateQALoading, isError: isCreateQAError }] =
+        useCreateQuizAttemptMutation();
+    const { data: quizData } = useGetQuizzesQuery(quizId);
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(resetQuizData());
-    }, [])
+    }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         refetchQuizPitches();
-        const result = createQuizAttemptMutation({userId: authSlice.uid, quizId: quizId}).unwrap().then(fulfilled => console.log(fulfilled)).catch(rejected => console.error(rejected));
-    }, [createQuizAttemptMutation, quizId, refetchQuizPitches])
+        const result = createQuizAttemptMutation({ userId: authSlice.uid, quizId: quizId })
+            .unwrap()
+            .then((fulfilled) => console.log(fulfilled))
+            .catch((rejected) => console.error(rejected));
+    }, [createQuizAttemptMutation, quizId, refetchQuizPitches]);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (arePitchesLoading || arePitchesError) {
             return;
         }
@@ -53,30 +66,39 @@ const QuizLoadingPage = () => {
         return () => clearInterval(interval);
     }, [arePitchesLoading, arePitchesError, isCreateQAError, isCreateQALoading]);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (timer === 0 && pitches) {
             dispatch(setStartTime());
             clearInterval(interval);
             navigate(`/quiz/${quizId}`);
         }
-    }, [timer])
+    }, [timer]);
 
-
-    const decreaseTimerAndRedirect=()=>{
-        setTimer((count: number)=>{
-            count = count -1;
+    const decreaseTimerAndRedirect = () => {
+        setTimer((count: number) => {
+            count = count - 1;
             return count;
-        })
-    }
+        });
+    };
+
+    //Todo: find another way to do this:
+    // let quiz;
+    // if (quizData){
+    //     quiz = quizData.quizzes.filter((q: any)=>q.id == quizId);
+    //     console.log(quiz);
+    // }
 
     return (
         <div>
+            {/*{quiz && <h3>{quiz.name}</h3>}*/}
             <Box sx={{ m: 1, position: 'relative' }}>
                 <IconAndTextWrapper>
                     <>
                         {arePitchesLoading ? (
-                            <CircularProgress size={18} sx={{ color: "green",}}/>
-                        ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
+                            <CircularProgress size={18} sx={{ color: 'green' }} />
+                        ) : (
+                            <CheckCircleOutlineIcon sx={{ color: 'green' }} />
+                        )}
                         <h3>Loading Pitches</h3>
                     </>
                 </IconAndTextWrapper>
@@ -89,19 +111,23 @@ const QuizLoadingPage = () => {
                             <CircularProgress
                                 size={18}
                                 sx={{
-                                    color: "green",
+                                    color: 'green',
                                 }}
                             />
-                        ): <CheckCircleOutlineIcon sx={{color: "green"}}/>}
+                        ) : (
+                            <CheckCircleOutlineIcon sx={{ color: 'green' }} />
+                        )}
                         <h3>Initializing QuizData</h3>
                     </>
                 </IconAndTextWrapper>
             </Box>
-            {showTimer && (<div>Quiz Starting in <b>{timer}</b></div>)}
+            {showTimer && (
+                <div>
+                    Quiz Starting in <b>{timer}</b>
+                </div>
+            )}
         </div>
     );
 };
 
 export default QuizLoadingPage;
-
-

@@ -1,7 +1,7 @@
 import React from 'react';
-import QuizList from "../components/ui/QuizList";
-import {resetQuizData} from "../features/quizData/quizSlice";
-import {useAppDispatch} from "../features/hooks";
+import QuizList from '../components/ui/QuizList';
+import { resetQuizData } from '../features/quizData/quizSlice';
+import { useAppDispatch } from '../features/hooks';
 
 const Quizzes = () => {
     const dispatch = useAppDispatch();
@@ -9,7 +9,7 @@ const Quizzes = () => {
 
     return (
         <div>
-            <QuizList/>
+            <QuizList />
         </div>
     );
 };

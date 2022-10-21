@@ -1,9 +1,7 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {quizSlice} from "../quizData/quizSlice";
-import {User} from "../../models/User";
-import firebase from "firebase/compat";
-
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { quizSlice } from '../quizData/quizSlice';
+import { User } from '../../models/User';
+import firebase from 'firebase/compat';
 
 export const initialAuthState: User = {
     isAuthenticated: false,
@@ -14,19 +12,19 @@ export const initialAuthState: User = {
     phoneNumber: null,
     photoUrl: null,
     providerId: null,
-    refreshToken:null,
+    refreshToken: null,
     tenantId: null,
     uid: null,
-    creationTime:null,
+    creationTime: null,
     lastSignInTime: null,
     idToken: null,
-}
+};
 
 export const authSlice = createSlice({
-    name: "auth-slice",
-    initialState : initialAuthState,
+    name: 'auth-slice',
+    initialState: initialAuthState,
     reducers: {
-        login: (state, action: PayloadAction<User>)=>{
+        login: (state, action: PayloadAction<User>) => {
             const user = action.payload;
             state.isAuthenticated = user.isAuthenticated;
             state.displayName = user.displayName;
@@ -42,9 +40,8 @@ export const authSlice = createSlice({
             state.creationTime = user.creationTime;
             state.lastSignInTime = user.lastSignInTime;
             state.idToken = user.idToken;
-
         },
-        logout: (state, action: PayloadAction<User>)=>{
+        logout: (state, action: PayloadAction<User>) => {
             state.isAuthenticated = false;
             state.displayName = null;
             state.email = null;
@@ -60,9 +57,8 @@ export const authSlice = createSlice({
             state.lastSignInTime = null;
             state.idToken = null;
         },
-     },
+    },
 });
-
 
 const { login, logout } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

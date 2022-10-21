@@ -1,17 +1,17 @@
 export const getAccidentalSignFromName = (name: string) => {
-    if (name === "flat") {
+    if (name === 'flat') {
         return '♭';
     }
-    if (name === "double-flat") {
+    if (name === 'double-flat') {
         return '♭♭';
     }
-    if (name === "sharp") {
+    if (name === 'sharp') {
         return '♯';
     }
-    if (name === "double-sharp") {
+    if (name === 'double-sharp') {
         return '𝄪';
     }
-    if (name === "natural") {
+    if (name === 'natural') {
         return '♮';
     }
 };

@@ -7,8 +7,6 @@ export const authMiddleware = (store: any) => (next: any) => (action: any) => {
     //     console.log("SAVING TO LOCALSTORAGE")
     // }
 
-
-
     // if (authActions.login.match(action))
     // console.log(a);
     // if (authActions.login.match(action)) {

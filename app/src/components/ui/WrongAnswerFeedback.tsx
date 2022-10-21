@@ -1,12 +1,12 @@
 import React from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
-import IconAndTextWrapper from "../../pages/IconAndTextWrapper";
+import IconAndTextWrapper from '../../pages/IconAndTextWrapper';
 
 const WrongAnswerFeedback = () => {
     return (
         <IconAndTextWrapper>
             <>
-                <CancelIcon style={{color : "red"}}/>
+                <CancelIcon style={{ color: 'red' }} />
                 <p>Wrong Answer!</p>
             </>
         </IconAndTextWrapper>

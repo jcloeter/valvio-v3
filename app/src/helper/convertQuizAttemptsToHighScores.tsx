@@ -1,20 +1,18 @@
-import {QuizAttempt} from "../models/QuizAttempt";
+import { QuizAttempt } from '../models/QuizAttempt';
 
-
-export const converQuizAttemptsToHighScores=(quizAttempts: QuizAttempt[])=>{
+export const converQuizAttemptsToHighScores = (quizAttempts: QuizAttempt[]) => {
     const highScoreArray: QuizAttempt[] = [];
-    quizAttempts.map((quizAttempt: QuizAttempt, index: number, originalArray:QuizAttempt[])=>{
+    quizAttempts.map((quizAttempt: QuizAttempt, index: number, originalArray: QuizAttempt[]) => {
         if (!quizAttempt.completedAt) return false;
         if (!quizAttempt.secondsToComplete) return false;
 
-        const isAnotherScoreHigherFromSameQuiz = originalArray.some((originalQuizAttempt: QuizAttempt, i: number)=>{
-
-            if (quizAttempt.quiz.id === originalQuizAttempt.quiz.id){
+        const isAnotherScoreHigherFromSameQuiz = originalArray.some((originalQuizAttempt: QuizAttempt, i: number) => {
+            if (quizAttempt.quiz.id === originalQuizAttempt.quiz.id) {
                 // console.log("Found two results from the same quiz!");
 
                 // @ts-ignore
                 if (originalQuizAttempt.score > quizAttempt.score) {
-                    return true
+                    return true;
                 }
 
                 if (originalQuizAttempt.score === quizAttempt.score) {
@@ -25,12 +23,12 @@ export const converQuizAttemptsToHighScores=(quizAttempts: QuizAttempt[])=>{
                 }
                 return false;
             }
-        })
+        });
 
         if (!isAnotherScoreHigherFromSameQuiz) {
             highScoreArray.push(quizAttempt);
         }
-    })
+    });
 
     return highScoreArray;
-}
+};
