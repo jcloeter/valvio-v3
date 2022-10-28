@@ -13,13 +13,14 @@ import { resetQuizData, setStartTime } from '../features/quizData/quizSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../features/store';
 import IconAndTextWrapper from './IconAndTextWrapper';
+import {Quiz} from "../models/Quiz";
 
 type QuizModeParams = {
     quizId: string;
 };
 
 const QuizLoadingPage = () => {
-    let { quizId } = useParams();
+    const { quizId } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [timer, setTimer] = useState(5);
@@ -27,17 +28,19 @@ const QuizLoadingPage = () => {
     let interval: any;
 
     const authSlice = useSelector((state: RootState) => state.authSlice);
+    const {data: quizzes, isLoading: areQuizzesLoading, isError: areQuizzesError} = useGetQuizzesQuery(quizId);
+    const [currentQuiz, setCurrentQuiz] = useState<Quiz|undefined>();
 
-    // @ts-ignore
     const {
         data: pitches,
         refetch: refetchQuizPitches,
         isLoading: arePitchesLoading,
         isError: arePitchesError,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
     } = useGetPitchesByQuizIdQuery(quizId);
     const [createQuizAttemptMutation, { data, isLoading: isCreateQALoading, isError: isCreateQAError }] =
         useCreateQuizAttemptMutation();
-    const { data: quizData } = useGetQuizzesQuery(quizId);
 
     useEffect(() => {
         dispatch(resetQuizData());
@@ -47,8 +50,8 @@ const QuizLoadingPage = () => {
         refetchQuizPitches();
         const result = createQuizAttemptMutation({ userId: authSlice.uid, quizId: quizId })
             .unwrap()
-            .then((fulfilled) => console.log(fulfilled))
-            .catch((rejected) => console.error(rejected));
+            .then()
+            .catch();
     }, [createQuizAttemptMutation, quizId, refetchQuizPitches]);
 
     useEffect(() => {
@@ -74,6 +77,17 @@ const QuizLoadingPage = () => {
         }
     }, [timer]);
 
+    let quiz: Quiz | undefined;
+
+    useEffect(()=>{
+        if (quizzes?.quizzes){
+            quiz = quizzes.quizzes.filter((q: Quiz)=>q.id.toString() == quizId)[0];
+            console.log(quiz);
+            setCurrentQuiz(quiz);
+        }
+
+    }, [quizzes, areQuizzesLoading])
+
     const decreaseTimerAndRedirect = () => {
         setTimer((count: number) => {
             count = count - 1;
@@ -81,16 +95,14 @@ const QuizLoadingPage = () => {
         });
     };
 
-    //Todo: find another way to do this:
-    // let quiz;
-    // if (quizData){
-    //     quiz = quizData.quizzes.filter((q: any)=>q.id == quizId);
-    //     console.log(quiz);
-    // }
-
     return (
         <div>
-            {/*{quiz && <h3>{quiz.name}</h3>}*/}
+            {currentQuiz &&
+                <div>
+                    <h3>Level {currentQuiz.level}. {currentQuiz.name}</h3>
+                </div>
+
+            }
             <Box sx={{ m: 1, position: 'relative' }}>
                 <IconAndTextWrapper>
                     <>

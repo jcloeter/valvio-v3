@@ -38,13 +38,14 @@ interface Row {
 export default function QuizHistoryTable() {
     const authSlice = useSelector((state: RootState) => state.authSlice);
     console.log(authSlice.uid);
-    // @ts-ignore
     const {
         data: quizAttemptData,
         isError: isQuizAttemptDataError,
         isLoading: isQuizAttemptDataLoading,
         error,
         refetch,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
     } = useGetQuizAttemptCollectionByUserQuery(authSlice.uid);
     const { data: quizData, isError: isQuizDataError, isLoading: isQuizDataLoading } = useGetQuizzesQuery({});
     const [rows, setRows] = useState<Row[]>([]);
@@ -64,13 +65,13 @@ export default function QuizHistoryTable() {
 
         completedQuizAttempts.map((qa: QuizAttempt) => {
             const quiz = quizzes.find((quiz: Quiz) => quiz.id == qa.quiz.id);
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             const date = new Date(qa.completedAt).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
             });
-            console.log(date);
             rowArray.push(
                 createData(quiz.level, quiz.name, qa.score, qa.secondsToComplete, quiz.length, date.toString()),
             );
@@ -106,7 +107,7 @@ export default function QuizHistoryTable() {
         );
     }
 
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return (
         <Container maxWidth="md">
@@ -137,7 +138,7 @@ export default function QuizHistoryTable() {
                                 {/*{ !row.speed && row.speed = 1 }*/}
                                 {/*{ !row.length && row.length = 1}*/}
                                 {!row.speed || !row.length ? (
-                                    <TableCell align="right">"error"</TableCell>
+                                    <TableCell align="right">{error}</TableCell>
                                 ) : (
                                     <TableCell align="right">{(row.speed / row.length).toFixed(2)}</TableCell>
                                 )}

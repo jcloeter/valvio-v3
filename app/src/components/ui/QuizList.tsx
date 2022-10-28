@@ -11,12 +11,13 @@ import { useSelector } from 'react-redux';
 const QuizList = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
     const { data: quizzesObj, isLoading, isError, error } = useGetQuizzesQuery({});
-    // @ts-ignore
     const {
         data: quizAttempts,
         refetch: refetchQuizAttempts,
         isLoading: isQuizAttemptsLoading,
         isError: isQuizAttemptsError,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
     } = useGetQuizAttemptCollectionByUserQuery(authSlice.uid);
 
     useEffect(() => {
