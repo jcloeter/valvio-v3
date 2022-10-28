@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styles from './ValveButton.module.css';
 
 const ValveButton: React.FC<{
@@ -14,24 +14,26 @@ const ValveButton: React.FC<{
 }) => {
     const [isPressed, setIsPressed] = useState(false);
 
+    const handler = useCallback((event: KeyboardEvent)=>{
+        if (event.key === props.keyBoardKey) {
+            setIsPressed((isPressed) => {
+                props.onValveChange(!isPressed);
+                return !isPressed;
+            });
+        }
+    }, [])
+
     useEffect(() => {
         console.log('ValveButton UseEffect');
-        window.addEventListener('keydown', (event) => {
-            if (event.key === props.keyBoardKey) {
-                setIsPressed((isPressed) => {
-                    props.onValveChange(!isPressed);
-                    return !isPressed;
-                });
-            }
+        window.addEventListener('keyup', handler, true);
 
-            //Possible solution for "a" key
-            // if (event.key === "a"){
-            //     props.onValveSubmit();
-            // }
-        });
+        return ()=>{
+            window.removeEventListener('keyup', handler, true);
+        }
     }, []);
 
     useEffect(() => {
+        console.log("this useEffect should reset valves to unchecked")
         setIsPressed(false);
     }, [props.resetValve]);
 
