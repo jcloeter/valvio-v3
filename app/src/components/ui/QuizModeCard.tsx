@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { createImageUrlFromPitchId } from '../../helper/createImageUrlFromPitchId';
 import { TrumpetValves } from '../../models/TrumpetValves';
 import { QuizPitchAttemptDto } from '../../models/QuizPitchAttemptDto';
+import FrenchHornValveGroup from "./FrenchHornValveGroup";
 
 const QuizModeCard = () => {
     const navigate = useNavigate();
@@ -26,36 +27,21 @@ const QuizModeCard = () => {
     const pitchesObject = useSelector<RootState, PitchesObject[]>((state) => state.quizAttemptSlice.extendedPitches);
     const quizAttemptId = useSelector<RootState, number | null>((state) => state.quizAttemptSlice.quizAttemptId);
 
-    //Start here
-    // const handler = useCallback((event: KeyboardEvent)=>{
-    //     if (event.key === " "){
-    //         //I realized why this was a problem: the handler is inside of a closure!
-    //         console.log("User input after submitting with spacea Key" , userInput);
-    //         console.log(currentPitchIndex);
-    //         handleSubmitButton()
-    //     }
-    // }, [userInput]);
-    //
-    //
-    // useEffect(() => {
-    //     console.log("eventListener for a submit key");
-    //     window.addEventListener('keydown', (event) => {
-    //         handler(event);
-    //     });
-    //
-    //     return () => {
-    //         window.removeEventListener('keydown', handler);
-    //     }
-    // }, [handler]);
+    const handler = useCallback((event: KeyboardEvent)=>{
+        if (event.key === " "){
+            event.preventDefault();
+            handleSubmitButton()
+        }
+    }, [userInput, currentPitchIndex]);
 
-    // const inputReference = useRef(null);
-    //
-    // useEffect(() => {
-    //     if (inputReference){
-    //         // @ts-ignore
-    //         inputReference?.current.focus();
-    //     }
-    // }, []);
+
+    useEffect(() => {
+        window.addEventListener('keyup', handler, true);
+
+        return () => {
+            window.removeEventListener('keyup', handler, true);
+        }
+    }, [handler, userInput]);
 
     if (!pitchesObject[currentPitchIndex]) {
         return <h3>There was an error starting your quiz. Go back to the homepage and try again.</h3>;
@@ -72,7 +58,7 @@ const QuizModeCard = () => {
     };
 
     const handleSubmitButton = () => {
-        let isUserCorrect = currentPitchAnswer == userInput;
+        const isUserCorrect = currentPitchAnswer == userInput;
 
         const quizPitchAttempt: QuizPitchAttemptDto = {
             isCorrect: isUserCorrect,
