@@ -1,4 +1,4 @@
-import { convertPitchInstrumentIdToImageId } from '../components/ui/convertPitchInstrumentIdToImageId';
+import { convertPitchInstrumentIdToImageId } from './convertPitchInstrumentIdToImageId';
 
 export const createImageUrlFromPitchId = (pitchId: string): string => {
     const imageId = convertPitchInstrumentIdToImageId(pitchId);

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { quizApi } from './quiz-api';
 import { Pitch } from '../../models/Pitch';
 import { randomizeAndExtendPitchArray } from '../../helper/randomizeAndExtendPitchArray';
-import { convertPitchInstrumentIdToImageId } from '../../components/ui/convertPitchInstrumentIdToImageId';
+import { convertPitchInstrumentIdToImageId } from '../../helper/convertPitchInstrumentIdToImageId';
 import { PitchesObject } from '../../models/PitchesObject';
 import { QuizPitchAttemptDto } from '../../models/QuizPitchAttemptDto';
 
