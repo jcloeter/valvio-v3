@@ -23,6 +23,7 @@ import { RootState } from '../../features/store';
 const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttemptsLoading: boolean }> = (props) => {
     const [showDetails, setShowDetails] = useState(false);
     const authSlice = useSelector((state: RootState) => state.authSlice);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { data: quizAttempts, refetch: refetchQuizAttempts } = useGetQuizAttemptCollectionByUserQuery(authSlice.uid);
 
@@ -36,7 +37,7 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
             }
         });
 
-        let filteredQuizAttempts = quizAttemptsForCurrentQuiz.filter((qa: any) => {
+        const filteredQuizAttempts = quizAttemptsForCurrentQuiz.filter((qa: any) => {
             //Start here
             if (qa?.id) {
                 return true;
@@ -61,7 +62,7 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
         navigate(`/loading-quiz/${props.quiz.id}`);
     };
 
-    let highScore: QuizAttempt | undefined = props.highScores.find((quizAttempt: QuizAttempt) => {
+    const highScore: QuizAttempt | undefined = props.highScores.find((quizAttempt: QuizAttempt) => {
         if (quizAttempt.quiz.id === props.quiz.id) {
             return quizAttempt;
         }
@@ -117,6 +118,7 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
                         <li className={styles['metric-icons-li']}>
                             <AssignmentIcon sx={{ color: 'gray', marginRight: '3px' }} />
                             {highScore?.score ? (
+                                // eslint-disable-next-line no-unsafe-optional-chaining
                                 <p style={{ color: 'rgb(0, 0, 141)' }}>{(highScore?.score).toFixed(0)}%</p>
                             ) : (
                                 <p style={{ color: 'rgb(0, 0, 141)' }}>0%</p>

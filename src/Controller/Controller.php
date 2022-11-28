@@ -31,7 +31,7 @@ class Controller extends AbstractController
     #[Route('/')]
     #[Route('/health')]
     public function health(): Response {
-        return new Response("test");
+        return new Response("healthy");
     }
 
     #[Route('/log/{name}')]
@@ -57,7 +57,7 @@ class Controller extends AbstractController
 
         return $this->json([
             'success' => true,
-            'data' => $quiz
+//            'data' => $quiz
 //            'pitches' => [
 //                0 => $pitch
 //        ]

@@ -33,7 +33,6 @@ const ValveButton: React.FC<{
     }, []);
 
     useEffect(() => {
-        console.log("this useEffect should reset valves to unchecked")
         setIsPressed(false);
     }, [props.resetValve]);
 

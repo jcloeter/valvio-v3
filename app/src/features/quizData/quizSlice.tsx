@@ -107,7 +107,7 @@ export const quizSlice = createSlice({
             state.isUserCorrect = true;
             state.quizPitchAttempts = [];
         },
-        endIncompleteQuiz: () => {},
+        // endIncompleteQuiz: () => {},
     },
     extraReducers: (builder) => {
         builder

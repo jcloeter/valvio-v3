@@ -3,16 +3,13 @@ import PrimaryCard from '../components/layout/PrimaryCard';
 import Button from '@mui/material/Button';
 import { getAuth, signOut } from 'firebase/auth';
 import { useSelector } from 'react-redux';
-import { User } from '../models/User';
 import { RootState } from '../features/store';
-import { Avatar } from '@mui/material';
 
 const ProfilePage = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
 
     const auth = getAuth();
     const handleLogOut = async () => {
-        console.log('singing out from firebase now');
         await signOut(auth);
     };
 

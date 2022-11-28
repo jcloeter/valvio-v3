@@ -17,7 +17,7 @@ const CorrectAnswerFeedback = () => {
 
     let message;
 
-    let pitchImage = (
+    const pitchImage = (
         <img
             className={styles['pitch-image']}
             style={{ filter: 'grayscale(50%)' }}

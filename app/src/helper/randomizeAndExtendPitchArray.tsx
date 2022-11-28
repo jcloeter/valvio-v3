@@ -13,7 +13,7 @@ export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLengt
 
     const reShuffledExpandedAndIdArray = shuffledExpandedAndIdArray.sort((a, b) => 0.5 - Math.random());
 
-    let nonRepeatedPitchesArray: PitchesObject[] = [];
+    const nonRepeatedPitchesArray: PitchesObject[] = [];
     reShuffledExpandedAndIdArray.map((pitch: PitchesObject, i, origArr) => {
         if (!origArr[i + 1]) return false;
         if (pitch.originalPitch.id !== origArr[i + 1].originalPitch.id) {

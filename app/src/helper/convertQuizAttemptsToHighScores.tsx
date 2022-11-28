@@ -10,12 +10,14 @@ export const converQuizAttemptsToHighScores = (quizAttempts: QuizAttempt[]) => {
             if (quizAttempt.quiz.id === originalQuizAttempt.quiz.id) {
                 // console.log("Found two results from the same quiz!");
 
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 if (originalQuizAttempt.score > quizAttempt.score) {
                     return true;
                 }
 
                 if (originalQuizAttempt.score === quizAttempt.score) {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     if (originalQuizAttempt.secondsToComplete < quizAttempt.secondsToComplete) {
                         return true;

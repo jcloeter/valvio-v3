@@ -34,8 +34,9 @@ const CompletedQuizSummaryPage = () => {
     const currentPitchIndex = useSelector<RootState, number>((state) => state.quizAttemptSlice.currentPitchIndex);
     const authSlice = useSelector((state: RootState) => state.authSlice);
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    let completedIn: number | null = (endTime - startTime) / 1000;
+    const completedIn: number | null = (endTime - startTime) / 1000;
 
     useEffect(() => {
         createQuizPitchAttemptMutation({ userId: authSlice.uid, body: quizPitchAttemptArr });
