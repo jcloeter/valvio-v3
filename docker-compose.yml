@@ -19,12 +19,23 @@ services:
       APP_ENV: 'dev'
       DATABASE_URL: "postgresql://postgres:testingpass@database:5432/app?serverVersion=13&charset=utf8"
 
+#  frontend:
+#    build:
+#      context: ./app
+#      dockerfile: Dockerfile.dev
+#    container_name: valvio-frontend
+##    depends_on:
+##      - server
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - /app/src:/application/app/src
+##      - "/application/app/node_modules"
 
-  ###> doctrine/doctrine-bundle ###
+
   database:
     image: postgres
-    #mispelled here:
-    container_name: vavio-postgres
+    container_name: valvio-postgres
     ports:
       - "5433:5432"
     environment:
@@ -37,9 +48,7 @@ services:
 ###< doctrine/doctrine-bundle ###
 
 volumes:
-  ###> doctrine/doctrine-bundle ###
   valvio-db-data:
-###< doctrine/doctrine-bundle ###
 
 
 
