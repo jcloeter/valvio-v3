@@ -1,0 +1,105 @@
+id,name,difficulty,level,description,transposition_id,length
+1000,"Introducing C, D, E",Learning the Basics,1,New Note,0,10
+1001,Introducing Low B,Learning the Basics,2,New Note,0,12
+1002,Introducing F,Learning the Basics,3,New Note,0,14
+1003,Introducing G ,Learning the Basics,,New Note,0,14
+1004,Introducing A ,Learning the Basics,,New Note,0,16
+1005,Introducing B ,Learning the Basics,,New Note,0,16
+1006,Introducing C ,Learning the Basics,,New Note,0,16
+1007,C Major One Octave Scale,Learning the Basics,,Scale,0,15
+1008,Introducing D ,Learning the Basics,,New Note,0,16
+1009,Introducing E,Learning the Basics,,New Note,0,18
+1010,Unit Quiz,Learning the Basics,,Unit Quiz,0,26
+1100,Introducing Low Bb,Introduction to Flats and Sharps,,New Note,0,14
+1101,Introducing Low C#,Introduction to Flats and Sharps,,New Note,0,14
+1102,Introducing F# ,Introduction to Flats and Sharps,,New Note,0,18
+1103,Introducing Eb,Introduction to Flats and Sharps,,New Note,0,16
+1104,Reviewing New Low Accidentals,Introduction to Flats and Sharps,,Review,0,20
+1105,Introducing High Bb,Introduction to Flats and Sharps,,New Note,0,14
+1106,Introducing High C#,Introduction to Flats and Sharps,,New Note,0,16
+1107,Introducing High Eb,Introduction to Flats and Sharps,,New Note,0,14
+1108,Review New High Accidentals,Introduction to Flats and Sharps,,Review,0,12
+1109,Bb Major One Octave Scale,Introduction to Flats and Sharps,,New Note,0,15
+1110,D Major One Octave Scale,Introduction to Flats and Sharps,,New Note,0,15
+1111,Reviewing All New Notes,Introduction to Flats and Sharps,,Review,0,20
+1112,Unit Quiz ,Introduction to Flats and Sharps,,Unit Quiz,0,42
+1200,Introducing Low A,Expanding Outward,,New Note,0,14
+1201,Introducing Low G,Expanding Outward,,New Note,0,14
+1202,Introducing Low F#,Expanding Outward,,New Note,0,14
+1203,Reviewing New Low Notes,Expanding Outward,,Review,0,10
+1204,Reviewing All Low Notes,Expanding Outward,,Review,0,24
+1205,G Major One Octave Scale,Expanding Outward,,Scale,0,15
+1206,Introducing High F,Expanding Outward,,New Note,0,14
+1207,Introducing High F#,Expanding Outward,,New Note,0,16
+1208,Introducing High G,Expanding Outward,,New Note,0,18
+1209,Introducing High A,Expanding Outward,,New Note,0,18
+1210,Reviewing New High Notes,Expanding Outward,,Review,0,12
+1211,F Major Scale,Expanding Outward,,Scale,0,15
+1212,G Major Top Octave Scale,Expanding Outward,,Scale,0,15
+1213,Reviewing All New Notes,Expanding Outward,,Review,0,22
+1214,G Major Two Octave Scale,Expanding Outward,,Scale,0,29
+1215,Unit Quiz,Expanding Outward,,Unit Quiz,0,56
+1300,Introducing Low G#,Exploring More Accidentals,,New Note,0,14
+1301,Introducing Low Ab,Exploring More Accidentals,,New Note,0,16
+1302,Reviewing Bottom Register Notes,Exploring More Accidentals,,Review,0,20
+1303,Introducing Low D#,Exploring More Accidentals,,New Note,0,16
+1304,Introducing Low Db,Exploring More Accidentals,,New Note,0,16
+1305,Reviewing Medium Low Note Accidentals ,Exploring More Accidentals,,Review,0,24
+1306,Reviewing Low Accidentals,Exploring More Accidentals,,Review,0,18
+1307,Introducing Ab ,Exploring More Accidentals,,New Note,0,12
+1308,Introducing G# ,Exploring More Accidentals,,New Note,0,14
+1309,Eb Major Scale,Exploring More Accidentals,,Scale,0,15
+1310,E Major Scale,Exploring More Accidentals,,Scale,0,15
+1311,A Major One Octave Scale,Exploring More Accidentals,,Scale,0,15
+1312,Ab Major One Octave Scale ,Exploring More Accidentals,,Scale,0,15
+1313,Reviewing Accidentals in the Bottom Half of the Staff ,Exploring More Accidentals,,Review,0,15
+1314,Introducing Db ,Exploring More Accidentals,,New Note,0,15
+1315,Introducing D# ,Exploring More Accidentals,,New Note,0,15
+1316,Introducing High G# ,Exploring More Accidentals,,New Note,0,14
+1317,Introducing High Ab ,Exploring More Accidentals,,New Note,0,16
+1318,A Major Top Octave Scale,Exploring More Accidentals,,Scale,0,15
+1319,E Major Scale,Exploring More Accidentals,,Scale,0,15
+1320,Ab Major Top Octave Scale,Exploring More Accidentals,,Scale,0,15
+1321,"Reviewing C, D, and E Accidentals in the Staff",Exploring More Accidentals,,Review,0,18
+1322,Reviewing New Notes,Exploring More Accidentals,,Review,0,22
+1323,Reviewing New Notes and Previous Accidentals,Exploring More Accidentals,,Review,0,32
+1324,A Major Two Octave Scale,Exploring More Accidentals,,Scale,0,29
+1325,Ab Major Two Octave Scale,Exploring More Accidentals,,Scale,0,29
+1326,Unit Quiz,Exploring More Accidentals,,Unit Quiz,0,50
+1400,Introducing high B and Bb,Going Up,,New Note,0,14
+1401,Introducing high C ,Going Up,,New Note,0,14
+1402,Scale: Bb Major 2 octave,Going Up,,Scale,0,29
+1403,Scale: C Major 2 octave,Going Up,,Scale,0,29
+1404,Introducing high C#,Going Up,,New Note,0,14
+1405,Introducing high D,Going Up,,New Note,0,14
+1406,Scale: D Major 2 octave ,Going Up,,Scale,0,29
+1407,Introducing high Db,Going Up,,New Note,0,14
+1408,Introducing high D#,Going Up,,New Note,0,14
+1409,Introducing high E,Going Up,,New Note,0,16
+1410,Introducing high Eb,Going Up,,New Note,0,14
+1411,Introducing high F,Going Up,,New Note,0,14
+1412,Unit Quiz,Going Up,,Unit Quiz,0,24
+1500,Introducing Gb,Adding Enharmonics,,New Note,0,16
+1501,Introducing Cb,Adding Enharmonics,,New Note,0,20
+1502,Introducing Fb,Adding Enharmonics,,New Note,0,22
+1503,Scale: Db Major 2 octave,Adding Enharmonics,,Scale,0,29
+1504,Reviewing Enharmonic Flats,Adding Enharmonics,,Review,0,22
+1505,Introducing A#,Adding Enharmonics,,New Note,0,22
+1506,Introducing E#,Adding Enharmonics,,New Note,0,26
+1507,Introducing B#,Adding Enharmonics,,New Note,0,22
+1508,F# Major Two Octave Scale ,Adding Enharmonics,,Scale,0,29
+1509,Gb Major Two Octave Scale,Adding Enharmonics,,Scale,0,29
+1510,Reviewing Enharmonic Sharps,Adding Enharmonics,,Review,0,18
+1511,Reviewing Enharmonic Notes,Adding Enharmonics,,Review,0,32
+1512,Unit Quiz,Adding Enharmonics,,Unit Quiz,0,60
+1600,Introducing Double Flats,Double Flats and Sharps,,New Note,0,22
+1601,Introducing Double Sharps,Double Flats and Sharps,,New Note,0,22
+1602,High Double Flats,Double Flats and Sharps,,New Note,0,30
+1603,High Double Sharps,Double Flats and Sharps,,New Note,0,30
+1604,Low Double Flats,Double Flats and Sharps,,New Note,0,24
+1605,Low Double Sharps,Double Flats and Sharps,,New Note,0,28
+1606,Unit Quiz,Double Flats and Sharps,,Unit Quiz,0,50
+1700,The Impossible Level Lite,The Impossible Level,,Unit Quiz,0,30
+1701,The Impossible Level.,The Impossible Level,,Unit Quiz,0,150
+2000,"Introducing C, D, E",Introduction to Transposing down a Major Second,,New Note,-2,10
+3001,"Introducing C, D, E",Introduction to Transposing up a Tritone,,New Note,6,10
