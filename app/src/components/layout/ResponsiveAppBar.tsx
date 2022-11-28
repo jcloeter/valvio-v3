@@ -27,8 +27,6 @@ const ResponsiveAppBar = () => {
 
     let photoUrl;
     if (authSlice.photoUrl) {
-        console.log('Photo exists');
-        console.log(authSlice.photoUrl);
         photoUrl = authSlice.photoUrl;
     }
 
