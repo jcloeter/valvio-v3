@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+.env*
+.env.prod
+.env.test
+.env.local
+Dockerfile.prod
+Dockerfile.dev
+docker-compose.yml
+
+/app/.env
+/app/.env.development
+/app/.env.development.local
+/app/.gitignore
+/app/Dockerfile.dev
+/app/Dockerfile.prod

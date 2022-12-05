@@ -21,6 +21,8 @@ class UserController extends AbstractController
         //}
     public function create(UserService $userService, Request $request): JSONResponse
     {
+        //Put security from Firebase here
+
         $parameters = json_decode($request->getContent(), true);
         $content = $request->getContent();
         $displayName = $parameters["displayName"];

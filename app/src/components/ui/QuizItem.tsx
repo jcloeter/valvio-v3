@@ -106,7 +106,7 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
                 <div className={quizItemStyles['icon-level-container']}>
                     <b style={{ marginRight: '5px' }}>{scoreIcon}</b>
                     <b>
-                        Level {props.quiz.level}: {props.quiz.name}
+                        {props.quiz.level}. {props.quiz.name}
                     </b>
 
                     {/*<div>{props.quiz.transposition.interval}</div>*/}

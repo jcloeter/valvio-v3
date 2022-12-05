@@ -7,6 +7,7 @@ import { QuizAttempt } from '../../models/QuizAttempt';
 import VCircularProgress from '../accessories/VCircularProgress';
 import { RootState } from '../../features/store';
 import { useSelector } from 'react-redux';
+import LightGreyCard from "./LightGreyCard";
 
 const QuizList = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
@@ -40,23 +41,54 @@ const QuizList = () => {
 
     let highScores: QuizAttempt[] = [];
 
+    const units: string[] = []
+
+    if (quizzesObj){
+        console.log(quizzesObj)
+        quizzesObj.quizzes.map((quiz: Quiz)=>{
+            if (!units.includes(quiz.difficulty)){
+                units.push(quiz.difficulty)
+            }
+        })
+        console.log(units)
+    }
+
     return (
         <div>
-            <h3>Trumpet Quizzes</h3>
+            <h1>Trumpet Quizzes</h1>
             <br />
-            {quizzesObj?.quizzes.map((quiz: Quiz, index: number) => {
-                if (quizAttempts?.quizAttempts) {
-                    highScores = converQuizAttemptsToHighScores(quizAttempts.quizAttempts);
-                }
+
+            {units.map((unit: string, index: number) => {
                 return (
-                    <QuizItem
-                        key={index}
-                        quiz={quiz}
-                        highScores={highScores}
-                        areQuizAttemptsLoading={isQuizAttemptsLoading}
-                    />
+                    <LightGreyCard key={index}>
+                        <>
+                            <h3>Unit {index+1}: {unit}</h3>
+                            <br/>
+                            {quizzesObj?.quizzes.map((quiz: Quiz, index: number) => {
+                                if (quizAttempts?.quizAttempts) {
+                                    highScores = converQuizAttemptsToHighScores(quizAttempts.quizAttempts);
+                                }
+
+                                if (unit != quiz.difficulty){
+                                    return;
+                                }
+
+
+
+                                return (
+                                    <QuizItem
+                                        key={index}
+                                        quiz={quiz}
+                                        highScores={highScores}
+                                        areQuizAttemptsLoading={isQuizAttemptsLoading}
+                                    />
+                                );
+                            })}
+                        </>
+                    </LightGreyCard>
                 );
             })}
+
         </div>
     );
 };

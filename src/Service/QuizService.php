@@ -37,6 +37,7 @@ class QuizService
                 "level" => $quiz->getLevel(),
                 "description" => $quiz->getDescription(),
                 "length" => $quiz->getLength(),
+                "difficulty" => $quiz->getDifficulty(),
                 "transposition" => Array(
                     "transpositionName" => $quiz->getTransposition()?->getName(),
                     "transpositionInterval" => $quiz->getTransposition()?->getInterval(),

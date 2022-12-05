@@ -18,20 +18,7 @@ services:
       LOG_LEVEL: 'debug'
       APP_ENV: 'dev'
       DATABASE_URL: "postgresql://postgres:testingpass@database:5432/app?serverVersion=13&charset=utf8"
-
-#  frontend:
-#    build:
-#      context: ./app
-#      dockerfile: Dockerfile.dev
-#    container_name: valvio-frontend
-##    depends_on:
-##      - server
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - /app/src:/application/app/src
-##      - "/application/app/node_modules"
-
+#      DATABASE_URL: "valvio-db.cocvvdd0pl1u.us-east-1.rds.amazonaws.com"
 
   database:
     image: postgres
@@ -78,3 +65,16 @@ volumes:
 ####> doctrine/doctrine-bundle ###
 #  valvio-db-data:
 ####< doctrine/doctrine-bundle ###
+
+#  frontend:
+#    build:
+#      context: ./app
+#      dockerfile: Dockerfile.dev
+#    container_name: valvio-frontend
+##    depends_on:
+##      - server
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - /app/src:/application/app/src
+##      - "/application/app/node_modules"
