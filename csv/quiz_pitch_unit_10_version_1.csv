@@ -1,0 +1,9 @@
+id,quiz_id,pitch_id,transposed_answer_pitch_id
+100000,3001,cna4tp,fsh4tp
+100001,3001,dna4tp,afl4tp
+100002,3001,ena4tp,bfl4tp
+100003,3001,fna4tp,bna4tp
+100004,3001,gna4tp,dfl5tp
+100005,3001,ana4tp,efl5tp
+100006,3001,bna4tp,fna5tp
+100007,3001,cna5tp,fsh5tp
