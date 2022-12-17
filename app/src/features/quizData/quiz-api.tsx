@@ -1,9 +1,26 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { Quiz } from '../../models/Quiz';
 
+let apiUrl: string|undefined = process.env.REACT_APP_DEV_API_URL || undefined;
+
+try{
+    if (process.env.NODE_ENV === "production"){
+        apiUrl = process.env.REACT_APP_PROD_API_URL || undefined;
+        if (!apiUrl){
+            throw new Error("Must define an api url in production")
+        }
+    }
+    if (process.env.NODE_ENV === "production" && apiUrl){
+        throw new Error("Must define an api url in development")
+    }
+}catch(e){
+    console.error(e);
+}
+
+
 export const quizApi = createApi({
     reducerPath: 'quizApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000' }),
+    baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
     endpoints: (builder) => ({
         getQuizzes: builder.query({
             query: () => '/quizzes',
