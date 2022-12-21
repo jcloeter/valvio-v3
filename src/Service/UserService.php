@@ -27,6 +27,17 @@ class UserService
         $this->quizRepository = $quizRepository;
     }
 
+    public function readUser(string $userId): User
+    {
+        $user = $this->userRepository->find($userId);
+        if (!$user) {
+            throw new ResourceNotFoundException("Could not find user with id of {$userId}");
+        }
+
+        return $user;
+
+    }
+
     public function createUser(?string $displayName, $isAnonymous, ?string $firebaseUid, ?string $email): User
     {
         $user = new User();
