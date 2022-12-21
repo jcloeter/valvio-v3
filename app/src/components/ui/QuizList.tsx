@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import QuizItem from './QuizItem';
-import { useGetQuizAttemptCollectionByUserQuery, useGetQuizzesQuery } from '../../features/quizData/quiz-api';
+import {
+    useGetQuizAttemptCollectionByUserQuery,
+    useGetQuizzesQuery,
+    useGetUserQuery
+} from '../../features/quizData/quiz-api';
 import { converQuizAttemptsToHighScores } from '../../helper/convertQuizAttemptsToHighScores';
 import { Quiz } from '../../models/Quiz';
 import { QuizAttempt } from '../../models/QuizAttempt';
@@ -8,10 +12,12 @@ import VCircularProgress from '../accessories/VCircularProgress';
 import { RootState } from '../../features/store';
 import { useSelector } from 'react-redux';
 import LightGreyCard from "./LightGreyCard";
+import {Alert} from "@mui/material";
 
 const QuizList = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
     const { data: quizzesObj, isLoading, isError, error } = useGetQuizzesQuery({});
+
     const {
         data: quizAttempts,
         refetch: refetchQuizAttempts,
@@ -21,12 +27,16 @@ const QuizList = () => {
         // @ts-ignore
     } = useGetQuizAttemptCollectionByUserQuery(authSlice.uid);
 
+    let errorMessage: JSX.Element | null = null;
+
     useEffect(() => {
         refetchQuizAttempts();
-    }, [refetchQuizAttempts]);
+    }, [refetchQuizAttempts, authSlice.uid]);
 
     if (isError || isQuizAttemptsError) {
-        return <h2>There was an error. Refresh your page to try again.</h2>;
+        console.log(isError)
+        console.log(isQuizAttemptsError)
+        errorMessage = <Alert severity="error">There was an error. Refresh your page to try again.</Alert>;
     }
 
     if (isLoading) {
@@ -44,20 +54,18 @@ const QuizList = () => {
     const units: string[] = []
 
     if (quizzesObj){
-        console.log(quizzesObj)
         quizzesObj.quizzes.map((quiz: Quiz)=>{
             if (!units.includes(quiz.difficulty)){
                 units.push(quiz.difficulty)
             }
         })
-        console.log(units)
     }
 
     return (
         <div>
             <h1>Trumpet Quizzes</h1>
             <br />
-
+            {errorMessage}
             {units.map((unit: string, index: number) => {
                 return (
                     <LightGreyCard key={index}>
@@ -72,8 +80,6 @@ const QuizList = () => {
                                 if (unit != quiz.difficulty){
                                     return;
                                 }
-
-
 
                                 return (
                                     <QuizItem
