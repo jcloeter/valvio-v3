@@ -23,7 +23,7 @@ const QuizLoadingPage = () => {
     const { quizId } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [timer, setTimer] = useState(5);
+    const [timer, setTimer] = useState(3);
     const [showTimer, setShowTimer] = useState(false);
     let interval: any;
 
