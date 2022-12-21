@@ -22,7 +22,9 @@ function App() {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
         const idToken = await user?.getIdToken();
+        //Todo: Maybe use router to move users back to different pages
 
+        //Firebase has logged in user
         if (user) {
             const authUser: User = {
                 isAuthenticated: true,
@@ -42,17 +44,13 @@ function App() {
             };
             dispatch(authActions.login(authUser));
 
-            //Handle this logic with router next
-            if (window.location.pathname == '/login') {
-                navigate('/');
-            }
         }
 
+        //Firebase has logged out the user
         if (!user) {
-            //Todo: invalidate all caches on logout
             dispatch(authActions.logout(initialAuthState));
+            //Todo: Handle this with Router
             if (window.location.pathname !== '/login') {
-                // dispatch(authActions.logout(initialAuthState));
                 navigate('/login');
             }
         }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -12,9 +12,11 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { User } from '../models/User';
 import { User as firebaseUser } from 'firebase/auth';
 import { useLocation } from 'react-router';
-import { useCreateUserMutation } from '../features/quizData/quiz-api';
-// import auth = firebase.auth;
-// import Auth = firebase.auth.Auth;
+import { useCreateUserMutation, useGetUserQuery } from '../features/quizData/quiz-api';
+import {Alert, CircularProgress} from "@mui/material";
+import {quizSlice} from "../features/quizData/quizSlice";
+import {useSelector} from "react-redux";
+import {RootState} from "../features/store";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_GOOGLE_AUTH_API_KEY,
@@ -22,9 +24,9 @@ const firebaseConfig = {
     authDomain: 'valvio-auth.firebaseapp.com',
     projectId: 'valvio-auth',
     storageBucket: 'valvio-auth.appspot.com',
-    messagingSenderId: '894892883479',
-    appId: '1:894892883479:web:5c48799b121f3f08436652',
-    measurementId: 'G-B49CCTRBMW',
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_AUTH_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_AUTH_MEASUREMENT_ID,
 };
 
 const app = firebase.initializeApp(firebaseConfig);
@@ -35,33 +37,38 @@ const AuthPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [createUser, { data, error, isError: isCreateUserError, isLoading: isCreateUserLoading }] =
+    const [createUser, { data, isError: isCreateUserError, isLoading: isCreateUserLoading, isSuccess: isUserCreatedSuccess }] =
         useCreateUserMutation();
 
     const uiConfig = {
-        signInFlow: 'popup',
+        signInFlow: 'redirect',
         signInSuccessUrl: '/',
         callbacks: {
             signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential, redirectUrl: string) => {
+                const user = authResult.user;
+
                 if (authResult.additionalUserInfo?.isNewUser) {
-                    console.log('CREATING USER IN BACKEND HERE!!!');
-                    const user = authResult.user;
                     const body = {
                         email: user?.email,
                         isAnonymous: user?.isAnonymous,
                         displayName: user?.displayName,
                         firebaseUid: user?.uid,
                     };
-
-                    console.log(body);
-                    createUser(body);
-                    // if (!isCreateUserLoading || !isCreateUserError) {
-                    //     console.log("successfully created your use ")
-                    //     navigate('/profile');
-                    // }
+                    createUser(body).then((response)=>{
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        if (response && response.data && response.data.success){
+                            navigate('/')
+                        }
+                    });
+                    return false;
                 }
 
-                return false;
+                //From docs:
+                // User successfully signed in.
+                // Return type determines whether we continue the redirect automatically
+                // or whether we leave that to developer to handle.
+                return true;
             },
         },
         signInOptions: [
@@ -71,107 +78,22 @@ const AuthPage = () => {
         ],
     };
 
-    // onAuthStateChanged(auth, (async (user ) => {
-    //     // console.log("onAuthStateChanged");
-    //     // console.log(user);
-    //
-    //     // const idToken = await user?.getIdToken();
-    //     //
-    //     // if (user){
-    //     //     const authUser : User = {
-    //     //         isAuthenticated: true,
-    //     //         displayName: user.displayName,
-    //     //         email: user.email,
-    //     //         emailVerified: user.emailVerified,
-    //     //         isAnonymous: user.isAnonymous,
-    //     //         phoneNumber: user.phoneNumber,
-    //     //         photoUrl: user.photoURL,
-    //     //         providerId: user.providerId,
-    //     //         refreshToken: user.refreshToken,
-    //     //         tenantId: user.tenantId,
-    //     //         uid: user.uid,
-    //     //         creationTime: null,
-    //     //         lastSignInTime: null,
-    //     //         idToken: idToken,
-    //     //     };
-    //     //
-    //     //     dispatch(authActions.login(authUser));
-    //     //     navigate('/profile');
-    //     // }
-    //     //
-    //     // if (!user) {
-    //     //     console.log(location.pathname);
-    //     //     console.log(window.location.pathname);
-    //     //     if (window.location.pathname !== "/login"){
-    //     //         navigate('/login');
-    //     //     }
-    //     // }
-    //
-    //     // firebase.auth().currentUser?.getIdToken(true).then((idToken: string)=>{
-    //     //     console.log("Your id token is:");
-    //     //     console.log(idToken);
-    //     // })
-    //
-    //
-    //     if (!user) {
-    //         console.log("there us no current user signed in- resetting redux store now to reflect that");
-    //         // dispatch(authActions.logout(initialAuthState))
-    //     }
-    // }))
-
-    //If there !isError or !isLoading AND there is data then you should navigate away
-    //But what if login went smoothly with an old account???
-
-    //This is always returning null despite what App.tsx is saying- weird...
-    // const auth = getAuth();
-    // console.log(auth);
-    // const user = auth.currentUser;
-    //
-    // if (user?.uid) {
-    //     console.log(user)
-    //     navigate('/')
-    // } else {
-    //     console.log(user?.uid)
-    // }
-
-    useEffect(() => {
-        if (data && !isCreateUserLoading && !isCreateUserError) {
-            navigate('/');
-        }
-    }, [data, isCreateUserError, isCreateUserLoading]);
-
     return (
         <PrimaryCard>
             <h1>Welcome to Valvio</h1>
-            <p>Please sign-in to save scores:</p>
             <br />
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-            {isCreateUserLoading && 'Creating User ...'}
-            {isCreateUserError && 'There was an error syncing your acount with our servers. Please try again.'}
+            {isCreateUserLoading &&
+                <>
+                    <CircularProgress/>
+                    <h3>Creating User</h3>
+                </>}
+            {isCreateUserError && <Alert severity="error">There was an error syncing your acount with our servers. Please refresh and try again.</Alert>}
         </PrimaryCard>
     );
 };
 
 export default AuthPage;
 
-//When a user refreshes:
-// Check for a token in localstorage
-// Make a request to firebase to validate the token?
-// if the token is good, fill the auth slice with the returned data from firebase
 
-//When a user signs out:
-// delete token from localStorage
-// dispatch(logout) to clear data from redux
-// Then do I need to 'tell' firebase that the user is logged out?
-// Do I need to 'tell' the backend that a user has been logged out?
-// Then what about the access token- will that still be valid?
-// Call signout(auth) from firebase
 
-//Notes from Kyle:
-//localStorage probably not necessary, there is auth happening behind the scenes
-// accessToken vs idToken- find out how to validate on backend
-
-// firebase.auth().currentUser?.getIdToken(true).then((idToken: string)=>{
-//     console.log("Your id token is:");
-//     console.log(idToken);
-// })
