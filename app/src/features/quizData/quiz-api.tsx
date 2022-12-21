@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { Quiz } from '../../models/Quiz';
 
 let apiUrl: string|undefined = process.env.REACT_APP_DEV_API_URL || undefined;
 
@@ -50,6 +49,12 @@ export const quizApi = createApi({
                 body: body,
             }),
         }),
+        getUser: builder.query({
+            query: ({userId}) => ({
+                url: `/user/${userId}`,
+                method: 'GET'
+            })
+        }),
         createUser: builder.mutation({
             query: (body) => ({
                 url: `/user`,
@@ -73,4 +78,5 @@ export const {
     useGetQuizAttemptCollectionByUserQuery,
     usePatchQuizAttemptMutation,
     useCreateUserMutation,
+    useGetUserQuery,
 } = quizApi;

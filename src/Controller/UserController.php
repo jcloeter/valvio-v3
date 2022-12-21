@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\PitchService;
 use App\Service\QuizPitchAttemptService;
 use App\Service\UserService;
+use http\Exception\RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +13,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends AbstractController
 {
+    #[Route('/user/{userId}', methods: ['GET'])]
+    public function readUser(string $userId, Request $request, UserService $userService): JsonResponse
+    {
+        $user= $userService->readUser($userId);
+
+        return new JsonResponse([
+            "success" => true,
+            "id" => $user->getId(),
+            "displayName" => $user->getDisplayName(),
+            "email" => $user->getEmail(),
+            "isAnonymous" => $user->isIsAnonymous(),
+            "createdAt" => $user->getCreatedAt(),
+        ]);
+    }
+
     #[Route('/user', name: 'app_user', methods: ['POST'])]
     //Body = {
         // firebaseUid
