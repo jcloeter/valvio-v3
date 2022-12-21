@@ -49,18 +49,8 @@ class Controller extends AbstractController
 
         $quiz = $quizRepository->findAll();
 
-//        $quizPitches = $quizPitchRepository->findBy(['quiz' => $quizId]);
-
-//        $pitches = array_map(function($quizPitch){
-//            return $quizPitch->getPitch();
-//        }, $quizPitches);
-
         return $this->json([
             'success' => true,
-//            'data' => $quiz
-//            'pitches' => [
-//                0 => $pitch
-//        ]
         ]);
     }
 
@@ -80,9 +70,6 @@ class Controller extends AbstractController
             'success' => true,
             'quizDescription' => $quiz->getDescription(),
             'data' => $pitches
-//            'pitches' => [
-//                0 => $pitch
-//        ]
         ]);
     }
 
