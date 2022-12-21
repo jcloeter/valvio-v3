@@ -27,6 +27,7 @@ interface QuizSlice {
     quizName: string | null;
     quizLevel: number | null;
     isUserCorrect: boolean;
+    quizDescription: string | null;
 }
 
 const initialState: QuizSlice = {
@@ -50,6 +51,7 @@ const initialState: QuizSlice = {
     quizName: null,
     quizLevel: null,
     isUserCorrect: true,
+    quizDescription: null,
 };
 
 export const quizSlice = createSlice({
@@ -106,6 +108,7 @@ export const quizSlice = createSlice({
             state.quizLevel = null;
             state.isUserCorrect = true;
             state.quizPitchAttempts = [];
+            state.quizDescription = null;
         },
         // endIncompleteQuiz: () => {},
     },
@@ -113,8 +116,8 @@ export const quizSlice = createSlice({
         builder
             .addMatcher(quizApi.endpoints.getPitchesByQuizId.matchFulfilled, (state, action) => {
                 state.uniquePitches = action.payload.pitches;
-                //Todo: Maybe add a new field within quizzes so that "scale" versions aren't randomized.
-                state.extendedPitches = randomizeAndExtendPitchArray(action.payload.pitches, action.payload.quizLength);
+                state.quizDescription = action.payload.quizDescription;
+                state.extendedPitches = randomizeAndExtendPitchArray(action.payload.pitches, action.payload.quizLength, action.payload.quizDescription);
                 state.isTransposition = action.payload.isTransposition;
                 state.quizId = action.payload.quizId;
                 state.quizLength = action.payload.quizLength;

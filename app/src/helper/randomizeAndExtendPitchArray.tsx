@@ -1,15 +1,17 @@
-import { PitchesObject } from '../models/PitchesObject';
+import {PitchesObject} from '../models/PitchesObject';
 
-export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLength: number): PitchesObject[] => {
+export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLength: number, quizDescription: string | null): PitchesObject[] => {
     const shallowCopyPitches = pitches.slice();
+
+    if (quizDescription === "Scale"){
+        return addIdToPitchArray(pitches);
+    }
+
     const shuffledPitches = shallowCopyPitches.sort((a, b) => 0.5 - Math.random());
 
     const shuffledAndExpandedArray: PitchesObject[] = expandPitchArray(shuffledPitches);
 
-    const shuffledExpandedAndIdArray = shuffledAndExpandedArray.map((pitch: PitchesObject) => {
-        pitch.instanceId = Math.random().toString(36).substring(2, 40);
-        return pitch;
-    });
+    const shuffledExpandedAndIdArray = addIdToPitchArray(shuffledAndExpandedArray);
 
     const reShuffledExpandedAndIdArray = shuffledExpandedAndIdArray.sort((a, b) => 0.5 - Math.random());
 
@@ -21,7 +23,6 @@ export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLengt
         }
     });
 
-    console.log(nonRepeatedPitchesArray);
 
     if (nonRepeatedPitchesArray.length < quizLength) {
         throw new Error('Malfunction in creating quiz from pitch objects! Quiz is too short');
@@ -38,3 +39,10 @@ const expandPitchArray = (array: PitchesObject[]): PitchesObject[] => {
     array = array.concat(array);
     return array;
 };
+
+const addIdToPitchArray=(pitchArray: Array<PitchesObject>)=>{
+    return pitchArray.map((pitch: PitchesObject) => {
+        pitch.instanceId = Math.random().toString(36).substring(2, 40);
+        return pitch;
+    });
+}
