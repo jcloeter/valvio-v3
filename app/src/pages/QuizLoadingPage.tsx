@@ -82,7 +82,6 @@ const QuizLoadingPage = () => {
     useEffect(()=>{
         if (quizzes?.quizzes){
             quiz = quizzes.quizzes.filter((q: Quiz)=>q.id.toString() == quizId)[0];
-            console.log(quiz);
             setCurrentQuiz(quiz);
         }
 

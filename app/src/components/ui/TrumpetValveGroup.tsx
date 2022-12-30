@@ -32,7 +32,6 @@ const TrumpetValveGroup: React.FC<{
             }
 
             //Start here: Is it ok to be calling a props parent function inside of a setState()?
-            console.log(answer);
             props.onUserInputChange(answer);
 
             return {

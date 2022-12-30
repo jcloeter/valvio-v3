@@ -37,7 +37,6 @@ interface Row {
 
 export default function QuizHistoryTable() {
     const authSlice = useSelector((state: RootState) => state.authSlice);
-    console.log(authSlice.uid);
     const {
         data: quizAttemptData,
         isError: isQuizAttemptDataError,

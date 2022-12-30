@@ -24,7 +24,6 @@ const ValveButton: React.FC<{
     }, [])
 
     useEffect(() => {
-        console.log('ValveButton UseEffect');
         window.addEventListener('keyup', handler, true);
 
         return ()=>{
