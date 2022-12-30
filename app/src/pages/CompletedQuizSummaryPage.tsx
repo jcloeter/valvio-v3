@@ -5,7 +5,7 @@ import { useCreateQuizPitchAttemptMutation, usePatchQuizAttemptMutation } from '
 import { useSelector } from 'react-redux';
 import { RootState } from '../features/store';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import GradingIcon from '@mui/icons-material/Grading';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
@@ -53,7 +53,7 @@ const CompletedQuizSummaryPage = () => {
     }, [createQuizPitchAttemptData, quizPitchAttemptIsError, quizPitchAttemptIsLoading]);
 
     const navigateHome = () => {
-        navigate('/');
+        navigate(`/#${quizSlice.quizId}`);
     };
 
     let loadingContent;
@@ -101,9 +101,11 @@ const CompletedQuizSummaryPage = () => {
             {(isLoading || quizPitchAttemptIsLoading) && <LinearProgress sx={{ maxWidth: '100%' }} />}
             <br />
             {!isLoading && !quizPitchAttemptIsLoading && (
-                <Button variant="contained" onClick={navigateHome}>
-                    Back to Home
-                </Button>
+                <>
+                    <Button variant="contained" onClick={navigateHome}>
+                        Home
+                    </Button>
+                </>
             )}
         </div>
     );
