@@ -18,6 +18,15 @@ const QuizList = () => {
     const authSlice = useSelector((state: RootState) => state.authSlice);
     const { data: quizzesObj, isLoading, isError, error } = useGetQuizzesQuery({});
 
+    useEffect(()=>{
+        const hash: string = new URL(document.URL).hash.slice(1);
+        const element = document.getElementById(hash);
+        if (element){
+            element.scrollIntoView({behavior: "smooth"});
+        }
+    }, [quizzesObj])
+
+
     const {
         data: quizAttempts,
         refetch: refetchQuizAttempts,
@@ -34,8 +43,6 @@ const QuizList = () => {
     }, [refetchQuizAttempts, authSlice.uid]);
 
     if (isError || isQuizAttemptsError) {
-        console.log(isError)
-        console.log(isQuizAttemptsError)
         errorMessage = <Alert severity="error">There was an error. Refresh your page to try again.</Alert>;
     }
 
@@ -81,8 +88,10 @@ const QuizList = () => {
                                     return;
                                 }
 
+
                                 return (
                                     <QuizItem
+                                        id ={quiz.id}
                                         key={index}
                                         quiz={quiz}
                                         highScores={highScores}
