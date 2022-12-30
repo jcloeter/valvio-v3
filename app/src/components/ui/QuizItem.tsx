@@ -19,8 +19,9 @@ import quizItemStyles from './QuizItem.module.css';
 import { useGetQuizAttemptCollectionByUserQuery } from '../../features/quizData/quiz-api';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../features/store';
+import QuizDescriptionChip from "./QuizDescriptionChip";
 
-const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttemptsLoading: boolean }> = (props) => {
+const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttemptsLoading: boolean; id: number }> = (props) => {
     const [showDetails, setShowDetails] = useState(false);
     const authSlice = useSelector((state: RootState) => state.authSlice);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -53,14 +54,17 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        setShowDetails((showDetails: boolean) => {
-            return !showDetails;
-        });
+        navigate(`/loading-quiz/${props.quiz.id}`);
+
+        // setShowDetails((showDetails: boolean) => {
+        //     return !showDetails;
+        // });
     };
 
-    const handlePlayQuizClick = () => {
-        navigate(`/loading-quiz/${props.quiz.id}`);
-    };
+    //Clicking on card takes user directly to game
+    // const handlePlayQuizClick = () => {
+    //     navigate(`/loading-quiz/${props.quiz.id}`);
+    // };
 
     const highScore: QuizAttempt | undefined = props.highScores.find((quizAttempt: QuizAttempt) => {
         if (quizAttempt.quiz.id === props.quiz.id) {
@@ -83,15 +87,14 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
     }
 
     return (
-        <Container maxWidth="sm" key={props.quiz.id}>
+        <Container maxWidth="md" key={props.quiz.id}>
             <Card
                 elevation={0}
                 sx={{
-                    margin: '10px',
+                    marginTop: '20px',
                     backgroundColor: '#F8F8F8',
-                    // paddingTop: "10px",
-                    // paddingBottom: "10px",
-                    padding: '20px',
+
+                    padding: '10px',
                     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
                     '&:hover': {
                         boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
@@ -103,14 +106,16 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
                 }}
                 onClick={handleCardClick}
             >
-                <div className={quizItemStyles['icon-level-container']}>
-                    <b style={{ marginRight: '5px' }}>{scoreIcon}</b>
-                    <b>
-                        {props.quiz.level}. {props.quiz.name}
-                    </b>
+                {/*This is where we are handling the id link:*/}
+                <div id = {props.quiz.id.toString()} className={quizItemStyles['icon-level-container']}>
+                    <div className={quizItemStyles['icon-level-text']}>
+                        <b style={{ marginRight: '5px' }}>{scoreIcon}</b>
+                        <b>
+                            {props.quiz.level}. {props.quiz.name}
+                        </b>
+                    </div>
 
-                    {/*<div>{props.quiz.transposition.interval}</div>*/}
-                    {/*<div>{props.quiz.transposition.name}</div>*/}
+                    <QuizDescriptionChip quizDescriptionType = {props.quiz.description}/>
                 </div>
 
                 <MetricIcons>
@@ -142,19 +147,19 @@ const QuizItem: React.FC<{ quiz: Quiz; highScores: QuizAttempt[]; areQuizAttempt
                     </ul>
                 </MetricIcons>
 
-                {showDetails && (
-                    <>
-                        <div style={{ marginTop: '10px' }}>{props.quiz.description}</div>
-                        <Button
-                            variant="contained"
-                            style={{ backgroundColor: 'rgb(135, 57, 255)' }}
-                            sx={{ width: '100%', marginTop: '20px' }}
-                            onClick={handlePlayQuizClick}
-                        >
-                            Play
-                        </Button>
-                    </>
-                )}
+                {/*{showDetails && (*/}
+                {/*    <>*/}
+                {/*        /!*<div style={{ marginTop: '10px' }}>{props.quiz.description}</div>*!/*/}
+                {/*    /!*    <Button*!/*/}
+                {/*    /!*        variant="contained"*!/*/}
+                {/*    /!*        style={{ backgroundColor: 'rgb(135, 57, 255)' }}*!/*/}
+                {/*    /!*        sx={{ width: '100%', marginTop: '20px' }}*!/*/}
+                {/*    /!*        // onClick={handlePlayQuizClick}*!/*/}
+                {/*    /!*    >*!/*/}
+                {/*    /!*        Play*!/*/}
+                {/*    /!*    </Button>*!/*/}
+                {/*    /!*</>*!/*/}
+                {/*)}*/}
             </Card>
         </Container>
     );
