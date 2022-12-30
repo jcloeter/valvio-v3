@@ -2,8 +2,25 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     /*background: red;*/
+    width:100%;
     max-width: 100%;
     margin-bottom: 10px;
+}
+
+.icon-level-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    /*background-color: blue;*/
+    text-align: left;
+}
+
+@media only screen and (max-width: 600px) {
+    .icon-level-text {
+        /*background-color: pink;*/
+        font-size: 14px;
+    }
 }

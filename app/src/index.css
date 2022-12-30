@@ -11,7 +11,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     /*background-color: #61dafb;*/
 
-    --valve-button-radius: 80px;
+    --valve-button-radius: 70px;
 
     background-color: #ffffff;
 }

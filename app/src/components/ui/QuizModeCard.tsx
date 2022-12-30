@@ -91,7 +91,7 @@ const QuizModeCard = () => {
             <div>
                 <img
                     className={styles['pitch-img']}
-                    style={{ maxHeight: '200px' }}
+                    style={{ maxHeight: '180px' }}
                     src={createImageUrlFromPitchId(currentPitchObject.id)}
                     alt="pitch"
                 />
@@ -103,7 +103,7 @@ const QuizModeCard = () => {
                 <Button
                     onClick={handleSubmitButton}
                     variant="contained"
-                    size="large"
+                    size="medium"
                     sx={{
                         width: '70%',
                     }}

@@ -55,6 +55,6 @@ input[type='checkbox'] {
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     display: block;
     opacity: 1;
-    transform: translateY(15px);
+    transform: translateY(12px);
     /* top: 20px; */
 }

@@ -12,6 +12,7 @@ import { RootState } from '../../features/store';
 import { Container } from '@mui/material';
 import MetricIcons from './MetricIcons';
 import styles from './Metricicons.module.css';
+import metricCardStyles from './MetricsCard.module.css';
 
 const MetricsCard = () => {
     const quizSlice = useAppSelector((state) => state.quizAttemptSlice);
@@ -30,8 +31,8 @@ const MetricsCard = () => {
     }
 
     return (
-        <LightGreyCard>
-            <Container>
+        <LightGreyCard >
+            <Container sx={{marginTop : '0px'}}>
                 <section>
                     <p>
                         {' '}
@@ -72,7 +73,7 @@ const MetricsCard = () => {
                 <section>
                     <div
                         style={{
-                            minHeight: '130px',
+                            minHeight: '100px',
                             backgroundColor: 'white',
                             borderRadius: '5px',
                             display: 'flex',

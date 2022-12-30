@@ -10,10 +10,10 @@ const LightGreyCard: React.FC<{ children: JSX.Element }> = (props) => {
         <Card
             elevation={0}
             sx={{
-                margin: '10px',
+                margin: '7px',
                 backgroundColor: '#F8F8F8',
-                paddingTop: '25px',
-                paddingBottom: '25px',
+                paddingTop: '10px',
+                paddingBottom: '10px',
             }}
         >
             {props.children}
