@@ -8,6 +8,7 @@ use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class QuizController extends AbstractController
@@ -15,10 +16,20 @@ class QuizController extends AbstractController
     #[Route('/quizzes', methods: ['GET'])]
     public function readQuizzes(QuizService $quizService)
     {
+
         $quizzes = $quizService->getAllQuizzes();
-        return $this->json([
+        $content = $this->json([
             'quizzes' => $quizzes
         ]);
+
+        return $content;
+//
+//        return new Response(
+//            $content,
+//            Response::HTTP_OK,
+//            ['X-Total-Count' => 100, 'X-Hello' => 'World', 'Access-Control-Expose-Headers' => 'X-Total-Count']
+//        );
+
     }
 
     #[Route('/quizzes/{quizId}/pitches', methods: ['GET'])]
