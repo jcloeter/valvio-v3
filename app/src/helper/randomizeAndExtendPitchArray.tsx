@@ -32,12 +32,13 @@ export const randomizeAndExtendPitchArray = (pitches: PitchesObject[], quizLengt
 };
 
 const expandPitchArray = (array: PitchesObject[]): PitchesObject[] => {
-    array = array.concat(array);
-    array = array.concat(array);
-    array = array.concat(array);
-    array = array.concat(array);
-    array = array.concat(array);
-    return array;
+    let expandedArray = [];
+
+    for (let x = 0; x < 5; x++){
+        expandedArray.push(...array)
+    }
+
+    return expandedArray;
 };
 
 const addIdToPitchArray=(pitchArray: Array<PitchesObject>)=>{
